@@ -92,20 +92,20 @@ class MlClient(NamespacedClient):
         if job_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'job_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/_close"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if allow_no_match is not None:
-            __body["allow_no_match"] = allow_no_match
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if force is not None:
-            __body["force"] = force
         if human is not None:
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if allow_no_match is not None:
+            __body["allow_no_match"] = allow_no_match
+        if force is not None:
+            __body["force"] = force
         if timeout is not None:
             __body["timeout"] = timeout
         if not __body:
@@ -658,22 +658,22 @@ class MlClient(NamespacedClient):
             or `partition_field_name`.
         """
         __path = "/_ml/anomaly_detectors/_estimate_model_memory"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if analysis_config is not None:
-            __body["analysis_config"] = analysis_config
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if analysis_config is not None:
+            __body["analysis_config"] = analysis_config
         if max_bucket_cardinality is not None:
             __body["max_bucket_cardinality"] = max_bucket_cardinality
         if overall_cardinality is not None:
             __body["overall_cardinality"] = overall_cardinality
-        if pretty is not None:
-            __query["pretty"] = pretty
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -708,12 +708,8 @@ class MlClient(NamespacedClient):
         if index is None:
             raise ValueError("Empty value passed for parameter 'index'")
         __path = "/_ml/data_frame/_evaluate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if evaluation is not None:
-            __body["evaluation"] = evaluation
-        if index is not None:
-            __body["index"] = index
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -722,6 +718,10 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if evaluation is not None:
+            __body["evaluation"] = evaluation
+        if index is not None:
+            __body["index"] = index
         if query is not None:
             __body["query"] = query
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -786,8 +786,16 @@ class MlClient(NamespacedClient):
             __path = f"/_ml/data_frame/analytics/{_quote(id)}/_explain"
         else:
             __path = "/_ml/data_frame/analytics/_explain"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if allow_lazy_start is not None:
             __body["allow_lazy_start"] = allow_lazy_start
         if analysis is not None:
@@ -798,18 +806,10 @@ class MlClient(NamespacedClient):
             __body["description"] = description
         if dest is not None:
             __body["dest"] = dest
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
-        if human is not None:
-            __query["human"] = human
         if max_num_threads is not None:
             __body["max_num_threads"] = max_num_threads
         if model_memory_limit is not None:
             __body["model_memory_limit"] = model_memory_limit
-        if pretty is not None:
-            __query["pretty"] = pretty
         if source is not None:
             __body["source"] = source
         if not __body:
@@ -853,14 +853,8 @@ class MlClient(NamespacedClient):
         if job_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'job_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/_flush"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if advance_time is not None:
-            __body["advance_time"] = advance_time
-        if calc_interim is not None:
-            __body["calc_interim"] = calc_interim
-        if end is not None:
-            __body["end"] = end
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -869,6 +863,12 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if advance_time is not None:
+            __body["advance_time"] = advance_time
+        if calc_interim is not None:
+            __body["calc_interim"] = calc_interim
+        if end is not None:
+            __body["end"] = end
         if skip_time is not None:
             __body["skip_time"] = skip_time
         if start is not None:
@@ -912,22 +912,22 @@ class MlClient(NamespacedClient):
         if job_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'job_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/_forecast"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if duration is not None:
-            __body["duration"] = duration
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if expires_in is not None:
-            __body["expires_in"] = expires_in
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if max_model_memory is not None:
-            __body["max_model_memory"] = max_model_memory
         if pretty is not None:
             __query["pretty"] = pretty
+        if duration is not None:
+            __body["duration"] = duration
+        if expires_in is not None:
+            __body["expires_in"] = expires_in
+        if max_model_memory is not None:
+            __body["max_model_memory"] = max_model_memory
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -990,32 +990,32 @@ class MlClient(NamespacedClient):
             __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/results/buckets"
         else:
             raise ValueError("Couldn't find a path for the given parameters")
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if anomaly_score is not None:
-            __body["anomaly_score"] = anomaly_score
-        if desc is not None:
-            __body["desc"] = desc
-        if end is not None:
-            __body["end"] = end
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if exclude_interim is not None:
-            __body["exclude_interim"] = exclude_interim
-        if expand is not None:
-            __body["expand"] = expand
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if from_ is not None:
             __query["from"] = from_
         if human is not None:
             __query["human"] = human
-        if page is not None:
-            __body["page"] = page
         if pretty is not None:
             __query["pretty"] = pretty
         if size is not None:
             __query["size"] = size
+        if anomaly_score is not None:
+            __body["anomaly_score"] = anomaly_score
+        if desc is not None:
+            __body["desc"] = desc
+        if end is not None:
+            __body["end"] = end
+        if exclude_interim is not None:
+            __body["exclude_interim"] = exclude_interim
+        if expand is not None:
+            __body["expand"] = expand
+        if page is not None:
+            __body["page"] = page
         if sort is not None:
             __body["sort"] = sort
         if start is not None:
@@ -1134,12 +1134,12 @@ class MlClient(NamespacedClient):
             __query["from"] = from_
         if human is not None:
             __query["human"] = human
-        if page is not None:
-            __body["page"] = page
         if pretty is not None:
             __query["pretty"] = pretty
         if size is not None:
             __query["size"] = size
+        if page is not None:
+            __body["page"] = page
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -1201,14 +1201,14 @@ class MlClient(NamespacedClient):
             __query["from"] = from_
         if human is not None:
             __query["human"] = human
-        if page is not None:
-            __body["page"] = page
         if partition_field_value is not None:
             __query["partition_field_value"] = partition_field_value
         if pretty is not None:
             __query["pretty"] = pretty
         if size is not None:
             __query["size"] = size
+        if page is not None:
+            __body["page"] = page
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -1554,8 +1554,6 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if influencer_score is not None:
             __query["influencer_score"] = influencer_score
-        if page is not None:
-            __body["page"] = page
         if pretty is not None:
             __query["pretty"] = pretty
         if size is not None:
@@ -1564,6 +1562,8 @@ class MlClient(NamespacedClient):
             __query["sort"] = sort
         if start is not None:
             __query["start"] = start
+        if page is not None:
+            __body["page"] = page
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -1823,12 +1823,8 @@ class MlClient(NamespacedClient):
             __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/model_snapshots"
         else:
             raise ValueError("Couldn't find a path for the given parameters")
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if desc is not None:
-            __body["desc"] = desc
-        if end is not None:
-            __body["end"] = end
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1837,12 +1833,16 @@ class MlClient(NamespacedClient):
             __query["from"] = from_
         if human is not None:
             __query["human"] = human
-        if page is not None:
-            __body["page"] = page
         if pretty is not None:
             __query["pretty"] = pretty
         if size is not None:
             __query["size"] = size
+        if desc is not None:
+            __body["desc"] = desc
+        if end is not None:
+            __body["end"] = end
+        if page is not None:
+            __body["page"] = page
         if sort is not None:
             __body["sort"] = sort
         if start is not None:
@@ -1899,26 +1899,26 @@ class MlClient(NamespacedClient):
         if job_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'job_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/results/overall_buckets"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if allow_no_match is not None:
             __body["allow_no_match"] = allow_no_match
         if bucket_span is not None:
             __body["bucket_span"] = bucket_span
         if end is not None:
             __body["end"] = end
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
         if exclude_interim is not None:
             __body["exclude_interim"] = exclude_interim
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
-        if human is not None:
-            __query["human"] = human
         if overall_score is not None:
             __body["overall_score"] = overall_score
-        if pretty is not None:
-            __query["pretty"] = pretty
         if start is not None:
             __body["start"] = start
         if top_n is not None:
@@ -1974,30 +1974,30 @@ class MlClient(NamespacedClient):
         if job_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'job_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/results/records"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if desc is not None:
-            __body["desc"] = desc
-        if end is not None:
-            __body["end"] = end
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if exclude_interim is not None:
-            __body["exclude_interim"] = exclude_interim
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if from_ is not None:
             __query["from"] = from_
         if human is not None:
             __query["human"] = human
-        if page is not None:
-            __body["page"] = page
         if pretty is not None:
             __query["pretty"] = pretty
-        if record_score is not None:
-            __body["record_score"] = record_score
         if size is not None:
             __query["size"] = size
+        if desc is not None:
+            __body["desc"] = desc
+        if end is not None:
+            __body["end"] = end
+        if exclude_interim is not None:
+            __body["exclude_interim"] = exclude_interim
+        if page is not None:
+            __body["page"] = page
+        if record_score is not None:
+            __body["record_score"] = record_score
         if sort is not None:
             __body["sort"] = sort
         if start is not None:
@@ -2180,22 +2180,22 @@ class MlClient(NamespacedClient):
         if docs is None:
             raise ValueError("Empty value passed for parameter 'docs'")
         __path = f"/_ml/trained_models/{_quote(model_id)}/_infer"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if docs is not None:
-            __body["docs"] = docs
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if inference_config is not None:
-            __body["inference_config"] = inference_config
         if pretty is not None:
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
+        if docs is not None:
+            __body["docs"] = docs
+        if inference_config is not None:
+            __body["inference_config"] = inference_config
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -2303,10 +2303,8 @@ class MlClient(NamespacedClient):
         if events is None:
             raise ValueError("Empty value passed for parameter 'events'")
         __path = f"/_ml/calendars/{_quote(calendar_id)}/events"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if events is not None:
-            __body["events"] = events
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2315,6 +2313,8 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if events is not None:
+            __body["events"] = events
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -2400,10 +2400,8 @@ class MlClient(NamespacedClient):
             __path = f"/_ml/data_frame/analytics/{_quote(id)}/_preview"
         else:
             __path = "/_ml/data_frame/analytics/_preview"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if config is not None:
-            __body["config"] = config
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2412,6 +2410,8 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if config is not None:
+            __body["config"] = config
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2461,10 +2461,8 @@ class MlClient(NamespacedClient):
             __path = f"/_ml/datafeeds/{_quote(datafeed_id)}/_preview"
         else:
             __path = "/_ml/datafeeds/_preview"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if datafeed_config is not None:
-            __body["datafeed_config"] = datafeed_config
+        __body: t.Dict[str, t.Any] = {}
         if end is not None:
             __query["end"] = end
         if error_trace is not None:
@@ -2473,12 +2471,14 @@ class MlClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if job_config is not None:
-            __body["job_config"] = job_config
         if pretty is not None:
             __query["pretty"] = pretty
         if start is not None:
             __query["start"] = start
+        if datafeed_config is not None:
+            __body["datafeed_config"] = datafeed_config
+        if job_config is not None:
+            __body["job_config"] = job_config
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2514,20 +2514,20 @@ class MlClient(NamespacedClient):
         if calendar_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'calendar_id'")
         __path = f"/_ml/calendars/{_quote(calendar_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if description is not None:
-            __body["description"] = description
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if job_ids is not None:
-            __body["job_ids"] = job_ids
         if pretty is not None:
             __query["pretty"] = pretty
+        if description is not None:
+            __body["description"] = description
+        if job_ids is not None:
+            __body["job_ids"] = job_ids
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2668,8 +2668,16 @@ class MlClient(NamespacedClient):
         if source is None:
             raise ValueError("Empty value passed for parameter 'source'")
         __path = f"/_ml/data_frame/analytics/{_quote(id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if analysis is not None:
             __body["analysis"] = analysis
         if dest is not None:
@@ -2682,20 +2690,12 @@ class MlClient(NamespacedClient):
             __body["analyzed_fields"] = analyzed_fields
         if description is not None:
             __body["description"] = description
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
         if headers is not None:
             __body["headers"] = headers
-        if human is not None:
-            __query["human"] = human
         if max_num_threads is not None:
             __body["max_num_threads"] = max_num_threads
         if model_memory_limit is not None:
             __body["model_memory_limit"] = model_memory_limit
-        if pretty is not None:
-            __query["pretty"] = pretty
         if version is not None:
             __body["version"] = version
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -2819,32 +2819,34 @@ class MlClient(NamespacedClient):
         if datafeed_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'datafeed_id'")
         __path = f"/_ml/datafeeds/{_quote(datafeed_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aggregations is not None:
-            __body["aggregations"] = aggregations
+        __body: t.Dict[str, t.Any] = {}
         if allow_no_indices is not None:
             __query["allow_no_indices"] = allow_no_indices
-        if chunking_config is not None:
-            __body["chunking_config"] = chunking_config
-        if delayed_data_check_config is not None:
-            __body["delayed_data_check_config"] = delayed_data_check_config
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if expand_wildcards is not None:
             __query["expand_wildcards"] = expand_wildcards
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if frequency is not None:
-            __body["frequency"] = frequency
-        if headers is not None:
-            __body["headers"] = headers
         if human is not None:
             __query["human"] = human
         if ignore_throttled is not None:
             __query["ignore_throttled"] = ignore_throttled
         if ignore_unavailable is not None:
             __query["ignore_unavailable"] = ignore_unavailable
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if aggregations is not None:
+            __body["aggregations"] = aggregations
+        if chunking_config is not None:
+            __body["chunking_config"] = chunking_config
+        if delayed_data_check_config is not None:
+            __body["delayed_data_check_config"] = delayed_data_check_config
+        if frequency is not None:
+            __body["frequency"] = frequency
+        if headers is not None:
+            __body["headers"] = headers
         if indexes is not None:
             __body["indexes"] = indexes
         if indices is not None:
@@ -2855,8 +2857,6 @@ class MlClient(NamespacedClient):
             __body["job_id"] = job_id
         if max_empty_searches is not None:
             __body["max_empty_searches"] = max_empty_searches
-        if pretty is not None:
-            __query["pretty"] = pretty
         if query is not None:
             __body["query"] = query
         if query_delay is not None:
@@ -2899,20 +2899,20 @@ class MlClient(NamespacedClient):
         if filter_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'filter_id'")
         __path = f"/_ml/filters/{_quote(filter_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if description is not None:
-            __body["description"] = description
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if items is not None:
-            __body["items"] = items
         if pretty is not None:
             __query["pretty"] = pretty
+        if description is not None:
+            __body["description"] = description
+        if items is not None:
+            __body["items"] = items
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -3032,8 +3032,16 @@ class MlClient(NamespacedClient):
         if data_description is None:
             raise ValueError("Empty value passed for parameter 'data_description'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if analysis_config is not None:
             __body["analysis_config"] = analysis_config
         if data_description is not None:
@@ -3054,20 +3062,12 @@ class MlClient(NamespacedClient):
             __body["datafeed_config"] = datafeed_config
         if description is not None:
             __body["description"] = description
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
         if groups is not None:
             __body["groups"] = groups
-        if human is not None:
-            __query["human"] = human
         if model_plot_config is not None:
             __body["model_plot_config"] = model_plot_config
         if model_snapshot_retention_days is not None:
             __body["model_snapshot_retention_days"] = model_snapshot_retention_days
-        if pretty is not None:
-            __query["pretty"] = pretty
         if renormalization_window_days is not None:
             __body["renormalization_window_days"] = renormalization_window_days
         if results_index_name is not None:
@@ -3142,22 +3142,24 @@ class MlClient(NamespacedClient):
         if model_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'model_id'")
         __path = f"/_ml/trained_models/{_quote(model_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if compressed_definition is not None:
-            __body["compressed_definition"] = compressed_definition
+        __body: t.Dict[str, t.Any] = {}
         if defer_definition_decompression is not None:
             __query["defer_definition_decompression"] = defer_definition_decompression
-        if definition is not None:
-            __body["definition"] = definition
-        if description is not None:
-            __body["description"] = description
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if compressed_definition is not None:
+            __body["compressed_definition"] = compressed_definition
+        if definition is not None:
+            __body["definition"] = definition
+        if description is not None:
+            __body["description"] = description
         if inference_config is not None:
             __body["inference_config"] = inference_config
         if input is not None:
@@ -3170,8 +3172,6 @@ class MlClient(NamespacedClient):
             __body["model_type"] = model_type
         if platform_architecture is not None:
             __body["platform_architecture"] = platform_architecture
-        if pretty is not None:
-            __query["pretty"] = pretty
         if tags is not None:
             __body["tags"] = tags
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -3269,14 +3269,8 @@ class MlClient(NamespacedClient):
         if total_parts is None:
             raise ValueError("Empty value passed for parameter 'total_parts'")
         __path = f"/_ml/trained_models/{_quote(model_id)}/definition/{_quote(part)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if definition is not None:
-            __body["definition"] = definition
-        if total_definition_length is not None:
-            __body["total_definition_length"] = total_definition_length
-        if total_parts is not None:
-            __body["total_parts"] = total_parts
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3285,6 +3279,12 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if definition is not None:
+            __body["definition"] = definition
+        if total_definition_length is not None:
+            __body["total_definition_length"] = total_definition_length
+        if total_parts is not None:
+            __body["total_parts"] = total_parts
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -3320,20 +3320,20 @@ class MlClient(NamespacedClient):
         if vocabulary is None:
             raise ValueError("Empty value passed for parameter 'vocabulary'")
         __path = f"/_ml/trained_models/{_quote(model_id)}/vocabulary"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if vocabulary is not None:
-            __body["vocabulary"] = vocabulary
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if merges is not None:
-            __body["merges"] = merges
         if pretty is not None:
             __query["pretty"] = pretty
+        if vocabulary is not None:
+            __body["vocabulary"] = vocabulary
+        if merges is not None:
+            __body["merges"] = merges
         if scores is not None:
             __body["scores"] = scores
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -3417,10 +3417,8 @@ class MlClient(NamespacedClient):
         if snapshot_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'snapshot_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/model_snapshots/{_quote(snapshot_id)}/_revert"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if delete_intervening_results is not None:
-            __body["delete_intervening_results"] = delete_intervening_results
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3429,6 +3427,8 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if delete_intervening_results is not None:
+            __body["delete_intervening_results"] = delete_intervening_results
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -3551,10 +3551,8 @@ class MlClient(NamespacedClient):
         if datafeed_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'datafeed_id'")
         __path = f"/_ml/datafeeds/{_quote(datafeed_id)}/_start"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if end is not None:
-            __body["end"] = end
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3563,6 +3561,8 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if end is not None:
+            __body["end"] = end
         if start is not None:
             __body["start"] = start
         if timeout is not None:
@@ -3748,20 +3748,20 @@ class MlClient(NamespacedClient):
         if datafeed_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'datafeed_id'")
         __path = f"/_ml/datafeeds/{_quote(datafeed_id)}/_stop"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if allow_no_match is not None:
-            __body["allow_no_match"] = allow_no_match
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if force is not None:
-            __body["force"] = force
         if human is not None:
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if allow_no_match is not None:
+            __body["allow_no_match"] = allow_no_match
+        if force is not None:
+            __body["force"] = force
         if timeout is not None:
             __body["timeout"] = timeout
         if not __body:
@@ -3862,24 +3862,24 @@ class MlClient(NamespacedClient):
         if id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'id'")
         __path = f"/_ml/data_frame/analytics/{_quote(id)}/_update"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if allow_lazy_start is not None:
-            __body["allow_lazy_start"] = allow_lazy_start
-        if description is not None:
-            __body["description"] = description
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if allow_lazy_start is not None:
+            __body["allow_lazy_start"] = allow_lazy_start
+        if description is not None:
+            __body["description"] = description
         if max_num_threads is not None:
             __body["max_num_threads"] = max_num_threads
         if model_memory_limit is not None:
             __body["model_memory_limit"] = model_memory_limit
-        if pretty is not None:
-            __query["pretty"] = pretty
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -4010,30 +4010,32 @@ class MlClient(NamespacedClient):
         if datafeed_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'datafeed_id'")
         __path = f"/_ml/datafeeds/{_quote(datafeed_id)}/_update"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aggregations is not None:
-            __body["aggregations"] = aggregations
+        __body: t.Dict[str, t.Any] = {}
         if allow_no_indices is not None:
             __query["allow_no_indices"] = allow_no_indices
-        if chunking_config is not None:
-            __body["chunking_config"] = chunking_config
-        if delayed_data_check_config is not None:
-            __body["delayed_data_check_config"] = delayed_data_check_config
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if expand_wildcards is not None:
             __query["expand_wildcards"] = expand_wildcards
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if frequency is not None:
-            __body["frequency"] = frequency
         if human is not None:
             __query["human"] = human
         if ignore_throttled is not None:
             __query["ignore_throttled"] = ignore_throttled
         if ignore_unavailable is not None:
             __query["ignore_unavailable"] = ignore_unavailable
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if aggregations is not None:
+            __body["aggregations"] = aggregations
+        if chunking_config is not None:
+            __body["chunking_config"] = chunking_config
+        if delayed_data_check_config is not None:
+            __body["delayed_data_check_config"] = delayed_data_check_config
+        if frequency is not None:
+            __body["frequency"] = frequency
         if indexes is not None:
             __body["indexes"] = indexes
         if indices is not None:
@@ -4044,8 +4046,6 @@ class MlClient(NamespacedClient):
             __body["job_id"] = job_id
         if max_empty_searches is not None:
             __body["max_empty_searches"] = max_empty_searches
-        if pretty is not None:
-            __query["pretty"] = pretty
         if query is not None:
             __body["query"] = query
         if query_delay is not None:
@@ -4089,12 +4089,8 @@ class MlClient(NamespacedClient):
         if filter_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'filter_id'")
         __path = f"/_ml/filters/{_quote(filter_id)}/_update"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if add_items is not None:
-            __body["add_items"] = add_items
-        if description is not None:
-            __body["description"] = description
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -4103,6 +4099,10 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if add_items is not None:
+            __body["add_items"] = add_items
+        if description is not None:
+            __body["description"] = description
         if remove_items is not None:
             __body["remove_items"] = remove_items
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -4198,8 +4198,16 @@ class MlClient(NamespacedClient):
         if job_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'job_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/_update"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if allow_lazy_open is not None:
             __body["allow_lazy_open"] = allow_lazy_open
         if analysis_limits is not None:
@@ -4218,14 +4226,8 @@ class MlClient(NamespacedClient):
             __body["description"] = description
         if detectors is not None:
             __body["detectors"] = detectors
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
         if groups is not None:
             __body["groups"] = groups
-        if human is not None:
-            __query["human"] = human
         if model_plot_config is not None:
             __body["model_plot_config"] = model_plot_config
         if model_prune_window is not None:
@@ -4234,8 +4236,6 @@ class MlClient(NamespacedClient):
             __body["model_snapshot_retention_days"] = model_snapshot_retention_days
         if per_partition_categorization is not None:
             __body["per_partition_categorization"] = per_partition_categorization
-        if pretty is not None:
-            __query["pretty"] = pretty
         if renormalization_window_days is not None:
             __body["renormalization_window_days"] = renormalization_window_days
         if results_retention_days is not None:
@@ -4277,10 +4277,8 @@ class MlClient(NamespacedClient):
         if snapshot_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'snapshot_id'")
         __path = f"/_ml/anomaly_detectors/{_quote(job_id)}/model_snapshots/{_quote(snapshot_id)}/_update"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if description is not None:
-            __body["description"] = description
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -4289,6 +4287,8 @@ class MlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if description is not None:
+            __body["description"] = description
         if retain is not None:
             __body["retain"] = retain
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -4381,8 +4381,16 @@ class MlClient(NamespacedClient):
         :param results_index_name:
         """
         __path = "/_ml/anomaly_detectors/_validate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if analysis_config is not None:
             __body["analysis_config"] = analysis_config
         if analysis_limits is not None:
@@ -4391,12 +4399,6 @@ class MlClient(NamespacedClient):
             __body["data_description"] = data_description
         if description is not None:
             __body["description"] = description
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
-        if human is not None:
-            __query["human"] = human
         if job_id is not None:
             __body["job_id"] = job_id
         if model_plot is not None:
@@ -4405,8 +4407,6 @@ class MlClient(NamespacedClient):
             __body["model_snapshot_id"] = model_snapshot_id
         if model_snapshot_retention_days is not None:
             __body["model_snapshot_retention_days"] = model_snapshot_retention_days
-        if pretty is not None:
-            __query["pretty"] = pretty
         if results_index_name is not None:
             __body["results_index_name"] = results_index_name
         __headers = {"accept": "application/json", "content-type": "application/json"}

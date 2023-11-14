@@ -248,12 +248,12 @@ class IlmClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if legacy_template_to_delete is not None:
             __body["legacy_template_to_delete"] = legacy_template_to_delete
         if node_attribute is not None:
             __body["node_attribute"] = node_attribute
-        if pretty is not None:
-            __query["pretty"] = pretty
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -289,20 +289,20 @@ class IlmClient(NamespacedClient):
         if index in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'index'")
         __path = f"/_ilm/move/{_quote(index)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if current_step is not None:
-            __body["current_step"] = current_step
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if next_step is not None:
-            __body["next_step"] = next_step
         if pretty is not None:
             __query["pretty"] = pretty
+        if current_step is not None:
+            __body["current_step"] = current_step
+        if next_step is not None:
+            __body["next_step"] = next_step
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -355,12 +355,12 @@ class IlmClient(NamespacedClient):
             __query["human"] = human
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
-        if policy is not None:
-            __body["policy"] = policy
         if pretty is not None:
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
+        if policy is not None:
+            __body["policy"] = policy
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

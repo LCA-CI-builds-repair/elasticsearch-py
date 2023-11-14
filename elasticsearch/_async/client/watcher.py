@@ -223,12 +223,8 @@ class WatcherClient(NamespacedClient):
             __path = f"/_watcher/watch/{_quote(id)}/_execute"
         else:
             __path = "/_watcher/watch/_execute"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if action_modes is not None:
-            __body["action_modes"] = action_modes
-        if alternative_input is not None:
-            __body["alternative_input"] = alternative_input
+        __body: t.Dict[str, t.Any] = {}
         if debug is not None:
             __query["debug"] = debug
         if error_trace is not None:
@@ -237,10 +233,14 @@ class WatcherClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if ignore_condition is not None:
-            __body["ignore_condition"] = ignore_condition
         if pretty is not None:
             __query["pretty"] = pretty
+        if action_modes is not None:
+            __body["action_modes"] = action_modes
+        if alternative_input is not None:
+            __body["alternative_input"] = alternative_input
+        if ignore_condition is not None:
+            __body["ignore_condition"] = ignore_condition
         if record_execution is not None:
             __body["record_execution"] = record_execution
         if simulated_actions is not None:
@@ -338,14 +338,10 @@ class WatcherClient(NamespacedClient):
         if id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'id'")
         __path = f"/_watcher/watch/{_quote(id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if actions is not None:
-            __body["actions"] = actions
+        __body: t.Dict[str, t.Any] = {}
         if active is not None:
             __query["active"] = active
-        if condition is not None:
-            __body["condition"] = condition
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -356,20 +352,24 @@ class WatcherClient(NamespacedClient):
             __query["if_primary_term"] = if_primary_term
         if if_seq_no is not None:
             __query["if_seq_no"] = if_seq_no
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if version is not None:
+            __query["version"] = version
+        if actions is not None:
+            __body["actions"] = actions
+        if condition is not None:
+            __body["condition"] = condition
         if input is not None:
             __body["input"] = input
         if metadata is not None:
             __body["metadata"] = metadata
-        if pretty is not None:
-            __query["pretty"] = pretty
         if throttle_period is not None:
             __body["throttle_period"] = throttle_period
         if transform is not None:
             __body["transform"] = transform
         if trigger is not None:
             __body["trigger"] = trigger
-        if version is not None:
-            __query["version"] = version
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -433,12 +433,12 @@ class WatcherClient(NamespacedClient):
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if from_ is not None:
-            __body["from"] = from_
         if human is not None:
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if from_ is not None:
+            __body["from"] = from_
         if query is not None:
             __body["query"] = query
         if search_after is not None:

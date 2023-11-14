@@ -222,38 +222,38 @@ class EqlClient(NamespacedClient):
         if query is None:
             raise ValueError("Empty value passed for parameter 'query'")
         __path = f"/{_quote(index)}/_eql/search"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if query is not None:
-            __body["query"] = query
+        __body: t.Dict[str, t.Any] = {}
         if allow_no_indices is not None:
             __query["allow_no_indices"] = allow_no_indices
-        if case_sensitive is not None:
-            __body["case_sensitive"] = case_sensitive
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if event_category_field is not None:
-            __body["event_category_field"] = event_category_field
         if expand_wildcards is not None:
             __query["expand_wildcards"] = expand_wildcards
-        if fetch_size is not None:
-            __body["fetch_size"] = fetch_size
-        if fields is not None:
-            __body["fields"] = fields
-        if filter is not None:
-            __body["filter"] = filter
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
         if ignore_unavailable is not None:
             __query["ignore_unavailable"] = ignore_unavailable
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if query is not None:
+            __body["query"] = query
+        if case_sensitive is not None:
+            __body["case_sensitive"] = case_sensitive
+        if event_category_field is not None:
+            __body["event_category_field"] = event_category_field
+        if fetch_size is not None:
+            __body["fetch_size"] = fetch_size
+        if fields is not None:
+            __body["fields"] = fields
+        if filter is not None:
+            __body["filter"] = filter
         if keep_alive is not None:
             __body["keep_alive"] = keep_alive
         if keep_on_completion is not None:
             __body["keep_on_completion"] = keep_on_completion
-        if pretty is not None:
-            __query["pretty"] = pretty
         if result_position is not None:
             __body["result_position"] = result_position
         if runtime_mappings is not None:

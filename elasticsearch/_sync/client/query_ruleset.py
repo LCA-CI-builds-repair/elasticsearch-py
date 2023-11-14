@@ -159,10 +159,8 @@ class QueryRulesetClient(NamespacedClient):
         if rules is None:
             raise ValueError("Empty value passed for parameter 'rules'")
         __path = f"/_query_rules/{_quote(ruleset_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if rules is not None:
-            __body["rules"] = rules
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -171,6 +169,8 @@ class QueryRulesetClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if rules is not None:
+            __body["rules"] = rules
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

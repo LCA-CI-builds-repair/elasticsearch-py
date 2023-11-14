@@ -244,10 +244,8 @@ class SynonymsClient(NamespacedClient):
         if synonyms_set is None:
             raise ValueError("Empty value passed for parameter 'synonyms_set'")
         __path = f"/_synonyms/{_quote(id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if synonyms_set is not None:
-            __body["synonyms_set"] = synonyms_set
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -256,6 +254,8 @@ class SynonymsClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if synonyms_set is not None:
+            __body["synonyms_set"] = synonyms_set
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -291,10 +291,8 @@ class SynonymsClient(NamespacedClient):
         if synonyms is None:
             raise ValueError("Empty value passed for parameter 'synonyms'")
         __path = f"/_synonyms/{_quote(set_id)}/{_quote(rule_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if synonyms is not None:
-            __body["synonyms"] = synonyms
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -303,6 +301,8 @@ class SynonymsClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if synonyms is not None:
+            __body["synonyms"] = synonyms
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

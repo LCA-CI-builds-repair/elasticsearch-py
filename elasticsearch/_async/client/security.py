@@ -52,22 +52,22 @@ class SecurityClient(NamespacedClient):
         if grant_type is None:
             raise ValueError("Empty value passed for parameter 'grant_type'")
         __path = "/_security/profile/_activate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if grant_type is not None:
-            __body["grant_type"] = grant_type
-        if access_token is not None:
-            __body["access_token"] = access_token
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if password is not None:
-            __body["password"] = password
         if pretty is not None:
             __query["pretty"] = pretty
+        if grant_type is not None:
+            __body["grant_type"] = grant_type
+        if access_token is not None:
+            __body["access_token"] = access_token
+        if password is not None:
+            __body["password"] = password
         if username is not None:
             __body["username"] = username
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -151,14 +151,14 @@ class SecurityClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if password is not None:
-            __body["password"] = password
-        if password_hash is not None:
-            __body["password_hash"] = password_hash
         if pretty is not None:
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
+        if password is not None:
+            __body["password"] = password
+        if password_hash is not None:
+            __body["password_hash"] = password_hash
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -394,20 +394,20 @@ class SecurityClient(NamespacedClient):
         __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if expiration is not None:
-            __body["expiration"] = expiration
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if name is not None:
-            __body["name"] = name
         if pretty is not None:
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
+        if expiration is not None:
+            __body["expiration"] = expiration
+        if metadata is not None:
+            __body["metadata"] = metadata
+        if name is not None:
+            __body["name"] = name
         if role_descriptors is not None:
             __body["role_descriptors"] = role_descriptors
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -1252,16 +1252,16 @@ class SecurityClient(NamespacedClient):
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if grant_type is not None:
-            __body["grant_type"] = grant_type
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if grant_type is not None:
+            __body["grant_type"] = grant_type
         if kerberos_ticket is not None:
             __body["kerberos_ticket"] = kerberos_ticket
         if password is not None:
             __body["password"] = password
-        if pretty is not None:
-            __query["pretty"] = pretty
         if refresh_token is not None:
             __body["refresh_token"] = refresh_token
         if scope is not None:
@@ -1442,24 +1442,24 @@ class SecurityClient(NamespacedClient):
         if grant_type is None:
             raise ValueError("Empty value passed for parameter 'grant_type'")
         __path = "/_security/api_key/grant"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if api_key is not None:
-            __body["api_key"] = api_key
-        if grant_type is not None:
-            __body["grant_type"] = grant_type
-        if access_token is not None:
-            __body["access_token"] = access_token
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if password is not None:
-            __body["password"] = password
         if pretty is not None:
             __query["pretty"] = pretty
+        if api_key is not None:
+            __body["api_key"] = api_key
+        if grant_type is not None:
+            __body["grant_type"] = grant_type
+        if access_token is not None:
+            __body["access_token"] = access_token
+        if password is not None:
+            __body["password"] = password
         if run_as is not None:
             __body["run_as"] = run_as
         if username is not None:
@@ -1505,22 +1505,22 @@ class SecurityClient(NamespacedClient):
             __path = f"/_security/user/{_quote(user)}/_has_privileges"
         else:
             __path = "/_security/user/_has_privileges"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if application is not None:
-            __body["application"] = application
-        if cluster is not None:
-            __body["cluster"] = cluster
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if index is not None:
-            __body["index"] = index
         if pretty is not None:
             __query["pretty"] = pretty
+        if application is not None:
+            __body["application"] = application
+        if cluster is not None:
+            __body["cluster"] = cluster
+        if index is not None:
+            __body["index"] = index
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -1554,12 +1554,8 @@ class SecurityClient(NamespacedClient):
         if uids is None:
             raise ValueError("Empty value passed for parameter 'uids'")
         __path = "/_security/profile/_has_privileges"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if privileges is not None:
-            __body["privileges"] = privileges
-        if uids is not None:
-            __body["uids"] = uids
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1568,6 +1564,10 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if privileges is not None:
+            __body["privileges"] = privileges
+        if uids is not None:
+            __body["uids"] = uids
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -1618,6 +1618,8 @@ class SecurityClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if id is not None:
             __body["id"] = id
         if ids is not None:
@@ -1626,8 +1628,6 @@ class SecurityClient(NamespacedClient):
             __body["name"] = name
         if owner is not None:
             __body["owner"] = owner
-        if pretty is not None:
-            __query["pretty"] = pretty
         if realm_name is not None:
             __body["realm_name"] = realm_name
         if username is not None:
@@ -1790,28 +1790,28 @@ class SecurityClient(NamespacedClient):
         if name in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_security/role/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if applications is not None:
-            __body["applications"] = applications
-        if cluster is not None:
-            __body["cluster"] = cluster
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if global_ is not None:
-            __body["global"] = global_
         if human is not None:
             __query["human"] = human
-        if indices is not None:
-            __body["indices"] = indices
-        if metadata is not None:
-            __body["metadata"] = metadata
         if pretty is not None:
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
+        if applications is not None:
+            __body["applications"] = applications
+        if cluster is not None:
+            __body["cluster"] = cluster
+        if global_ is not None:
+            __body["global"] = global_
+        if indices is not None:
+            __body["indices"] = indices
+        if metadata is not None:
+            __body["metadata"] = metadata
         if run_as is not None:
             __body["run_as"] = run_as
         if transient_metadata is not None:
@@ -1859,22 +1859,22 @@ class SecurityClient(NamespacedClient):
         if name in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_security/role_mapping/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if enabled is not None:
-            __body["enabled"] = enabled
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if metadata is not None:
-            __body["metadata"] = metadata
         if pretty is not None:
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
+        if enabled is not None:
+            __body["enabled"] = enabled
+        if metadata is not None:
+            __body["metadata"] = metadata
         if roles is not None:
             __body["roles"] = roles
         if rules is not None:
@@ -1929,30 +1929,30 @@ class SecurityClient(NamespacedClient):
         if username in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'username'")
         __path = f"/_security/user/{_quote(username)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if email is not None:
-            __body["email"] = email
-        if enabled is not None:
-            __body["enabled"] = enabled
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if full_name is not None:
-            __body["full_name"] = full_name
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if refresh is not None:
+            __query["refresh"] = refresh
+        if email is not None:
+            __body["email"] = email
+        if enabled is not None:
+            __body["enabled"] = enabled
+        if full_name is not None:
+            __body["full_name"] = full_name
         if metadata is not None:
             __body["metadata"] = metadata
         if password is not None:
             __body["password"] = password
         if password_hash is not None:
             __body["password_hash"] = password_hash
-        if pretty is not None:
-            __query["pretty"] = pretty
-        if refresh is not None:
-            __query["refresh"] = refresh
         if roles is not None:
             __body["roles"] = roles
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -2026,12 +2026,14 @@ class SecurityClient(NamespacedClient):
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if from_ is not None:
-            __body["from"] = from_
         if human is not None:
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if with_limited_by is not None:
+            __query["with_limited_by"] = with_limited_by
+        if from_ is not None:
+            __body["from"] = from_
         if query is not None:
             __body["query"] = query
         if search_after is not None:
@@ -2040,8 +2042,6 @@ class SecurityClient(NamespacedClient):
             __body["size"] = size
         if sort is not None:
             __body["sort"] = sort
-        if with_limited_by is not None:
-            __query["with_limited_by"] = with_limited_by
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2083,12 +2083,8 @@ class SecurityClient(NamespacedClient):
         if ids is None:
             raise ValueError("Empty value passed for parameter 'ids'")
         __path = "/_security/saml/authenticate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if content is not None:
-            __body["content"] = content
-        if ids is not None:
-            __body["ids"] = ids
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2097,6 +2093,10 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if content is not None:
+            __body["content"] = content
+        if ids is not None:
+            __body["ids"] = ids
         if realm is not None:
             __body["realm"] = realm
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -2139,14 +2139,8 @@ class SecurityClient(NamespacedClient):
         if realm is None:
             raise ValueError("Empty value passed for parameter 'realm'")
         __path = "/_security/saml/complete_logout"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if ids is not None:
-            __body["ids"] = ids
-        if realm is not None:
-            __body["realm"] = realm
-        if content is not None:
-            __body["content"] = content
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2155,6 +2149,12 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if ids is not None:
+            __body["ids"] = ids
+        if realm is not None:
+            __body["realm"] = realm
+        if content is not None:
+            __body["content"] = content
         if query_string is not None:
             __body["query_string"] = query_string
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -2200,12 +2200,8 @@ class SecurityClient(NamespacedClient):
         if query_string is None:
             raise ValueError("Empty value passed for parameter 'query_string'")
         __path = "/_security/saml/invalidate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if query_string is not None:
-            __body["query_string"] = query_string
-        if acs is not None:
-            __body["acs"] = acs
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2214,6 +2210,10 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if query_string is not None:
+            __body["query_string"] = query_string
+        if acs is not None:
+            __body["acs"] = acs
         if realm is not None:
             __body["realm"] = realm
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -2250,10 +2250,8 @@ class SecurityClient(NamespacedClient):
         if token is None:
             raise ValueError("Empty value passed for parameter 'token'")
         __path = "/_security/saml/logout"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if token is not None:
-            __body["token"] = token
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2262,6 +2260,8 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if token is not None:
+            __body["token"] = token
         if refresh_token is not None:
             __body["refresh_token"] = refresh_token
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -2299,10 +2299,8 @@ class SecurityClient(NamespacedClient):
             is signed, this value is used as part of the signature computation.
         """
         __path = "/_security/saml/prepare"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if acs is not None:
-            __body["acs"] = acs
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2311,6 +2309,8 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if acs is not None:
+            __body["acs"] = acs
         if realm is not None:
             __body["realm"] = realm
         if relay_state is not None:
@@ -2387,22 +2387,22 @@ class SecurityClient(NamespacedClient):
         :param size: Number of profiles to return.
         """
         __path = "/_security/profile/_suggest"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if data is not None:
-            __body["data"] = data
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if hint is not None:
-            __body["hint"] = hint
         if human is not None:
             __query["human"] = human
-        if name is not None:
-            __body["name"] = name
         if pretty is not None:
             __query["pretty"] = pretty
+        if data is not None:
+            __body["data"] = data
+        if hint is not None:
+            __body["hint"] = hint
+        if name is not None:
+            __body["name"] = name
         if size is not None:
             __body["size"] = size
         if not __body:
@@ -2457,10 +2457,10 @@ class SecurityClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if metadata is not None:
-            __body["metadata"] = metadata
         if pretty is not None:
             __query["pretty"] = pretty
+        if metadata is not None:
+            __body["metadata"] = metadata
         if role_descriptors is not None:
             __body["role_descriptors"] = role_descriptors
         if not __body:
@@ -2512,10 +2512,8 @@ class SecurityClient(NamespacedClient):
         if uid in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'uid'")
         __path = f"/_security/profile/{_quote(uid)}/_data"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if data is not None:
-            __body["data"] = data
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2526,12 +2524,14 @@ class SecurityClient(NamespacedClient):
             __query["if_primary_term"] = if_primary_term
         if if_seq_no is not None:
             __query["if_seq_no"] = if_seq_no
-        if labels is not None:
-            __body["labels"] = labels
         if pretty is not None:
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
+        if data is not None:
+            __body["data"] = data
+        if labels is not None:
+            __body["labels"] = labels
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

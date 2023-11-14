@@ -172,30 +172,30 @@ class SearchableSnapshotsClient(NamespacedClient):
         if index is None:
             raise ValueError("Empty value passed for parameter 'index'")
         __path = f"/_snapshot/{_quote(repository)}/{_quote(snapshot)}/_mount"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if index is not None:
-            __body["index"] = index
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if ignore_index_settings is not None:
-            __body["ignore_index_settings"] = ignore_index_settings
-        if index_settings is not None:
-            __body["index_settings"] = index_settings
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if renamed_index is not None:
-            __body["renamed_index"] = renamed_index
         if storage is not None:
             __query["storage"] = storage
         if wait_for_completion is not None:
             __query["wait_for_completion"] = wait_for_completion
+        if index is not None:
+            __body["index"] = index
+        if ignore_index_settings is not None:
+            __body["ignore_index_settings"] = ignore_index_settings
+        if index_settings is not None:
+            __body["index_settings"] = index_settings
+        if renamed_index is not None:
+            __body["renamed_index"] = renamed_index
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body

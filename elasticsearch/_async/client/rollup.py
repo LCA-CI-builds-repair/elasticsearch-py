@@ -246,8 +246,16 @@ class RollupClient(NamespacedClient):
         if rollup_index is None:
             raise ValueError("Empty value passed for parameter 'rollup_index'")
         __path = f"/_rollup/job/{_quote(id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if cron is not None:
             __body["cron"] = cron
         if groups is not None:
@@ -258,18 +266,10 @@ class RollupClient(NamespacedClient):
             __body["page_size"] = page_size
         if rollup_index is not None:
             __body["rollup_index"] = rollup_index
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
         if headers is not None:
             __body["headers"] = headers
-        if human is not None:
-            __query["human"] = human
         if metrics is not None:
             __body["metrics"] = metrics
-        if pretty is not None:
-            __query["pretty"] = pretty
         if timeout is not None:
             __body["timeout"] = timeout
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -313,12 +313,8 @@ class RollupClient(NamespacedClient):
         if index in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'index'")
         __path = f"/{_quote(index)}/_rollup_search"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aggregations is not None:
-            __body["aggregations"] = aggregations
-        if aggs is not None:
-            __body["aggs"] = aggs
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -327,14 +323,18 @@ class RollupClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if query is not None:
-            __body["query"] = query
         if rest_total_hits_as_int is not None:
             __query["rest_total_hits_as_int"] = rest_total_hits_as_int
-        if size is not None:
-            __body["size"] = size
         if typed_keys is not None:
             __query["typed_keys"] = typed_keys
+        if aggregations is not None:
+            __body["aggregations"] = aggregations
+        if aggs is not None:
+            __body["aggs"] = aggs
+        if query is not None:
+            __body["query"] = query
+        if size is not None:
+            __body["size"] = size
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body

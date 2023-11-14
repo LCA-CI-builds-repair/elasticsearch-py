@@ -247,26 +247,28 @@ class TransformClient(NamespacedClient):
             __path = f"/_transform/{_quote(transform_id)}/_preview"
         else:
             __path = "/_transform/_preview"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if description is not None:
-            __body["description"] = description
-        if dest is not None:
-            __body["dest"] = dest
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if frequency is not None:
-            __body["frequency"] = frequency
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if description is not None:
+            __body["description"] = description
+        if dest is not None:
+            __body["dest"] = dest
+        if frequency is not None:
+            __body["frequency"] = frequency
         if latest is not None:
             __body["latest"] = latest
         if pivot is not None:
             __body["pivot"] = pivot
-        if pretty is not None:
-            __query["pretty"] = pretty
         if retention_policy is not None:
             __body["retention_policy"] = retention_policy
         if settings is not None:
@@ -275,8 +277,6 @@ class TransformClient(NamespacedClient):
             __body["source"] = source
         if sync is not None:
             __body["sync"] = sync
-        if timeout is not None:
-            __query["timeout"] = timeout
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -353,40 +353,40 @@ class TransformClient(NamespacedClient):
         if source is None:
             raise ValueError("Empty value passed for parameter 'source'")
         __path = f"/_transform/{_quote(transform_id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if dest is not None:
-            __body["dest"] = dest
-        if source is not None:
-            __body["source"] = source
+        __body: t.Dict[str, t.Any] = {}
         if defer_validation is not None:
             __query["defer_validation"] = defer_validation
-        if description is not None:
-            __body["description"] = description
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if frequency is not None:
-            __body["frequency"] = frequency
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if dest is not None:
+            __body["dest"] = dest
+        if source is not None:
+            __body["source"] = source
+        if description is not None:
+            __body["description"] = description
+        if frequency is not None:
+            __body["frequency"] = frequency
         if latest is not None:
             __body["latest"] = latest
         if meta is not None:
             __body["_meta"] = meta
         if pivot is not None:
             __body["pivot"] = pivot
-        if pretty is not None:
-            __query["pretty"] = pretty
         if retention_policy is not None:
             __body["retention_policy"] = retention_policy
         if settings is not None:
             __body["settings"] = settings
         if sync is not None:
             __body["sync"] = sync
-        if timeout is not None:
-            __query["timeout"] = timeout
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -642,22 +642,24 @@ class TransformClient(NamespacedClient):
         __body: t.Dict[str, t.Any] = {}
         if defer_validation is not None:
             __query["defer_validation"] = defer_validation
-        if description is not None:
-            __body["description"] = description
-        if dest is not None:
-            __body["dest"] = dest
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if frequency is not None:
-            __body["frequency"] = frequency
         if human is not None:
             __query["human"] = human
-        if meta is not None:
-            __body["_meta"] = meta
         if pretty is not None:
             __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if description is not None:
+            __body["description"] = description
+        if dest is not None:
+            __body["dest"] = dest
+        if frequency is not None:
+            __body["frequency"] = frequency
+        if meta is not None:
+            __body["_meta"] = meta
         if retention_policy is not None:
             __body["retention_policy"] = retention_policy
         if settings is not None:
@@ -666,8 +668,6 @@ class TransformClient(NamespacedClient):
             __body["source"] = source
         if sync is not None:
             __body["sync"] = sync
-        if timeout is not None:
-            __query["timeout"] = timeout
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body

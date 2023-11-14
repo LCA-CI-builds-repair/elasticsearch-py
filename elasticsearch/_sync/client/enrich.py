@@ -169,14 +169,14 @@ class EnrichClient(NamespacedClient):
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if geo_match is not None:
-            __body["geo_match"] = geo_match
         if human is not None:
             __query["human"] = human
-        if match is not None:
-            __body["match"] = match
         if pretty is not None:
             __query["pretty"] = pretty
+        if geo_match is not None:
+            __body["geo_match"] = geo_match
+        if match is not None:
+            __body["match"] = match
         if range is not None:
             __body["range"] = range
         __headers = {"accept": "application/json", "content-type": "application/json"}

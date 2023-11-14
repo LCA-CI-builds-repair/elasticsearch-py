@@ -274,10 +274,10 @@ class NodesClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if secure_settings_password is not None:
-            __body["secure_settings_password"] = secure_settings_password
         if timeout is not None:
             __query["timeout"] = timeout
+        if secure_settings_password is not None:
+            __body["secure_settings_password"] = secure_settings_password
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

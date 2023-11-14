@@ -188,12 +188,12 @@ class LicenseClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if license is not None:
             __body["license"] = license
         if licenses is not None:
             __body["licenses"] = licenses
-        if pretty is not None:
-            __query["pretty"] = pretty
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

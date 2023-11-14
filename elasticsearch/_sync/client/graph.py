@@ -64,12 +64,8 @@ class GraphClient(NamespacedClient):
         if index in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'index'")
         __path = f"/{_quote(index)}/_graph/explore"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if connections is not None:
-            __body["connections"] = connections
-        if controls is not None:
-            __body["controls"] = controls
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -78,12 +74,16 @@ class GraphClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if query is not None:
-            __body["query"] = query
         if routing is not None:
             __query["routing"] = routing
         if timeout is not None:
             __query["timeout"] = timeout
+        if connections is not None:
+            __body["connections"] = connections
+        if controls is not None:
+            __body["controls"] = controls
+        if query is not None:
+            __body["query"] = query
         if vertices is not None:
             __body["vertices"] = vertices
         if not __body:

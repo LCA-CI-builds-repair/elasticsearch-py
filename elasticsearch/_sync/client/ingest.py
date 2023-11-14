@@ -232,10 +232,8 @@ class IngestClient(NamespacedClient):
         if id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'id'")
         __path = f"/_ingest/pipeline/{_quote(id)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if description is not None:
-            __body["description"] = description
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -246,16 +244,18 @@ class IngestClient(NamespacedClient):
             __query["if_version"] = if_version
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if description is not None:
+            __body["description"] = description
         if meta is not None:
             __body["_meta"] = meta
         if on_failure is not None:
             __body["on_failure"] = on_failure
-        if pretty is not None:
-            __query["pretty"] = pretty
         if processors is not None:
             __body["processors"] = processors
-        if timeout is not None:
-            __query["timeout"] = timeout
         if version is not None:
             __body["version"] = version
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -296,22 +296,22 @@ class IngestClient(NamespacedClient):
             __path = f"/_ingest/pipeline/{_quote(id)}/_simulate"
         else:
             __path = "/_ingest/pipeline/_simulate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if docs is not None:
-            __body["docs"] = docs
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if pipeline is not None:
-            __body["pipeline"] = pipeline
         if pretty is not None:
             __query["pretty"] = pretty
         if verbose is not None:
             __query["verbose"] = verbose
+        if docs is not None:
+            __body["docs"] = docs
+        if pipeline is not None:
+            __body["pipeline"] = pipeline
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body

@@ -147,30 +147,30 @@ class IndicesClient(NamespacedClient):
             __path = f"/{_quote(index)}/_analyze"
         else:
             __path = "/_analyze"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if analyzer is not None:
             __body["analyzer"] = analyzer
         if attributes is not None:
             __body["attributes"] = attributes
         if char_filter is not None:
             __body["char_filter"] = char_filter
-        if error_trace is not None:
-            __query["error_trace"] = error_trace
         if explain is not None:
             __body["explain"] = explain
         if field is not None:
             __body["field"] = field
         if filter is not None:
             __body["filter"] = filter
-        if filter_path is not None:
-            __query["filter_path"] = filter_path
-        if human is not None:
-            __query["human"] = human
         if normalizer is not None:
             __body["normalizer"] = normalizer
-        if pretty is not None:
-            __query["pretty"] = pretty
         if text is not None:
             __body["text"] = text
         if tokenizer is not None:
@@ -309,10 +309,8 @@ class IndicesClient(NamespacedClient):
         if target in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'target'")
         __path = f"/{_quote(index)}/_clone/{_quote(target)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aliases is not None:
-            __body["aliases"] = aliases
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -323,12 +321,14 @@ class IndicesClient(NamespacedClient):
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if settings is not None:
-            __body["settings"] = settings
         if timeout is not None:
             __query["timeout"] = timeout
         if wait_for_active_shards is not None:
             __query["wait_for_active_shards"] = wait_for_active_shards
+        if aliases is not None:
+            __body["aliases"] = aliases
+        if settings is not None:
+            __body["settings"] = settings
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -463,28 +463,28 @@ class IndicesClient(NamespacedClient):
         if index in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'index'")
         __path = f"/{_quote(index)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aliases is not None:
-            __body["aliases"] = aliases
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if mappings is not None:
-            __body["mappings"] = mappings
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if settings is not None:
-            __body["settings"] = settings
         if timeout is not None:
             __query["timeout"] = timeout
         if wait_for_active_shards is not None:
             __query["wait_for_active_shards"] = wait_for_active_shards
+        if aliases is not None:
+            __body["aliases"] = aliases
+        if mappings is not None:
+            __body["mappings"] = mappings
+        if settings is not None:
+            __body["settings"] = settings
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2241,10 +2241,8 @@ class IndicesClient(NamespacedClient):
         if actions is None:
             raise ValueError("Empty value passed for parameter 'actions'")
         __path = "/_data_stream/_modify"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if actions is not None:
-            __body["actions"] = actions
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2253,6 +2251,8 @@ class IndicesClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if actions is not None:
+            __body["actions"] = actions
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -2440,26 +2440,26 @@ class IndicesClient(NamespacedClient):
         __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if filter is not None:
-            __body["filter"] = filter
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if index_routing is not None:
-            __body["index_routing"] = index_routing
-        if is_write_index is not None:
-            __body["is_write_index"] = is_write_index
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if filter is not None:
+            __body["filter"] = filter
+        if index_routing is not None:
+            __body["index_routing"] = index_routing
+        if is_write_index is not None:
+            __body["is_write_index"] = is_write_index
         if routing is not None:
             __body["routing"] = routing
         if search_routing is not None:
             __body["search_routing"] = search_routing
-        if timeout is not None:
-            __query["timeout"] = timeout
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2523,12 +2523,8 @@ class IndicesClient(NamespacedClient):
         if name in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_data_stream/{_quote(name)}/_lifecycle"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if data_retention is not None:
-            __body["data_retention"] = data_retention
-        if downsampling is not None:
-            __body["downsampling"] = downsampling
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if expand_wildcards is not None:
@@ -2543,6 +2539,10 @@ class IndicesClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
+        if data_retention is not None:
+            __body["data_retention"] = data_retention
+        if downsampling is not None:
+            __body["downsampling"] = downsampling
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2603,26 +2603,26 @@ class IndicesClient(NamespacedClient):
         if name in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_index_template/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if composed_of is not None:
-            __body["composed_of"] = composed_of
+        __body: t.Dict[str, t.Any] = {}
         if create is not None:
             __query["create"] = create
-        if data_stream is not None:
-            __body["data_stream"] = data_stream
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if composed_of is not None:
+            __body["composed_of"] = composed_of
+        if data_stream is not None:
+            __body["data_stream"] = data_stream
         if index_patterns is not None:
             __body["index_patterns"] = index_patterns
         if meta is not None:
             __body["_meta"] = meta
-        if pretty is not None:
-            __query["pretty"] = pretty
         if priority is not None:
             __body["priority"] = priority
         if template is not None:
@@ -2733,20 +2733,10 @@ class IndicesClient(NamespacedClient):
         __body: t.Dict[str, t.Any] = {}
         if allow_no_indices is not None:
             __query["allow_no_indices"] = allow_no_indices
-        if date_detection is not None:
-            __body["date_detection"] = date_detection
-        if dynamic is not None:
-            __body["dynamic"] = dynamic
-        if dynamic_date_formats is not None:
-            __body["dynamic_date_formats"] = dynamic_date_formats
-        if dynamic_templates is not None:
-            __body["dynamic_templates"] = dynamic_templates
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if expand_wildcards is not None:
             __query["expand_wildcards"] = expand_wildcards
-        if field_names is not None:
-            __body["_field_names"] = field_names
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
@@ -2755,12 +2745,26 @@ class IndicesClient(NamespacedClient):
             __query["ignore_unavailable"] = ignore_unavailable
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if write_index_only is not None:
+            __query["write_index_only"] = write_index_only
+        if date_detection is not None:
+            __body["date_detection"] = date_detection
+        if dynamic is not None:
+            __body["dynamic"] = dynamic
+        if dynamic_date_formats is not None:
+            __body["dynamic_date_formats"] = dynamic_date_formats
+        if dynamic_templates is not None:
+            __body["dynamic_templates"] = dynamic_templates
+        if field_names is not None:
+            __body["_field_names"] = field_names
         if meta is not None:
             __body["_meta"] = meta
         if numeric_detection is not None:
             __body["numeric_detection"] = numeric_detection
-        if pretty is not None:
-            __query["pretty"] = pretty
         if properties is not None:
             __body["properties"] = properties
         if routing is not None:
@@ -2769,10 +2773,6 @@ class IndicesClient(NamespacedClient):
             __body["runtime"] = runtime
         if source is not None:
             __body["_source"] = source
-        if timeout is not None:
-            __query["timeout"] = timeout
-        if write_index_only is not None:
-            __query["write_index_only"] = write_index_only
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -2922,10 +2922,8 @@ class IndicesClient(NamespacedClient):
         if name in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_template/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aliases is not None:
-            __body["aliases"] = aliases
+        __body: t.Dict[str, t.Any] = {}
         if create is not None:
             __query["create"] = create
         if error_trace is not None:
@@ -2936,20 +2934,22 @@ class IndicesClient(NamespacedClient):
             __query["flat_settings"] = flat_settings
         if human is not None:
             __query["human"] = human
+        if master_timeout is not None:
+            __query["master_timeout"] = master_timeout
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if timeout is not None:
+            __query["timeout"] = timeout
+        if aliases is not None:
+            __body["aliases"] = aliases
         if index_patterns is not None:
             __body["index_patterns"] = index_patterns
         if mappings is not None:
             __body["mappings"] = mappings
-        if master_timeout is not None:
-            __query["master_timeout"] = master_timeout
         if order is not None:
             __body["order"] = order
-        if pretty is not None:
-            __query["pretty"] = pretty
         if settings is not None:
             __body["settings"] = settings
-        if timeout is not None:
-            __query["timeout"] = timeout
         if version is not None:
             __body["version"] = version
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -3237,12 +3237,8 @@ class IndicesClient(NamespacedClient):
             __path = f"/{_quote(alias)}/_rollover"
         else:
             raise ValueError("Couldn't find a path for the given parameters")
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aliases is not None:
-            __body["aliases"] = aliases
-        if conditions is not None:
-            __body["conditions"] = conditions
+        __body: t.Dict[str, t.Any] = {}
         if dry_run is not None:
             __query["dry_run"] = dry_run
         if error_trace is not None:
@@ -3251,18 +3247,22 @@ class IndicesClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
-        if mappings is not None:
-            __body["mappings"] = mappings
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if settings is not None:
-            __body["settings"] = settings
         if timeout is not None:
             __query["timeout"] = timeout
         if wait_for_active_shards is not None:
             __query["wait_for_active_shards"] = wait_for_active_shards
+        if aliases is not None:
+            __body["aliases"] = aliases
+        if conditions is not None:
+            __body["conditions"] = conditions
+        if mappings is not None:
+            __body["mappings"] = mappings
+        if settings is not None:
+            __body["settings"] = settings
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -3451,10 +3451,8 @@ class IndicesClient(NamespacedClient):
         if target in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'target'")
         __path = f"/{_quote(index)}/_shrink/{_quote(target)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aliases is not None:
-            __body["aliases"] = aliases
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3465,12 +3463,14 @@ class IndicesClient(NamespacedClient):
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if settings is not None:
-            __body["settings"] = settings
         if timeout is not None:
             __query["timeout"] = timeout
         if wait_for_active_shards is not None:
             __query["wait_for_active_shards"] = wait_for_active_shards
+        if aliases is not None:
+            __body["aliases"] = aliases
+        if settings is not None:
+            __body["settings"] = settings
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -3550,16 +3550,10 @@ class IndicesClient(NamespacedClient):
         if name in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_index_template/_simulate_index/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if allow_auto_create is not None:
-            __body["allow_auto_create"] = allow_auto_create
-        if composed_of is not None:
-            __body["composed_of"] = composed_of
+        __body: t.Dict[str, t.Any] = {}
         if create is not None:
             __query["create"] = create
-        if data_stream is not None:
-            __body["data_stream"] = data_stream
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3568,14 +3562,20 @@ class IndicesClient(NamespacedClient):
             __query["human"] = human
         if include_defaults is not None:
             __query["include_defaults"] = include_defaults
-        if index_patterns is not None:
-            __body["index_patterns"] = index_patterns
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
-        if meta is not None:
-            __body["_meta"] = meta
         if pretty is not None:
             __query["pretty"] = pretty
+        if allow_auto_create is not None:
+            __body["allow_auto_create"] = allow_auto_create
+        if composed_of is not None:
+            __body["composed_of"] = composed_of
+        if data_stream is not None:
+            __body["data_stream"] = data_stream
+        if index_patterns is not None:
+            __body["index_patterns"] = index_patterns
+        if meta is not None:
+            __body["_meta"] = meta
         if priority is not None:
             __body["priority"] = priority
         if template is not None:
@@ -3702,10 +3702,8 @@ class IndicesClient(NamespacedClient):
         if target in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'target'")
         __path = f"/{_quote(index)}/_split/{_quote(target)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if aliases is not None:
-            __body["aliases"] = aliases
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3716,12 +3714,14 @@ class IndicesClient(NamespacedClient):
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if settings is not None:
-            __body["settings"] = settings
         if timeout is not None:
             __query["timeout"] = timeout
         if wait_for_active_shards is not None:
             __query["wait_for_active_shards"] = wait_for_active_shards
+        if aliases is not None:
+            __body["aliases"] = aliases
+        if settings is not None:
+            __body["settings"] = settings
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -3938,10 +3938,8 @@ class IndicesClient(NamespacedClient):
             the timeout expires, the request fails and returns an error.
         """
         __path = "/_aliases"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if actions is not None:
-            __body["actions"] = actions
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -3954,6 +3952,8 @@ class IndicesClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
+        if actions is not None:
+            __body["actions"] = actions
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -4063,10 +4063,10 @@ class IndicesClient(NamespacedClient):
             __query["pretty"] = pretty
         if q is not None:
             __query["q"] = q
-        if query is not None:
-            __body["query"] = query
         if rewrite is not None:
             __query["rewrite"] = rewrite
+        if query is not None:
+            __body["query"] = query
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

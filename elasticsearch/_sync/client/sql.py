@@ -46,10 +46,8 @@ class SqlClient(NamespacedClient):
         if cursor is None:
             raise ValueError("Empty value passed for parameter 'cursor'")
         __path = "/_sql/close"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if cursor is not None:
-            __body["cursor"] = cursor
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -58,6 +56,8 @@ class SqlClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if cursor is not None:
+            __body["cursor"] = cursor
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -261,28 +261,30 @@ class SqlClient(NamespacedClient):
             the search doesn’t finish within this period, the search becomes async.
         """
         __path = "/_sql"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if catalog is not None:
-            __body["catalog"] = catalog
-        if columnar is not None:
-            __body["columnar"] = columnar
-        if cursor is not None:
-            __body["cursor"] = cursor
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if fetch_size is not None:
-            __body["fetch_size"] = fetch_size
-        if field_multi_value_leniency is not None:
-            __body["field_multi_value_leniency"] = field_multi_value_leniency
-        if filter is not None:
-            __body["filter"] = filter
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if format is not None:
             __query["format"] = format
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if catalog is not None:
+            __body["catalog"] = catalog
+        if columnar is not None:
+            __body["columnar"] = columnar
+        if cursor is not None:
+            __body["cursor"] = cursor
+        if fetch_size is not None:
+            __body["fetch_size"] = fetch_size
+        if field_multi_value_leniency is not None:
+            __body["field_multi_value_leniency"] = field_multi_value_leniency
+        if filter is not None:
+            __body["filter"] = filter
         if index_using_frozen is not None:
             __body["index_using_frozen"] = index_using_frozen
         if keep_alive is not None:
@@ -293,8 +295,6 @@ class SqlClient(NamespacedClient):
             __body["page_timeout"] = page_timeout
         if params is not None:
             __body["params"] = params
-        if pretty is not None:
-            __query["pretty"] = pretty
         if query is not None:
             __body["query"] = query
         if request_timeout is not None:
@@ -338,22 +338,22 @@ class SqlClient(NamespacedClient):
         if query is None:
             raise ValueError("Empty value passed for parameter 'query'")
         __path = "/_sql/translate"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if query is not None:
-            __body["query"] = query
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
-        if fetch_size is not None:
-            __body["fetch_size"] = fetch_size
-        if filter is not None:
-            __body["filter"] = filter
         if filter_path is not None:
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
+        if query is not None:
+            __body["query"] = query
+        if fetch_size is not None:
+            __body["fetch_size"] = fetch_size
+        if filter is not None:
+            __body["filter"] = filter
         if time_zone is not None:
             __body["time_zone"] = time_zone
         __headers = {"accept": "application/json", "content-type": "application/json"}

@@ -193,14 +193,8 @@ class ShutdownClient(NamespacedClient):
         if type is None:
             raise ValueError("Empty value passed for parameter 'type'")
         __path = f"/_nodes/{_quote(node_id)}/shutdown"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if reason is not None:
-            __body["reason"] = reason
-        if type is not None:
-            __body["type"] = type
-        if allocation_delay is not None:
-            __body["allocation_delay"] = allocation_delay
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -211,10 +205,16 @@ class ShutdownClient(NamespacedClient):
             __query["master_timeout"] = master_timeout
         if pretty is not None:
             __query["pretty"] = pretty
-        if target_node_name is not None:
-            __body["target_node_name"] = target_node_name
         if timeout is not None:
             __query["timeout"] = timeout
+        if reason is not None:
+            __body["reason"] = reason
+        if type is not None:
+            __body["type"] = type
+        if allocation_delay is not None:
+            __body["allocation_delay"] = allocation_delay
+        if target_node_name is not None:
+            __body["target_node_name"] = target_node_name
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

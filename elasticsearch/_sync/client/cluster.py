@@ -59,10 +59,8 @@ class ClusterClient(NamespacedClient):
             for.
         """
         __path = "/_cluster/allocation/explain"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if current_node is not None:
-            __body["current_node"] = current_node
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -73,10 +71,12 @@ class ClusterClient(NamespacedClient):
             __query["include_disk_info"] = include_disk_info
         if include_yes_decisions is not None:
             __query["include_yes_decisions"] = include_yes_decisions
-        if index is not None:
-            __body["index"] = index
         if pretty is not None:
             __query["pretty"] = pretty
+        if current_node is not None:
+            __body["current_node"] = current_node
+        if index is not None:
+            __body["index"] = index
         if primary is not None:
             __body["primary"] = primary
         if shard is not None:
@@ -652,12 +652,8 @@ class ClusterClient(NamespacedClient):
         if template is None:
             raise ValueError("Empty value passed for parameter 'template'")
         __path = f"/_component_template/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if template is not None:
-            __body["template"] = template
-        if allow_auto_create is not None:
-            __body["allow_auto_create"] = allow_auto_create
+        __body: t.Dict[str, t.Any] = {}
         if create is not None:
             __query["create"] = create
         if error_trace is not None:
@@ -668,10 +664,14 @@ class ClusterClient(NamespacedClient):
             __query["human"] = human
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
-        if meta is not None:
-            __body["_meta"] = meta
         if pretty is not None:
             __query["pretty"] = pretty
+        if template is not None:
+            __body["template"] = template
+        if allow_auto_create is not None:
+            __body["allow_auto_create"] = allow_auto_create
+        if meta is not None:
+            __body["_meta"] = meta
         if version is not None:
             __body["version"] = version
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -721,12 +721,12 @@ class ClusterClient(NamespacedClient):
             __query["human"] = human
         if master_timeout is not None:
             __query["master_timeout"] = master_timeout
-        if persistent is not None:
-            __body["persistent"] = persistent
         if pretty is not None:
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
+        if persistent is not None:
+            __body["persistent"] = persistent
         if transient is not None:
             __body["transient"] = transient
         __headers = {"accept": "application/json", "content-type": "application/json"}
@@ -803,10 +803,8 @@ class ClusterClient(NamespacedClient):
             the timeout expires, the request fails and returns an error.
         """
         __path = "/_cluster/reroute"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if commands is not None:
-            __body["commands"] = commands
+        __body: t.Dict[str, t.Any] = {}
         if dry_run is not None:
             __query["dry_run"] = dry_run
         if error_trace is not None:
@@ -827,6 +825,8 @@ class ClusterClient(NamespacedClient):
             __query["retry_failed"] = retry_failed
         if timeout is not None:
             __query["timeout"] = timeout
+        if commands is not None:
+            __body["commands"] = commands
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

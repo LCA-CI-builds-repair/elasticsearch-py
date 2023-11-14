@@ -123,6 +123,10 @@ class CcrClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if wait_for_active_shards is not None:
+            __query["wait_for_active_shards"] = wait_for_active_shards
         if leader_index is not None:
             __body["leader_index"] = leader_index
         if max_outstanding_read_requests is not None:
@@ -147,14 +151,10 @@ class CcrClient(NamespacedClient):
             ] = max_write_request_operation_count
         if max_write_request_size is not None:
             __body["max_write_request_size"] = max_write_request_size
-        if pretty is not None:
-            __query["pretty"] = pretty
         if read_poll_timeout is not None:
             __body["read_poll_timeout"] = read_poll_timeout
         if remote_cluster is not None:
             __body["remote_cluster"] = remote_cluster
-        if wait_for_active_shards is not None:
-            __query["wait_for_active_shards"] = wait_for_active_shards
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -269,18 +269,18 @@ class CcrClient(NamespacedClient):
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if follower_cluster is not None:
             __body["follower_cluster"] = follower_cluster
         if follower_index is not None:
             __body["follower_index"] = follower_index
         if follower_index_uuid is not None:
             __body["follower_index_uuid"] = follower_index_uuid
-        if human is not None:
-            __query["human"] = human
         if leader_remote_cluster is not None:
             __body["leader_remote_cluster"] = leader_remote_cluster
-        if pretty is not None:
-            __query["pretty"] = pretty
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -480,18 +480,20 @@ class CcrClient(NamespacedClient):
         if remote_cluster is None:
             raise ValueError("Empty value passed for parameter 'remote_cluster'")
         __path = f"/_ccr/auto_follow/{_quote(name)}"
-        __body: t.Dict[str, t.Any] = {}
         __query: t.Dict[str, t.Any] = {}
-        if remote_cluster is not None:
-            __body["remote_cluster"] = remote_cluster
+        __body: t.Dict[str, t.Any] = {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
             __query["filter_path"] = filter_path
-        if follow_index_pattern is not None:
-            __body["follow_index_pattern"] = follow_index_pattern
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if remote_cluster is not None:
+            __body["remote_cluster"] = remote_cluster
+        if follow_index_pattern is not None:
+            __body["follow_index_pattern"] = follow_index_pattern
         if leader_index_exclusion_patterns is not None:
             __body["leader_index_exclusion_patterns"] = leader_index_exclusion_patterns
         if leader_index_patterns is not None:
@@ -518,8 +520,6 @@ class CcrClient(NamespacedClient):
             ] = max_write_request_operation_count
         if max_write_request_size is not None:
             __body["max_write_request_size"] = max_write_request_size
-        if pretty is not None:
-            __query["pretty"] = pretty
         if read_poll_timeout is not None:
             __body["read_poll_timeout"] = read_poll_timeout
         if settings is not None:
@@ -618,6 +618,8 @@ class CcrClient(NamespacedClient):
             __query["filter_path"] = filter_path
         if human is not None:
             __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
         if max_outstanding_read_requests is not None:
             __body["max_outstanding_read_requests"] = max_outstanding_read_requests
         if max_outstanding_write_requests is not None:
@@ -640,8 +642,6 @@ class CcrClient(NamespacedClient):
             ] = max_write_request_operation_count
         if max_write_request_size is not None:
             __body["max_write_request_size"] = max_write_request_size
-        if pretty is not None:
-            __query["pretty"] = pretty
         if read_poll_timeout is not None:
             __body["read_poll_timeout"] = read_poll_timeout
         if not __body:
