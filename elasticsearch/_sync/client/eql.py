@@ -78,7 +78,7 @@ class EqlClient(NamespacedClient):
         """
         Returns async results from previously executed Event Query Language (EQL) search
 
-        `< https://www.elastic.co/guide/en/elasticsearch/reference/master/get-async-eql-search-api.html>`_
+        `<https://www.elastic.co/guide/en/elasticsearch/reference/master/get-async-eql-search-api.html>`_
 
         :param id: Identifier for the search.
         :param keep_alive: Period for which the search and its results are stored on
@@ -123,7 +123,7 @@ class EqlClient(NamespacedClient):
         Returns the status of a previously submitted async or stored Event Query Language
         (EQL) search
 
-        `< https://www.elastic.co/guide/en/elasticsearch/reference/master/get-async-eql-status-api.html>`_
+        `<https://www.elastic.co/guide/en/elasticsearch/reference/master/get-async-eql-status-api.html>`_
 
         :param id: Identifier for the search.
         """
@@ -145,7 +145,22 @@ class EqlClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "query",
+            "case_sensitive",
+            "event_category_field",
+            "fetch_size",
+            "fields",
+            "filter",
+            "keep_alive",
+            "keep_on_completion",
+            "result_position",
+            "runtime_mappings",
+            "size",
+            "tiebreaker_field",
+            "timestamp_field",
+            "wait_for_completion_timeout",
+        ),
     )
     def search(
         self,
@@ -185,6 +200,7 @@ class EqlClient(NamespacedClient):
         wait_for_completion_timeout: t.Optional[
             t.Union["t.Literal[-1]", "t.Literal[0]", str]
         ] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Returns results matching a query expressed in Event Query Language (EQL)
@@ -223,7 +239,7 @@ class EqlClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'query'")
         __path = f"/{_quote(index)}/_eql/search"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if allow_no_indices is not None:
             __query["allow_no_indices"] = allow_no_indices
         if error_trace is not None:
@@ -238,34 +254,35 @@ class EqlClient(NamespacedClient):
             __query["ignore_unavailable"] = ignore_unavailable
         if pretty is not None:
             __query["pretty"] = pretty
-        if query is not None:
-            __body["query"] = query
-        if case_sensitive is not None:
-            __body["case_sensitive"] = case_sensitive
-        if event_category_field is not None:
-            __body["event_category_field"] = event_category_field
-        if fetch_size is not None:
-            __body["fetch_size"] = fetch_size
-        if fields is not None:
-            __body["fields"] = fields
-        if filter is not None:
-            __body["filter"] = filter
-        if keep_alive is not None:
-            __body["keep_alive"] = keep_alive
-        if keep_on_completion is not None:
-            __body["keep_on_completion"] = keep_on_completion
-        if result_position is not None:
-            __body["result_position"] = result_position
-        if runtime_mappings is not None:
-            __body["runtime_mappings"] = runtime_mappings
-        if size is not None:
-            __body["size"] = size
-        if tiebreaker_field is not None:
-            __body["tiebreaker_field"] = tiebreaker_field
-        if timestamp_field is not None:
-            __body["timestamp_field"] = timestamp_field
-        if wait_for_completion_timeout is not None:
-            __body["wait_for_completion_timeout"] = wait_for_completion_timeout
+        if not __body:
+            if query is not None:
+                __body["query"] = query
+            if case_sensitive is not None:
+                __body["case_sensitive"] = case_sensitive
+            if event_category_field is not None:
+                __body["event_category_field"] = event_category_field
+            if fetch_size is not None:
+                __body["fetch_size"] = fetch_size
+            if fields is not None:
+                __body["fields"] = fields
+            if filter is not None:
+                __body["filter"] = filter
+            if keep_alive is not None:
+                __body["keep_alive"] = keep_alive
+            if keep_on_completion is not None:
+                __body["keep_on_completion"] = keep_on_completion
+            if result_position is not None:
+                __body["result_position"] = result_position
+            if runtime_mappings is not None:
+                __body["runtime_mappings"] = runtime_mappings
+            if size is not None:
+                __body["size"] = size
+            if tiebreaker_field is not None:
+                __body["tiebreaker_field"] = tiebreaker_field
+            if timestamp_field is not None:
+                __body["timestamp_field"] = timestamp_field
+            if wait_for_completion_timeout is not None:
+                __body["wait_for_completion_timeout"] = wait_for_completion_timeout
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body

@@ -69,7 +69,7 @@ class SnapshotClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("indices",),
     )
     async def clone(
         self,
@@ -86,6 +86,7 @@ class SnapshotClient(NamespacedClient):
         ] = None,
         pretty: t.Optional[bool] = None,
         timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Clones indices from one snapshot into another snapshot in the same repository.
@@ -109,7 +110,7 @@ class SnapshotClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'indices'")
         __path = f"/_snapshot/{_quote(repository)}/{_quote(snapshot)}/_clone/{_quote(target_snapshot)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -122,15 +123,23 @@ class SnapshotClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
-        if indices is not None:
-            __body["indices"] = indices
+        if not __body:
+            if indices is not None:
+                __body["indices"] = indices
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "feature_states",
+            "ignore_unavailable",
+            "include_global_state",
+            "indices",
+            "metadata",
+            "partial",
+        ),
     )
     async def create(
         self,
@@ -151,6 +160,7 @@ class SnapshotClient(NamespacedClient):
         partial: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
         wait_for_completion: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates a snapshot in a repository.
@@ -194,7 +204,7 @@ class SnapshotClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'snapshot'")
         __path = f"/_snapshot/{_quote(repository)}/{_quote(snapshot)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -207,18 +217,19 @@ class SnapshotClient(NamespacedClient):
             __query["pretty"] = pretty
         if wait_for_completion is not None:
             __query["wait_for_completion"] = wait_for_completion
-        if feature_states is not None:
-            __body["feature_states"] = feature_states
-        if ignore_unavailable is not None:
-            __body["ignore_unavailable"] = ignore_unavailable
-        if include_global_state is not None:
-            __body["include_global_state"] = include_global_state
-        if indices is not None:
-            __body["indices"] = indices
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if partial is not None:
-            __body["partial"] = partial
+        if not __body:
+            if feature_states is not None:
+                __body["feature_states"] = feature_states
+            if ignore_unavailable is not None:
+                __body["ignore_unavailable"] = ignore_unavailable
+            if include_global_state is not None:
+                __body["include_global_state"] = include_global_state
+            if indices is not None:
+                __body["indices"] = indices
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if partial is not None:
+                __body["partial"] = partial
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -229,7 +240,7 @@ class SnapshotClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("settings", "type", "repository"),
     )
     async def create_repository(
         self,
@@ -247,6 +258,7 @@ class SnapshotClient(NamespacedClient):
         repository: t.Optional[t.Mapping[str, t.Any]] = None,
         timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
         verify: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates a repository.
@@ -269,7 +281,7 @@ class SnapshotClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'type'")
         __path = f"/_snapshot/{_quote(name)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -284,12 +296,13 @@ class SnapshotClient(NamespacedClient):
             __query["timeout"] = timeout
         if verify is not None:
             __query["verify"] = verify
-        if settings is not None:
-            __body["settings"] = settings
-        if type is not None:
-            __body["type"] = type
-        if repository is not None:
-            __body["repository"] = repository
+        if not __body:
+            if settings is not None:
+                __body["settings"] = settings
+            if type is not None:
+                __body["type"] = type
+            if repository is not None:
+                __body["repository"] = repository
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -553,7 +566,18 @@ class SnapshotClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "feature_states",
+            "ignore_index_settings",
+            "ignore_unavailable",
+            "include_aliases",
+            "include_global_state",
+            "index_settings",
+            "indices",
+            "partial",
+            "rename_pattern",
+            "rename_replacement",
+        ),
     )
     async def restore(
         self,
@@ -578,6 +602,7 @@ class SnapshotClient(NamespacedClient):
         rename_pattern: t.Optional[str] = None,
         rename_replacement: t.Optional[str] = None,
         wait_for_completion: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Restores a snapshot.
@@ -606,7 +631,7 @@ class SnapshotClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'snapshot'")
         __path = f"/_snapshot/{_quote(repository)}/{_quote(snapshot)}/_restore"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -619,26 +644,27 @@ class SnapshotClient(NamespacedClient):
             __query["pretty"] = pretty
         if wait_for_completion is not None:
             __query["wait_for_completion"] = wait_for_completion
-        if feature_states is not None:
-            __body["feature_states"] = feature_states
-        if ignore_index_settings is not None:
-            __body["ignore_index_settings"] = ignore_index_settings
-        if ignore_unavailable is not None:
-            __body["ignore_unavailable"] = ignore_unavailable
-        if include_aliases is not None:
-            __body["include_aliases"] = include_aliases
-        if include_global_state is not None:
-            __body["include_global_state"] = include_global_state
-        if index_settings is not None:
-            __body["index_settings"] = index_settings
-        if indices is not None:
-            __body["indices"] = indices
-        if partial is not None:
-            __body["partial"] = partial
-        if rename_pattern is not None:
-            __body["rename_pattern"] = rename_pattern
-        if rename_replacement is not None:
-            __body["rename_replacement"] = rename_replacement
+        if not __body:
+            if feature_states is not None:
+                __body["feature_states"] = feature_states
+            if ignore_index_settings is not None:
+                __body["ignore_index_settings"] = ignore_index_settings
+            if ignore_unavailable is not None:
+                __body["ignore_unavailable"] = ignore_unavailable
+            if include_aliases is not None:
+                __body["include_aliases"] = include_aliases
+            if include_global_state is not None:
+                __body["include_global_state"] = include_global_state
+            if index_settings is not None:
+                __body["index_settings"] = index_settings
+            if indices is not None:
+                __body["indices"] = indices
+            if partial is not None:
+                __body["partial"] = partial
+            if rename_pattern is not None:
+                __body["rename_pattern"] = rename_pattern
+            if rename_replacement is not None:
+                __body["rename_replacement"] = rename_replacement
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

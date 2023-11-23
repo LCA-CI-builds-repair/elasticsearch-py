@@ -134,7 +134,7 @@ class EnrichClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("geo_match", "match", "range"),
     )
     async def put_policy(
         self,
@@ -147,6 +147,7 @@ class EnrichClient(NamespacedClient):
         match: t.Optional[t.Mapping[str, t.Any]] = None,
         pretty: t.Optional[bool] = None,
         range: t.Optional[t.Mapping[str, t.Any]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates a new enrich policy.
@@ -164,7 +165,7 @@ class EnrichClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_enrich/policy/{_quote(name)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -173,12 +174,13 @@ class EnrichClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if geo_match is not None:
-            __body["geo_match"] = geo_match
-        if match is not None:
-            __body["match"] = match
-        if range is not None:
-            __body["range"] = range
+        if not __body:
+            if geo_match is not None:
+                __body["geo_match"] = geo_match
+            if match is not None:
+                __body["match"] = match
+            if range is not None:
+                __body["range"] = range
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

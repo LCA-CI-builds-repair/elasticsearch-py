@@ -25,7 +25,7 @@ from .utils import SKIP_IN_PATH, _quote, _rewrite_parameters
 
 class GraphClient(NamespacedClient):
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("connections", "controls", "query", "vertices"),
     )
     def explore(
         self,
@@ -41,6 +41,7 @@ class GraphClient(NamespacedClient):
         routing: t.Optional[str] = None,
         timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
         vertices: t.Optional[t.Sequence[t.Mapping[str, t.Any]]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Explore extracted and summarized information about the documents and terms in
@@ -65,7 +66,7 @@ class GraphClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'index'")
         __path = f"/{_quote(index)}/_graph/explore"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -78,14 +79,15 @@ class GraphClient(NamespacedClient):
             __query["routing"] = routing
         if timeout is not None:
             __query["timeout"] = timeout
-        if connections is not None:
-            __body["connections"] = connections
-        if controls is not None:
-            __body["controls"] = controls
-        if query is not None:
-            __body["query"] = query
-        if vertices is not None:
-            __body["vertices"] = vertices
+        if not __body:
+            if connections is not None:
+                __body["connections"] = connections
+            if controls is not None:
+                __body["controls"] = controls
+            if query is not None:
+                __body["query"] = query
+            if vertices is not None:
+                __body["vertices"] = vertices
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

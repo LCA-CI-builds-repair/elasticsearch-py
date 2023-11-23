@@ -25,7 +25,7 @@ from .utils import SKIP_IN_PATH, _quote, _rewrite_parameters
 
 class SecurityClient(NamespacedClient):
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("grant_type", "access_token", "password", "username"),
     )
     def activate_user_profile(
         self,
@@ -38,6 +38,7 @@ class SecurityClient(NamespacedClient):
         password: t.Optional[str] = None,
         pretty: t.Optional[bool] = None,
         username: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates or updates the user profile on behalf of another user.
@@ -53,7 +54,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'grant_type'")
         __path = "/_security/profile/_activate"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -62,14 +63,15 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if grant_type is not None:
-            __body["grant_type"] = grant_type
-        if access_token is not None:
-            __body["access_token"] = access_token
-        if password is not None:
-            __body["password"] = password
-        if username is not None:
-            __body["username"] = username
+        if not __body:
+            if grant_type is not None:
+                __body["grant_type"] = grant_type
+            if access_token is not None:
+                __body["access_token"] = access_token
+            if password is not None:
+                __body["password"] = password
+            if username is not None:
+                __body["username"] = username
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -106,7 +108,7 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("password", "password_hash"),
     )
     def change_password(
         self,
@@ -121,6 +123,7 @@ class SecurityClient(NamespacedClient):
         refresh: t.Optional[
             t.Union["t.Literal['false', 'true', 'wait_for']", bool, str]
         ] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Changes the passwords of users in the native realm and built-in users.
@@ -144,7 +147,7 @@ class SecurityClient(NamespacedClient):
         else:
             __path = "/_security/user/_password"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -155,10 +158,11 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        if password is not None:
-            __body["password"] = password
-        if password_hash is not None:
-            __body["password_hash"] = password_hash
+        if not __body:
+            if password is not None:
+                __body["password"] = password
+            if password_hash is not None:
+                __body["password_hash"] = password_hash
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -349,7 +353,7 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("expiration", "metadata", "name", "role_descriptors"),
     )
     def create_api_key(
         self,
@@ -365,6 +369,7 @@ class SecurityClient(NamespacedClient):
             t.Union["t.Literal['false', 'true', 'wait_for']", bool, str]
         ] = None,
         role_descriptors: t.Optional[t.Mapping[str, t.Mapping[str, t.Any]]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates an API key for access without requiring basic authentication.
@@ -391,7 +396,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/api_key"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -402,14 +407,15 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        if expiration is not None:
-            __body["expiration"] = expiration
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if name is not None:
-            __body["name"] = name
-        if role_descriptors is not None:
-            __body["role_descriptors"] = role_descriptors
+        if not __body:
+            if expiration is not None:
+                __body["expiration"] = expiration
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if name is not None:
+                __body["name"] = name
+            if role_descriptors is not None:
+                __body["role_descriptors"] = role_descriptors
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -1212,7 +1218,14 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "grant_type",
+            "kerberos_ticket",
+            "password",
+            "refresh_token",
+            "scope",
+            "username",
+        ),
     )
     def get_token(
         self,
@@ -1232,6 +1245,7 @@ class SecurityClient(NamespacedClient):
         refresh_token: t.Optional[str] = None,
         scope: t.Optional[str] = None,
         username: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates a bearer token for access without requiring basic authentication.
@@ -1247,7 +1261,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/oauth2/token"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1256,18 +1270,19 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if grant_type is not None:
-            __body["grant_type"] = grant_type
-        if kerberos_ticket is not None:
-            __body["kerberos_ticket"] = kerberos_ticket
-        if password is not None:
-            __body["password"] = password
-        if refresh_token is not None:
-            __body["refresh_token"] = refresh_token
-        if scope is not None:
-            __body["scope"] = scope
-        if username is not None:
-            __body["username"] = username
+        if not __body:
+            if grant_type is not None:
+                __body["grant_type"] = grant_type
+            if kerberos_ticket is not None:
+                __body["kerberos_ticket"] = kerberos_ticket
+            if password is not None:
+                __body["password"] = password
+            if refresh_token is not None:
+                __body["refresh_token"] = refresh_token
+            if scope is not None:
+                __body["scope"] = scope
+            if username is not None:
+                __body["username"] = username
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -1402,7 +1417,14 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "api_key",
+            "grant_type",
+            "access_token",
+            "password",
+            "run_as",
+            "username",
+        ),
         ignore_deprecated_options={"api_key"},
     )
     def grant_api_key(
@@ -1418,6 +1440,7 @@ class SecurityClient(NamespacedClient):
         pretty: t.Optional[bool] = None,
         run_as: t.Optional[str] = None,
         username: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates an API key on behalf of another user.
@@ -1443,7 +1466,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'grant_type'")
         __path = "/_security/api_key/grant"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1452,25 +1475,26 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if api_key is not None:
-            __body["api_key"] = api_key
-        if grant_type is not None:
-            __body["grant_type"] = grant_type
-        if access_token is not None:
-            __body["access_token"] = access_token
-        if password is not None:
-            __body["password"] = password
-        if run_as is not None:
-            __body["run_as"] = run_as
-        if username is not None:
-            __body["username"] = username
+        if not __body:
+            if api_key is not None:
+                __body["api_key"] = api_key
+            if grant_type is not None:
+                __body["grant_type"] = grant_type
+            if access_token is not None:
+                __body["access_token"] = access_token
+            if password is not None:
+                __body["password"] = password
+            if run_as is not None:
+                __body["run_as"] = run_as
+            if username is not None:
+                __body["username"] = username
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("application", "cluster", "index"),
     )
     def has_privileges(
         self,
@@ -1490,6 +1514,7 @@ class SecurityClient(NamespacedClient):
         human: t.Optional[bool] = None,
         index: t.Optional[t.Sequence[t.Mapping[str, t.Any]]] = None,
         pretty: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Determines whether the specified user has a specified list of privileges.
@@ -1506,7 +1531,7 @@ class SecurityClient(NamespacedClient):
         else:
             __path = "/_security/user/_has_privileges"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1515,19 +1540,20 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if application is not None:
-            __body["application"] = application
-        if cluster is not None:
-            __body["cluster"] = cluster
-        if index is not None:
-            __body["index"] = index
+        if not __body:
+            if application is not None:
+                __body["application"] = application
+            if cluster is not None:
+                __body["cluster"] = cluster
+            if index is not None:
+                __body["index"] = index
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("privileges", "uids"),
     )
     def has_privileges_user_profile(
         self,
@@ -1538,6 +1564,7 @@ class SecurityClient(NamespacedClient):
         filter_path: t.Optional[t.Union[str, t.Sequence[str]]] = None,
         human: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Determines whether the users associated with the specified profile IDs have all
@@ -1555,7 +1582,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'uids'")
         __path = "/_security/profile/_has_privileges"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1564,17 +1591,18 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if privileges is not None:
-            __body["privileges"] = privileges
-        if uids is not None:
-            __body["uids"] = uids
+        if not __body:
+            if privileges is not None:
+                __body["privileges"] = privileges
+            if uids is not None:
+                __body["uids"] = uids
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("id", "ids", "name", "owner", "realm_name", "username"),
     )
     def invalidate_api_key(
         self,
@@ -1589,6 +1617,7 @@ class SecurityClient(NamespacedClient):
         pretty: t.Optional[bool] = None,
         realm_name: t.Optional[str] = None,
         username: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Invalidates one or more API keys.
@@ -1611,7 +1640,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/api_key"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1620,25 +1649,26 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if id is not None:
-            __body["id"] = id
-        if ids is not None:
-            __body["ids"] = ids
-        if name is not None:
-            __body["name"] = name
-        if owner is not None:
-            __body["owner"] = owner
-        if realm_name is not None:
-            __body["realm_name"] = realm_name
-        if username is not None:
-            __body["username"] = username
+        if not __body:
+            if id is not None:
+                __body["id"] = id
+            if ids is not None:
+                __body["ids"] = ids
+            if name is not None:
+                __body["name"] = name
+            if owner is not None:
+                __body["owner"] = owner
+            if realm_name is not None:
+                __body["realm_name"] = realm_name
+            if username is not None:
+                __body["username"] = username
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "DELETE", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("realm_name", "refresh_token", "token", "username"),
     )
     def invalidate_token(
         self,
@@ -1651,6 +1681,7 @@ class SecurityClient(NamespacedClient):
         refresh_token: t.Optional[str] = None,
         token: t.Optional[str] = None,
         username: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Invalidates one or more access tokens or refresh tokens.
@@ -1664,7 +1695,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/oauth2/token"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1673,14 +1704,15 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if realm_name is not None:
-            __body["realm_name"] = realm_name
-        if refresh_token is not None:
-            __body["refresh_token"] = refresh_token
-        if token is not None:
-            __body["token"] = token
-        if username is not None:
-            __body["username"] = username
+        if not __body:
+            if realm_name is not None:
+                __body["realm_name"] = realm_name
+            if refresh_token is not None:
+                __body["refresh_token"] = refresh_token
+            if token is not None:
+                __body["token"] = token
+            if username is not None:
+                __body["username"] = username
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "DELETE", __path, params=__query, headers=__headers, body=__body
@@ -1692,7 +1724,10 @@ class SecurityClient(NamespacedClient):
     def put_privileges(
         self,
         *,
-        privileges: t.Mapping[str, t.Mapping[str, t.Mapping[str, t.Any]]],
+        privileges: t.Optional[
+            t.Mapping[str, t.Mapping[str, t.Mapping[str, t.Any]]]
+        ] = None,
+        body: t.Optional[t.Mapping[str, t.Mapping[str, t.Mapping[str, t.Any]]]] = None,
         error_trace: t.Optional[bool] = None,
         filter_path: t.Optional[t.Union[str, t.Sequence[str]]] = None,
         human: t.Optional[bool] = None,
@@ -1711,8 +1746,12 @@ class SecurityClient(NamespacedClient):
             this operation visible to search, if `wait_for` then wait for a refresh to
             make this operation visible to search, if `false` then do nothing with refreshes.
         """
-        if privileges is None:
-            raise ValueError("Empty value passed for parameter 'privileges'")
+        if privileges is None and body is None:
+            raise ValueError(
+                "Empty value passed for parameters 'privileges' and 'body', one of them should be set."
+            )
+        elif privileges is not None and body is not None:
+            raise ValueError("Cannot set both 'privileges' and 'body'")
         __path = "/_security/privilege"
         __query: t.Dict[str, t.Any] = {}
         if error_trace is not None:
@@ -1725,14 +1764,22 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        __body = privileges
+        __body = privileges if privileges is not None else body
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "applications",
+            "cluster",
+            "global_",
+            "indices",
+            "metadata",
+            "run_as",
+            "transient_metadata",
+        ),
         parameter_aliases={"global": "global_"},
     )
     def put_role(
@@ -1760,6 +1807,7 @@ class SecurityClient(NamespacedClient):
         ] = None,
         run_as: t.Optional[t.Sequence[str]] = None,
         transient_metadata: t.Optional[t.Mapping[str, t.Any]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Adds and updates roles in the native realm.
@@ -1791,7 +1839,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_security/role/{_quote(name)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1802,27 +1850,28 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        if applications is not None:
-            __body["applications"] = applications
-        if cluster is not None:
-            __body["cluster"] = cluster
-        if global_ is not None:
-            __body["global"] = global_
-        if indices is not None:
-            __body["indices"] = indices
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if run_as is not None:
-            __body["run_as"] = run_as
-        if transient_metadata is not None:
-            __body["transient_metadata"] = transient_metadata
+        if not __body:
+            if applications is not None:
+                __body["applications"] = applications
+            if cluster is not None:
+                __body["cluster"] = cluster
+            if global_ is not None:
+                __body["global"] = global_
+            if indices is not None:
+                __body["indices"] = indices
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if run_as is not None:
+                __body["run_as"] = run_as
+            if transient_metadata is not None:
+                __body["transient_metadata"] = transient_metadata
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("enabled", "metadata", "roles", "rules", "run_as"),
     )
     def put_role_mapping(
         self,
@@ -1840,6 +1889,7 @@ class SecurityClient(NamespacedClient):
         roles: t.Optional[t.Sequence[str]] = None,
         rules: t.Optional[t.Mapping[str, t.Any]] = None,
         run_as: t.Optional[t.Sequence[str]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates and updates role mappings.
@@ -1860,7 +1910,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'name'")
         __path = f"/_security/role_mapping/{_quote(name)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1871,23 +1921,32 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        if enabled is not None:
-            __body["enabled"] = enabled
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if roles is not None:
-            __body["roles"] = roles
-        if rules is not None:
-            __body["rules"] = rules
-        if run_as is not None:
-            __body["run_as"] = run_as
+        if not __body:
+            if enabled is not None:
+                __body["enabled"] = enabled
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if roles is not None:
+                __body["roles"] = roles
+            if rules is not None:
+                __body["rules"] = rules
+            if run_as is not None:
+                __body["run_as"] = run_as
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "email",
+            "enabled",
+            "full_name",
+            "metadata",
+            "password",
+            "password_hash",
+            "roles",
+        ),
     )
     def put_user(
         self,
@@ -1907,6 +1966,7 @@ class SecurityClient(NamespacedClient):
             t.Union["t.Literal['false', 'true', 'wait_for']", bool, str]
         ] = None,
         roles: t.Optional[t.Sequence[str]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Adds and updates users in the native realm. These users are commonly referred
@@ -1930,7 +1990,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'username'")
         __path = f"/_security/user/{_quote(username)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -1941,27 +2001,28 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        if email is not None:
-            __body["email"] = email
-        if enabled is not None:
-            __body["enabled"] = enabled
-        if full_name is not None:
-            __body["full_name"] = full_name
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if password is not None:
-            __body["password"] = password
-        if password_hash is not None:
-            __body["password_hash"] = password_hash
-        if roles is not None:
-            __body["roles"] = roles
+        if not __body:
+            if email is not None:
+                __body["email"] = email
+            if enabled is not None:
+                __body["enabled"] = enabled
+            if full_name is not None:
+                __body["full_name"] = full_name
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if password is not None:
+                __body["password"] = password
+            if password_hash is not None:
+                __body["password_hash"] = password_hash
+            if roles is not None:
+                __body["roles"] = roles
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("from_", "query", "search_after", "size", "sort"),
         parameter_aliases={"from": "from_"},
     )
     def query_api_keys(
@@ -1984,6 +2045,7 @@ class SecurityClient(NamespacedClient):
             ]
         ] = None,
         with_limited_by: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Retrieves information for API keys using a subset of query DSL
@@ -2010,7 +2072,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/_query/api_key"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         # The 'sort' parameter with a colon can't be encoded to the body.
         if sort is not None and (
             (isinstance(sort, str) and ":" in sort)
@@ -2032,16 +2094,17 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if with_limited_by is not None:
             __query["with_limited_by"] = with_limited_by
-        if from_ is not None:
-            __body["from"] = from_
-        if query is not None:
-            __body["query"] = query
-        if search_after is not None:
-            __body["search_after"] = search_after
-        if size is not None:
-            __body["size"] = size
-        if sort is not None:
-            __body["sort"] = sort
+        if not __body:
+            if from_ is not None:
+                __body["from"] = from_
+            if query is not None:
+                __body["query"] = query
+            if search_after is not None:
+                __body["search_after"] = search_after
+            if size is not None:
+                __body["size"] = size
+            if sort is not None:
+                __body["sort"] = sort
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2052,7 +2115,7 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("content", "ids", "realm"),
     )
     def saml_authenticate(
         self,
@@ -2064,6 +2127,7 @@ class SecurityClient(NamespacedClient):
         human: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
         realm: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Exchanges a SAML Response message for an Elasticsearch access token and refresh
@@ -2084,7 +2148,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'ids'")
         __path = "/_security/saml/authenticate"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2093,19 +2157,20 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if content is not None:
-            __body["content"] = content
-        if ids is not None:
-            __body["ids"] = ids
-        if realm is not None:
-            __body["realm"] = realm
+        if not __body:
+            if content is not None:
+                __body["content"] = content
+            if ids is not None:
+                __body["ids"] = ids
+            if realm is not None:
+                __body["realm"] = realm
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("ids", "realm", "content", "query_string"),
     )
     def saml_complete_logout(
         self,
@@ -2118,6 +2183,7 @@ class SecurityClient(NamespacedClient):
         human: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
         query_string: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Verifies the logout response sent from the SAML IdP
@@ -2140,7 +2206,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'realm'")
         __path = "/_security/saml/complete_logout"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2149,21 +2215,22 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if ids is not None:
-            __body["ids"] = ids
-        if realm is not None:
-            __body["realm"] = realm
-        if content is not None:
-            __body["content"] = content
-        if query_string is not None:
-            __body["query_string"] = query_string
+        if not __body:
+            if ids is not None:
+                __body["ids"] = ids
+            if realm is not None:
+                __body["realm"] = realm
+            if content is not None:
+                __body["content"] = content
+            if query_string is not None:
+                __body["query_string"] = query_string
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("query_string", "acs", "realm"),
     )
     def saml_invalidate(
         self,
@@ -2175,6 +2242,7 @@ class SecurityClient(NamespacedClient):
         human: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
         realm: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Consumes a SAML LogoutRequest
@@ -2201,7 +2269,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'query_string'")
         __path = "/_security/saml/invalidate"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2210,19 +2278,20 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if query_string is not None:
-            __body["query_string"] = query_string
-        if acs is not None:
-            __body["acs"] = acs
-        if realm is not None:
-            __body["realm"] = realm
+        if not __body:
+            if query_string is not None:
+                __body["query_string"] = query_string
+            if acs is not None:
+                __body["acs"] = acs
+            if realm is not None:
+                __body["realm"] = realm
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("token", "refresh_token"),
     )
     def saml_logout(
         self,
@@ -2233,6 +2302,7 @@ class SecurityClient(NamespacedClient):
         human: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
         refresh_token: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Invalidates an access token and a refresh token that were generated via the SAML
@@ -2251,7 +2321,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'token'")
         __path = "/_security/saml/logout"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2260,17 +2330,18 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if token is not None:
-            __body["token"] = token
-        if refresh_token is not None:
-            __body["refresh_token"] = refresh_token
+        if not __body:
+            if token is not None:
+                __body["token"] = token
+            if refresh_token is not None:
+                __body["refresh_token"] = refresh_token
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("acs", "realm", "relay_state"),
     )
     def saml_prepare_authentication(
         self,
@@ -2282,6 +2353,7 @@ class SecurityClient(NamespacedClient):
         pretty: t.Optional[bool] = None,
         realm: t.Optional[str] = None,
         relay_state: t.Optional[str] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates a SAML authentication request
@@ -2300,7 +2372,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/saml/prepare"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2309,12 +2381,13 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if acs is not None:
-            __body["acs"] = acs
-        if realm is not None:
-            __body["realm"] = realm
-        if relay_state is not None:
-            __body["relay_state"] = relay_state
+        if not __body:
+            if acs is not None:
+                __body["acs"] = acs
+            if realm is not None:
+                __body["realm"] = realm
+            if relay_state is not None:
+                __body["relay_state"] = relay_state
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body
@@ -2355,7 +2428,7 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("data", "hint", "name", "size"),
     )
     def suggest_user_profiles(
         self,
@@ -2368,6 +2441,7 @@ class SecurityClient(NamespacedClient):
         name: t.Optional[str] = None,
         pretty: t.Optional[bool] = None,
         size: t.Optional[int] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Get suggestions for user profiles that match specified search criteria.
@@ -2388,7 +2462,7 @@ class SecurityClient(NamespacedClient):
         """
         __path = "/_security/profile/_suggest"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2397,14 +2471,15 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if data is not None:
-            __body["data"] = data
-        if hint is not None:
-            __body["hint"] = hint
-        if name is not None:
-            __body["name"] = name
-        if size is not None:
-            __body["size"] = size
+        if not __body:
+            if data is not None:
+                __body["data"] = data
+            if hint is not None:
+                __body["hint"] = hint
+            if name is not None:
+                __body["name"] = name
+            if size is not None:
+                __body["size"] = size
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2415,7 +2490,7 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("metadata", "role_descriptors"),
     )
     def update_api_key(
         self,
@@ -2427,6 +2502,7 @@ class SecurityClient(NamespacedClient):
         metadata: t.Optional[t.Mapping[str, t.Any]] = None,
         pretty: t.Optional[bool] = None,
         role_descriptors: t.Optional[t.Mapping[str, t.Mapping[str, t.Any]]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Updates attributes of an existing API key.
@@ -2450,7 +2526,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'id'")
         __path = f"/_security/api_key/{_quote(id)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2459,10 +2535,11 @@ class SecurityClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if role_descriptors is not None:
-            __body["role_descriptors"] = role_descriptors
+        if not __body:
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if role_descriptors is not None:
+                __body["role_descriptors"] = role_descriptors
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -2473,7 +2550,7 @@ class SecurityClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("data", "labels"),
     )
     def update_user_profile_data(
         self,
@@ -2490,6 +2567,7 @@ class SecurityClient(NamespacedClient):
         refresh: t.Optional[
             t.Union["t.Literal['false', 'true', 'wait_for']", bool, str]
         ] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Update application specific data for the user profile of the given unique ID.
@@ -2513,7 +2591,7 @@ class SecurityClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'uid'")
         __path = f"/_security/profile/{_quote(uid)}/_data"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -2528,10 +2606,11 @@ class SecurityClient(NamespacedClient):
             __query["pretty"] = pretty
         if refresh is not None:
             __query["refresh"] = refresh
-        if data is not None:
-            __body["data"] = data
-        if labels is not None:
-            __body["labels"] = labels
+        if not __body:
+            if data is not None:
+                __body["data"] = data
+            if labels is not None:
+                __body["labels"] = labels
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

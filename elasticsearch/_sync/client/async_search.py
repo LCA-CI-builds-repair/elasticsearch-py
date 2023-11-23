@@ -155,7 +155,41 @@ class AsyncSearchClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "aggregations",
+            "aggs",
+            "collapse",
+            "docvalue_fields",
+            "explain",
+            "ext",
+            "fields",
+            "from_",
+            "highlight",
+            "indices_boost",
+            "knn",
+            "min_score",
+            "pit",
+            "post_filter",
+            "profile",
+            "query",
+            "rescore",
+            "runtime_mappings",
+            "script_fields",
+            "search_after",
+            "seq_no_primary_term",
+            "size",
+            "slice",
+            "sort",
+            "source",
+            "stats",
+            "stored_fields",
+            "suggest",
+            "terminate_after",
+            "timeout",
+            "track_scores",
+            "track_total_hits",
+            "version",
+        ),
         parameter_aliases={
             "_source": "source",
             "_source_excludes": "source_excludes",
@@ -260,6 +294,7 @@ class AsyncSearchClient(NamespacedClient):
         wait_for_completion_timeout: t.Optional[
             t.Union["t.Literal[-1]", "t.Literal[0]", str]
         ] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Executes a search request asynchronously.
@@ -397,7 +432,7 @@ class AsyncSearchClient(NamespacedClient):
         else:
             __path = "/_async_search"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         # The 'sort' parameter with a colon can't be encoded to the body.
         if sort is not None and (
             (isinstance(sort, str) and ":" in sort)
@@ -481,72 +516,73 @@ class AsyncSearchClient(NamespacedClient):
             __query["typed_keys"] = typed_keys
         if wait_for_completion_timeout is not None:
             __query["wait_for_completion_timeout"] = wait_for_completion_timeout
-        if aggregations is not None:
-            __body["aggregations"] = aggregations
-        if aggs is not None:
-            __body["aggs"] = aggs
-        if collapse is not None:
-            __body["collapse"] = collapse
-        if docvalue_fields is not None:
-            __body["docvalue_fields"] = docvalue_fields
-        if explain is not None:
-            __body["explain"] = explain
-        if ext is not None:
-            __body["ext"] = ext
-        if fields is not None:
-            __body["fields"] = fields
-        if from_ is not None:
-            __body["from"] = from_
-        if highlight is not None:
-            __body["highlight"] = highlight
-        if indices_boost is not None:
-            __body["indices_boost"] = indices_boost
-        if knn is not None:
-            __body["knn"] = knn
-        if min_score is not None:
-            __body["min_score"] = min_score
-        if pit is not None:
-            __body["pit"] = pit
-        if post_filter is not None:
-            __body["post_filter"] = post_filter
-        if profile is not None:
-            __body["profile"] = profile
-        if query is not None:
-            __body["query"] = query
-        if rescore is not None:
-            __body["rescore"] = rescore
-        if runtime_mappings is not None:
-            __body["runtime_mappings"] = runtime_mappings
-        if script_fields is not None:
-            __body["script_fields"] = script_fields
-        if search_after is not None:
-            __body["search_after"] = search_after
-        if seq_no_primary_term is not None:
-            __body["seq_no_primary_term"] = seq_no_primary_term
-        if size is not None:
-            __body["size"] = size
-        if slice is not None:
-            __body["slice"] = slice
-        if sort is not None:
-            __body["sort"] = sort
-        if source is not None:
-            __body["_source"] = source
-        if stats is not None:
-            __body["stats"] = stats
-        if stored_fields is not None:
-            __body["stored_fields"] = stored_fields
-        if suggest is not None:
-            __body["suggest"] = suggest
-        if terminate_after is not None:
-            __body["terminate_after"] = terminate_after
-        if timeout is not None:
-            __body["timeout"] = timeout
-        if track_scores is not None:
-            __body["track_scores"] = track_scores
-        if track_total_hits is not None:
-            __body["track_total_hits"] = track_total_hits
-        if version is not None:
-            __body["version"] = version
+        if not __body:
+            if aggregations is not None:
+                __body["aggregations"] = aggregations
+            if aggs is not None:
+                __body["aggs"] = aggs
+            if collapse is not None:
+                __body["collapse"] = collapse
+            if docvalue_fields is not None:
+                __body["docvalue_fields"] = docvalue_fields
+            if explain is not None:
+                __body["explain"] = explain
+            if ext is not None:
+                __body["ext"] = ext
+            if fields is not None:
+                __body["fields"] = fields
+            if from_ is not None:
+                __body["from"] = from_
+            if highlight is not None:
+                __body["highlight"] = highlight
+            if indices_boost is not None:
+                __body["indices_boost"] = indices_boost
+            if knn is not None:
+                __body["knn"] = knn
+            if min_score is not None:
+                __body["min_score"] = min_score
+            if pit is not None:
+                __body["pit"] = pit
+            if post_filter is not None:
+                __body["post_filter"] = post_filter
+            if profile is not None:
+                __body["profile"] = profile
+            if query is not None:
+                __body["query"] = query
+            if rescore is not None:
+                __body["rescore"] = rescore
+            if runtime_mappings is not None:
+                __body["runtime_mappings"] = runtime_mappings
+            if script_fields is not None:
+                __body["script_fields"] = script_fields
+            if search_after is not None:
+                __body["search_after"] = search_after
+            if seq_no_primary_term is not None:
+                __body["seq_no_primary_term"] = seq_no_primary_term
+            if size is not None:
+                __body["size"] = size
+            if slice is not None:
+                __body["slice"] = slice
+            if sort is not None:
+                __body["sort"] = sort
+            if source is not None:
+                __body["_source"] = source
+            if stats is not None:
+                __body["stats"] = stats
+            if stored_fields is not None:
+                __body["stored_fields"] = stored_fields
+            if suggest is not None:
+                __body["suggest"] = suggest
+            if terminate_after is not None:
+                __body["terminate_after"] = terminate_after
+            if timeout is not None:
+                __body["timeout"] = timeout
+            if track_scores is not None:
+                __body["track_scores"] = track_scores
+            if track_total_hits is not None:
+                __body["track_total_hits"] = track_total_hits
+            if version is not None:
+                __body["version"] = version
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}

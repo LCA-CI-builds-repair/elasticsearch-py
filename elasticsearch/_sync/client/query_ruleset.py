@@ -133,7 +133,7 @@ class QueryRulesetClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("rules",),
     )
     def put(
         self,
@@ -144,6 +144,7 @@ class QueryRulesetClient(NamespacedClient):
         filter_path: t.Optional[t.Union[str, t.Sequence[str]]] = None,
         human: t.Optional[bool] = None,
         pretty: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates or updates a query ruleset.
@@ -160,7 +161,7 @@ class QueryRulesetClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'rules'")
         __path = f"/_query_rules/{_quote(ruleset_id)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -169,8 +170,9 @@ class QueryRulesetClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if rules is not None:
-            __body["rules"] = rules
+        if not __body:
+            if rules is not None:
+                __body["rules"] = rules
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

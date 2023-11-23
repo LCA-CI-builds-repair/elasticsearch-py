@@ -195,7 +195,17 @@ class TransformClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "description",
+            "dest",
+            "frequency",
+            "latest",
+            "pivot",
+            "retention_policy",
+            "settings",
+            "source",
+            "sync",
+        ),
     )
     async def preview_transform(
         self,
@@ -215,6 +225,7 @@ class TransformClient(NamespacedClient):
         source: t.Optional[t.Mapping[str, t.Any]] = None,
         sync: t.Optional[t.Mapping[str, t.Any]] = None,
         timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Previews a transform.
@@ -248,7 +259,7 @@ class TransformClient(NamespacedClient):
         else:
             __path = "/_transform/_preview"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -259,24 +270,25 @@ class TransformClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
-        if description is not None:
-            __body["description"] = description
-        if dest is not None:
-            __body["dest"] = dest
-        if frequency is not None:
-            __body["frequency"] = frequency
-        if latest is not None:
-            __body["latest"] = latest
-        if pivot is not None:
-            __body["pivot"] = pivot
-        if retention_policy is not None:
-            __body["retention_policy"] = retention_policy
-        if settings is not None:
-            __body["settings"] = settings
-        if source is not None:
-            __body["source"] = source
-        if sync is not None:
-            __body["sync"] = sync
+        if not __body:
+            if description is not None:
+                __body["description"] = description
+            if dest is not None:
+                __body["dest"] = dest
+            if frequency is not None:
+                __body["frequency"] = frequency
+            if latest is not None:
+                __body["latest"] = latest
+            if pivot is not None:
+                __body["pivot"] = pivot
+            if retention_policy is not None:
+                __body["retention_policy"] = retention_policy
+            if settings is not None:
+                __body["settings"] = settings
+            if source is not None:
+                __body["source"] = source
+            if sync is not None:
+                __body["sync"] = sync
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -287,7 +299,18 @@ class TransformClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "dest",
+            "source",
+            "description",
+            "frequency",
+            "latest",
+            "meta",
+            "pivot",
+            "retention_policy",
+            "settings",
+            "sync",
+        ),
         parameter_aliases={"_meta": "meta"},
     )
     async def put_transform(
@@ -310,6 +333,7 @@ class TransformClient(NamespacedClient):
         settings: t.Optional[t.Mapping[str, t.Any]] = None,
         sync: t.Optional[t.Mapping[str, t.Any]] = None,
         timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Instantiates a transform.
@@ -354,7 +378,7 @@ class TransformClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'source'")
         __path = f"/_transform/{_quote(transform_id)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if defer_validation is not None:
             __query["defer_validation"] = defer_validation
         if error_trace is not None:
@@ -367,26 +391,27 @@ class TransformClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
-        if dest is not None:
-            __body["dest"] = dest
-        if source is not None:
-            __body["source"] = source
-        if description is not None:
-            __body["description"] = description
-        if frequency is not None:
-            __body["frequency"] = frequency
-        if latest is not None:
-            __body["latest"] = latest
-        if meta is not None:
-            __body["_meta"] = meta
-        if pivot is not None:
-            __body["pivot"] = pivot
-        if retention_policy is not None:
-            __body["retention_policy"] = retention_policy
-        if settings is not None:
-            __body["settings"] = settings
-        if sync is not None:
-            __body["sync"] = sync
+        if not __body:
+            if dest is not None:
+                __body["dest"] = dest
+            if source is not None:
+                __body["source"] = source
+            if description is not None:
+                __body["description"] = description
+            if frequency is not None:
+                __body["frequency"] = frequency
+            if latest is not None:
+                __body["latest"] = latest
+            if meta is not None:
+                __body["_meta"] = meta
+            if pivot is not None:
+                __body["pivot"] = pivot
+            if retention_policy is not None:
+                __body["retention_policy"] = retention_policy
+            if settings is not None:
+                __body["settings"] = settings
+            if sync is not None:
+                __body["sync"] = sync
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
@@ -589,7 +614,16 @@ class TransformClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "description",
+            "dest",
+            "frequency",
+            "meta",
+            "retention_policy",
+            "settings",
+            "source",
+            "sync",
+        ),
         parameter_aliases={"_meta": "meta"},
     )
     async def update_transform(
@@ -610,6 +644,7 @@ class TransformClient(NamespacedClient):
         source: t.Optional[t.Mapping[str, t.Any]] = None,
         sync: t.Optional[t.Mapping[str, t.Any]] = None,
         timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Updates certain properties of a transform.
@@ -639,7 +674,7 @@ class TransformClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'transform_id'")
         __path = f"/_transform/{_quote(transform_id)}/_update"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if defer_validation is not None:
             __query["defer_validation"] = defer_validation
         if error_trace is not None:
@@ -652,22 +687,23 @@ class TransformClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
-        if description is not None:
-            __body["description"] = description
-        if dest is not None:
-            __body["dest"] = dest
-        if frequency is not None:
-            __body["frequency"] = frequency
-        if meta is not None:
-            __body["_meta"] = meta
-        if retention_policy is not None:
-            __body["retention_policy"] = retention_policy
-        if settings is not None:
-            __body["settings"] = settings
-        if source is not None:
-            __body["source"] = source
-        if sync is not None:
-            __body["sync"] = sync
+        if not __body:
+            if description is not None:
+                __body["description"] = description
+            if dest is not None:
+                __body["dest"] = dest
+            if frequency is not None:
+                __body["frequency"] = frequency
+            if meta is not None:
+                __body["_meta"] = meta
+            if retention_policy is not None:
+                __body["retention_policy"] = retention_policy
+            if settings is not None:
+                __body["settings"] = settings
+            if source is not None:
+                __body["source"] = source
+            if sync is not None:
+                __body["sync"] = sync
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return await self.perform_request(  # type: ignore[return-value]
             "POST", __path, params=__query, headers=__headers, body=__body

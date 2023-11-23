@@ -126,7 +126,7 @@ class ShutdownClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("reason", "type", "allocation_delay", "target_node_name"),
     )
     def put_node(
         self,
@@ -146,6 +146,7 @@ class ShutdownClient(NamespacedClient):
         timeout: t.Optional[
             t.Union["t.Literal['d', 'h', 'm', 'micros', 'ms', 'nanos', 's']", str]
         ] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Adds a node to be shut down. Designed for indirect use by ECE/ESS and ECK. Direct
@@ -194,7 +195,7 @@ class ShutdownClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'type'")
         __path = f"/_nodes/{_quote(node_id)}/shutdown"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if error_trace is not None:
             __query["error_trace"] = error_trace
         if filter_path is not None:
@@ -207,14 +208,15 @@ class ShutdownClient(NamespacedClient):
             __query["pretty"] = pretty
         if timeout is not None:
             __query["timeout"] = timeout
-        if reason is not None:
-            __body["reason"] = reason
-        if type is not None:
-            __body["type"] = type
-        if allocation_delay is not None:
-            __body["allocation_delay"] = allocation_delay
-        if target_node_name is not None:
-            __body["target_node_name"] = target_node_name
+        if not __body:
+            if reason is not None:
+                __body["reason"] = reason
+            if type is not None:
+                __body["type"] = type
+            if allocation_delay is not None:
+                __body["allocation_delay"] = allocation_delay
+            if target_node_name is not None:
+                __body["target_node_name"] = target_node_name
         __headers = {"accept": "application/json", "content-type": "application/json"}
         return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body

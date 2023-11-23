@@ -168,7 +168,15 @@ class WatcherClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "action_modes",
+            "alternative_input",
+            "ignore_condition",
+            "record_execution",
+            "simulated_actions",
+            "trigger_data",
+            "watch",
+        ),
     )
     def execute_watch(
         self,
@@ -194,6 +202,7 @@ class WatcherClient(NamespacedClient):
         simulated_actions: t.Optional[t.Mapping[str, t.Any]] = None,
         trigger_data: t.Optional[t.Mapping[str, t.Any]] = None,
         watch: t.Optional[t.Mapping[str, t.Any]] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Forces the execution of a stored watch.
@@ -224,7 +233,7 @@ class WatcherClient(NamespacedClient):
         else:
             __path = "/_watcher/watch/_execute"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if debug is not None:
             __query["debug"] = debug
         if error_trace is not None:
@@ -235,20 +244,21 @@ class WatcherClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if action_modes is not None:
-            __body["action_modes"] = action_modes
-        if alternative_input is not None:
-            __body["alternative_input"] = alternative_input
-        if ignore_condition is not None:
-            __body["ignore_condition"] = ignore_condition
-        if record_execution is not None:
-            __body["record_execution"] = record_execution
-        if simulated_actions is not None:
-            __body["simulated_actions"] = simulated_actions
-        if trigger_data is not None:
-            __body["trigger_data"] = trigger_data
-        if watch is not None:
-            __body["watch"] = watch
+        if not __body:
+            if action_modes is not None:
+                __body["action_modes"] = action_modes
+            if alternative_input is not None:
+                __body["alternative_input"] = alternative_input
+            if ignore_condition is not None:
+                __body["ignore_condition"] = ignore_condition
+            if record_execution is not None:
+                __body["record_execution"] = record_execution
+            if simulated_actions is not None:
+                __body["simulated_actions"] = simulated_actions
+            if trigger_data is not None:
+                __body["trigger_data"] = trigger_data
+            if watch is not None:
+                __body["watch"] = watch
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -293,7 +303,15 @@ class WatcherClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=(
+            "actions",
+            "condition",
+            "input",
+            "metadata",
+            "throttle_period",
+            "transform",
+            "trigger",
+        ),
     )
     def put_watch(
         self,
@@ -314,6 +332,7 @@ class WatcherClient(NamespacedClient):
         transform: t.Optional[t.Mapping[str, t.Any]] = None,
         trigger: t.Optional[t.Mapping[str, t.Any]] = None,
         version: t.Optional[int] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Creates a new watch, or updates an existing one.
@@ -339,7 +358,7 @@ class WatcherClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'id'")
         __path = f"/_watcher/watch/{_quote(id)}"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         if active is not None:
             __query["active"] = active
         if error_trace is not None:
@@ -356,20 +375,21 @@ class WatcherClient(NamespacedClient):
             __query["pretty"] = pretty
         if version is not None:
             __query["version"] = version
-        if actions is not None:
-            __body["actions"] = actions
-        if condition is not None:
-            __body["condition"] = condition
-        if input is not None:
-            __body["input"] = input
-        if metadata is not None:
-            __body["metadata"] = metadata
-        if throttle_period is not None:
-            __body["throttle_period"] = throttle_period
-        if transform is not None:
-            __body["transform"] = transform
-        if trigger is not None:
-            __body["trigger"] = trigger
+        if not __body:
+            if actions is not None:
+                __body["actions"] = actions
+            if condition is not None:
+                __body["condition"] = condition
+            if input is not None:
+                __body["input"] = input
+            if metadata is not None:
+                __body["metadata"] = metadata
+            if throttle_period is not None:
+                __body["throttle_period"] = throttle_period
+            if transform is not None:
+                __body["transform"] = transform
+            if trigger is not None:
+                __body["trigger"] = trigger
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
@@ -380,7 +400,7 @@ class WatcherClient(NamespacedClient):
         )
 
     @_rewrite_parameters(
-        body_fields=True,
+        body_fields=("from_", "query", "search_after", "size", "sort"),
         parameter_aliases={"from": "from_"},
     )
     def query_watches(
@@ -402,6 +422,7 @@ class WatcherClient(NamespacedClient):
                 t.Union[str, t.Mapping[str, t.Any]],
             ]
         ] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Retrieves stored watches.
@@ -417,7 +438,7 @@ class WatcherClient(NamespacedClient):
         """
         __path = "/_watcher/_query/watches"
         __query: t.Dict[str, t.Any] = {}
-        __body: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
         # The 'sort' parameter with a colon can't be encoded to the body.
         if sort is not None and (
             (isinstance(sort, str) and ":" in sort)
@@ -437,16 +458,17 @@ class WatcherClient(NamespacedClient):
             __query["human"] = human
         if pretty is not None:
             __query["pretty"] = pretty
-        if from_ is not None:
-            __body["from"] = from_
-        if query is not None:
-            __body["query"] = query
-        if search_after is not None:
-            __body["search_after"] = search_after
-        if size is not None:
-            __body["size"] = size
-        if sort is not None:
-            __body["sort"] = sort
+        if not __body:
+            if from_ is not None:
+                __body["from"] = from_
+            if query is not None:
+                __body["query"] = query
+            if search_after is not None:
+                __body["search_after"] = search_after
+            if size is not None:
+                __body["size"] = size
+            if sort is not None:
+                __body["sort"] = sort
         if not __body:
             __body = None  # type: ignore[assignment]
         __headers = {"accept": "application/json"}
