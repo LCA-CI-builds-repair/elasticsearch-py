@@ -294,9 +294,23 @@ def _merge_kwargs_no_duplicates(kwargs: Dict[str, Any], values: Dict[str, Any]) 
         kwargs[key] = val
 
 
+def _merge_body_fields_no_duplicates(
+    body: Dict[str, Any], kwargs: Dict[str, Any], body_fields: Tuple[str, ...]
+) -> None:
+    for key in list(kwargs.keys()):
+        if key in body:
+            raise ValueError(
+                f"Received multiple values for '{key}', specify parameters "
+                "directly instead of using 'body' or 'params'"
+            )
+        if key in body_fields:
+            # deprecate this
+            body[key] = kwargs.pop(key)
+
+
 def _rewrite_parameters(
     body_name: Optional[str] = None,
-    body_fields: bool = False,
+    body_fields: Optional[Tuple[str, ...]] = None,
     parameter_aliases: Optional[Dict[str, str]] = None,
     ignore_deprecated_options: Optional[Set[str]] = None,
 ) -> Callable[[F], F]:
@@ -390,7 +404,8 @@ def _rewrite_parameters(
                                 "Couldn't merge 'body' with other parameters as it wasn't a mapping. "
                                 "Instead of using 'body' use individual API parameters"
                             )
-                        _merge_kwargs_no_duplicates(kwargs, body)
+                        _merge_body_fields_no_duplicates(body, kwargs, body_fields)
+                        kwargs["body"] = body
 
             if parameter_aliases:
                 for alias, rename_to in parameter_aliases.items():
