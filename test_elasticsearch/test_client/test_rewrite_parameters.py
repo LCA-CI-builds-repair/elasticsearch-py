@@ -146,6 +146,14 @@ class TestRewriteParameters:
         ]
 
     @pytest.mark.parametrize(
+        "params,body",
+        [
+            (None, None),
+            ({}, {}),
+            ({"api_key": "abcd"}, {"api_key": "abcd"}),
+            ({"query": {"match_all": {}}}, {"query": {"match_all": {}}}),
+        ],
+    )
         "body", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
     )
     def test_error_on_body_merge(self, body):
