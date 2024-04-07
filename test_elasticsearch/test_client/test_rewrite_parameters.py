@@ -140,12 +140,14 @@ class TestRewriteParameters:
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
 
+```python
         assert self.calls == [
             ((), {"api_key": ("id", "api_key")}),
             ((), {"query": {"match_all": {}}}),
         ]
 
     @pytest.mark.parametrize(
+```
         "body", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
     )
     def test_error_on_body_merge(self, body):
