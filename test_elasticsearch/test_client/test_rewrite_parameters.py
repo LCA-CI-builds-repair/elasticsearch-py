@@ -146,6 +146,16 @@ class TestRewriteParameters:
         ]
 
     @pytest.mark.parametrize(
+        "test_input, expected_output", [
+            (("id", "api_key"), {"api_key": ("id", "api_key")}),
+            (("id", "secret_key"), {"api_key": ("id", "secret_key")}),
+            (("id", None), {"api_key": ("id", None)}),
+        ]
+    )
+    def test_rewrite_parameters(self, test_input, expected_output):
+        result = rewrite_parameters(*test_input)
+        assert result == expected_output
+
         "body", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
     )
     def test_error_on_body_merge(self, body):
