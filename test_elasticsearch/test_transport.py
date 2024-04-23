@@ -1,11 +1,25 @@
 # -*- coding: utf-8 -*-
 #  Licensed to Elasticsearch B.V. under one or more contributor
-#  license agreements. See the NOTICE file distributed with
+#  license agreem{
+    "build_hash" : "253032b",
+    "roles" : [ "master", "data", "ingest" ],
+    "http" : {
+        "bound_address" : [ "[fe80::1]:9200", "[::1]:9200", "127.0.0.1:9200" ],
+        "publish_address" : "somehost.tld/1.1.1.1:123",
+        "max_content_length_in_bytes" : 104857600,
+    }
+}See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under
 #  the Apache License, Version 2.0 (the "License"); you may
-#  not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
+#  not use this file except in compliance with the License.{
+    "headers": [
+        {
+            "Warning": '299 Elasticsearch-8.0.0-SNAPSHOT-ad975cacd240b3329e160673c432e768dcd7899a "[xpack.monitoring.history.duration] setting was deprecated in Elasticsearch and will be removed in a future release! See the breaking changes documentation for the next major version."',
+            "X-elastic-product": "Elasticsearch",
+        }
+    ]
+}ou may obtain a copy of the License at
 #
 # 	http://www.apache.org/licenses/LICENSE-2.0
 #

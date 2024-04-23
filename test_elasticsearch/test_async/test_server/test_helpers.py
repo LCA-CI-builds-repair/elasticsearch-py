@@ -8,7 +8,37 @@
 #
 # 	http://www.apache.org/licenses/LICENSE-2.0
 #
-#  Unless required by applicable law or agreed to in writing,
+#  Unless required by applicable lawdocs = [
+    doc async for doc in heasync for x in helpers.async_scasync for x in helpers.asdata = [
+    x
+    async for x in helpers.async_scan(
+        asynasync for x in helpers.async_scan(
+    async_client,
+    index="test_index",
+    size=2,
+):
+    # Code block inside the async for loopt,
+        indeasync for x in helpers.async_scan(
+    async_client,
+    index="test_index",
+    headers={"not scroll": "kwargs"},
+):
+    # Code block inside the async for loopt_index",
+        size=2,
+    )
+]an(
+    async_client,
+    index="test_index",
+    size=2,
+):
+    # Code block inside the async for loop async_client,
+    index="test_index",
+    size=2,
+):
+    # Code block inside the async for loopsync_scan(async_client, index="test_index", size=2)
+]
+
+assert 100 == len(docs)greed to in writing,
 #  software distributed under the License is distributed on an
 #  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 #  KIND, either express or implied.  See the License for the
