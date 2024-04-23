@@ -1,5 +1,19 @@
 # -*- coding: utf-8 -*-
-#  Licensed to Elasticsearch B.V. under one or more contributor
+#  Licensed to Elasticsearch    assert len(resp["items"]) == 1
+
+    # Pop inconsistent items before asserting
+    resp["items"][0]["index"].pop("_id", None)
+    resp["items"][0]["index"].pop("_version", None)
+    assert resp["items"][0] == {
+        "index": {
+            "_index": "bulk_test_index",
+            "result": "created",
+            "_shards": {"total": 2, "successful": 1, "failed": 0},
+            "_seq_no": 0,
+            "_primary_term": 1,
+            "status": 201,
+        }
+    } or more contributor
 #  license agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under

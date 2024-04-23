@@ -75,12 +75,56 @@ class MlClient(NamespacedClient):
         body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
-        Closes one or more anomaly detection jobs. A job can be opened and closed multiple
+               if filter_id in SKIP_IN_PATH:
+            raise ValueError("Empty value passed for parameter 'filter_id'")
+        __path = f"/_ml/filters/{_quote(filter_id)}"
+        __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if not __body:
+            if description is not None:
+                __body["description"] = description
+            if items is not None:
+                __body["items"] = items
+        __headers = {"accept": "application/json", "content-type": "application/json"}
+        return await self.perform_request(  # type: ignore[return-value]
+            "PUT", __path, params=__query, headers=__headers, body=__body
+        )y detection jobs. A job can be opened and closed multiple
         times throughout its lifecycle.
 
         `<https://www.elastic.co/guide/en/elasticsearch/reference/master/ml-close-job.html>`_
 
-        :param job_id: Identifier for the anomaly detection job. It can be a job identifier,
+        :param job_id: Identifier for the        if filter_id in SKIP_IN_PATH:
+            raise ValueError("Empty value passed for parameter 'filter_id'")
+        __path = f"/_ml/filters/{_quote(filter_id)}/_update"
+        __query: t.Dict[str, t.Any] = {}
+        __body: t.Dict[str, t.Any] = body if body is not None else {}
+        if error_trace is not None:
+            __query["error_trace"] = error_trace
+        if filter_path is not None:
+            __query["filter_path"] = filter_path
+        if human is not None:
+            __query["human"] = human
+        if pretty is not None:
+            __query["pretty"] = pretty
+        if not __body:
+            if add_items is not None:
+                __body["add_items"] = add_items
+            if description is not None:
+                __body["description"] = description
+            if remove_items is not None:
+                __body["remove_items"] = remove_items
+        __headers = {"accept": "application/json", "content-type": "application/json"}
+        return await self.perform_request(  # type: ignore[return-value]
+            "PUT", __path, params=__query, headers=__headers, body=__body
+        )b. It can be a job identifier,
             a group name, or a wildcard expression. You can close multiple anomaly detection
             jobs in a single API request by using a group name, a comma-separated list
             of jobs, or a wildcard expression. You can close all jobs by using `_all`
