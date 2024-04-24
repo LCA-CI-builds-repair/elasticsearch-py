@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-#  Licensed to Elasticsearch B.V. under one or more contributor
+#  Licensed to Elasticsearch B.V        )
+
+        assert 50 == mock_process_bulk_chunk.call_count
+
+    @mock.patch(
+        "elasticsearch.helpers.actions._process_bulk_chunk",
+        # make sure we spend some time in the thread one or more contributor
 #  license agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under

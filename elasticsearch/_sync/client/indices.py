@@ -47,7 +47,7 @@ class IndicesClient(NamespacedClient):
             t.Union["t.Literal[-1]", "t.Literal[0]", str]
         ] = None,
         pretty: t.Optional[bool] = None,
-        timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        timeout: t.Optional[t.Union["t.Liter        :param master_timeout: Period to wait for a connection to the master node. If no res            __query["ignore_unavailable"] = ignore_unavailableonse is received before the timeout expires, the request fails and[-1]", "t.Literal[0]", str]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
         Adds a block to an index.

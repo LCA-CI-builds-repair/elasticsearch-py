@@ -75,7 +75,9 @@ class MlClient(NamespacedClient):
         body: t.Optional[t.Dict[str, t.Any]] = None,
     ) -> ObjectApiResponse[t.Any]:
         """
-        Closes one or more anomaly detection jobs. A job can be opened and closed multiple
+        Closes one or more anomaly detection             if items is not None:
+                __body["items"] = items
+        __headers = {"accept": "application/json", "content-type": "application/json"}s. A job can be opened and closed multiple
         times throughout its lifecycle.
 
         `<https://www.elastic.co/guide/en/elasticsearch/reference/master/ml-close-job.html>`_

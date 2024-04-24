@@ -1,4 +1,8 @@
-#  Licensed to Elasticsearch B.V. under one or more contributor
+#  Licensed to Elasticsearch B.V. under        e = ApiError(
+            message="InternalServerError",
+            meta=error_meta,
+            body={"error": "something error message"}
+        ) or more contributor
 #  license agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under
