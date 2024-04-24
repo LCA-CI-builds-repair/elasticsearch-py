@@ -1,4 +1,20 @@
-#  Licensed to Elasticsearch B.V. under one or more contributor
+#  Licensed to Elasticsearch B.V. under # some params had to be changed in python, keep track of them so we can rename
+# those in the tests accordingly
+PARAMS_RENAMES = {"from": "from_"}
+
+API_PARAMS_RENAMES = {
+    "snapshot.create_repository": {"repository": "name"},
+    "snapshot.delete_repository": {"repository": "name"},
+    "snapshot.get_repository": {"repository": "name"},
+    "snapshot.cleanup_repository": {"repository": "name"},
+    "snapshot.verify_repository": {"repository": "name"},
+    "ilm.delete_lifecycle": {"policy": "name"},
+    "ilm.get_lifecycle": {"policy": "name"},
+    "ilm.put_lifecycle": {"policy": "name"},
+}
+
+# mapping from catch values to http status codes
+CATCH_CODES = {"missing": 404, "conflict": 409, "unauthorized": 401}ibutor
 #  license agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under

@@ -1,5 +1,25 @@
-#  Licensed to Elasticsearch B.V. under one or more contributor
-#  license agreements. See the NOTICE file distributed with
+#  Licensed to Elasticsearch B.V. under one or more contimport time
+from elasticsearch import Elasticsearch
+from elasticsearch.exceptions import ConnectionError
+
+for url in urls_to_try:
+    if url.startswith("https://"):
+        client = Elasticsearch(url, ca_certs=CA_CERTS, verify_certs=False)
+    else:
+        client = Elasticsearch(url)
+    try:
+        # Check that we get any sort of connection first.
+        client.info()
+
+        # After we get a connection let's wait for the cluster
+        # to be in 'yellow' state, otherwise we could start
+        # tests too early and get failures.
+        for _ in range(100):
+            try:
+                client.cluster.health(wait_for_status="yellow")
+                break
+            except ConnectionError:
+                time.sleep(0.1) agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under
 #  the Apache License, Version 2.0 (the "License"); you may

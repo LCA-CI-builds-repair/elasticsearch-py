@@ -61,8 +61,108 @@ class IndicesClient(NamespacedClient):
             have been specified)
         :param expand_wildcards: Whether to expand wildcard expression to concrete indices
             that are open, closed or both.
-        :param ignore_unavailable: Whether specified concrete indices should be ignored
-            when unavailable (missing or closed)
+        :param ignore_unavailable: Whether spimport typing as t
+
+def put_mapping(
+        self,
+        index: str,
+        allow_no_indices: t.Optional[bool] = None,
+        date_detection: t.Optional[bool] = None,
+        dynamic: t.Optional[bool] = None,
+        dynamic_date_formats: t.Optional[t.List[str]] = None,
+        dynamic_templates: t.Optional[t.List[t.Mapping[str, t.Any]]] = None,
+        expand_wildcards: t.Optional[str] = None,
+        field_names: t.Optional[bool] = None,
+        ignore_unavailable: t.Optional[bool] = None,
+        master_timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        meta: t.Optional[t.Mapping[str, t.Any]] = None,
+        numeric_detection: t.Optional[bool] = None,
+        pretty: t.Optional[bool] = None,
+        properties: t.Optional[t.Mapping[str, t.Mapping[str, t.Any]]] = None,
+        routing: t.Optional[t.Mapping[str, t.Any]] = None,
+        runtime: t.Optional[t.Mapping[str, t.Mapping[str, t.Any]]] = None,
+        source: t.Optional[t.Mapping[str, t.Any]] = None,
+        timeout: t.Optional[t.Union["t.Literal[-1]", "t.Literal[0]", str]] = None,
+        write_index_only: t.Optional[bool] = None,
+        body: t.Optional[t.Dict[str, t.Any]] = None,
+    ) -> ObjectApiResponse[t.Any]:
+    """
+    Updates the index mappings.
+
+    `<https://www.elastic.co/guide/en/elasticsearch/reference/master/indices-put-mapping.html>`_
+
+    :param index: A comma-separated list of index names the mapping should be added
+        to (supports wildcards); use `_all` or omit to add the mapping on all indices.
+    :param allow_no_indices: If `false`, the request returns an error if any wildcard
+        expression, index alias, or `_all` value targets only missing or closed indices.
+        This behavior applies even if the request targets other open indices.
+    :param date_detection: Controls whether dynamic date detection is enabled.
+    :param dynamic: Controls whether new fields are added dynamically.
+    :param dynamic_date_formats: If date detection is enabled then new string fields
+        are checked against 'dynamic_date_formats' and if the value matches then
+        a new date field is added instead of string.
+    :param dynamic_templates: Specify dynamic templates for the mapping.
+    :param expand_wildcards: Type of index that wildcard patterns can match. If the
+        request can target data streams, this argument determines whether wildcard
+        expressions match hidden data streams. Supports comma-separated values, such
+        as `open,hidden`. Valid values are: `all`, `open`, `closed`, `hidden`, `none`.
+    :param field_names: Control whether field names are enabled for the index.
+    :param ignore_unavailable: If `false`, the request returns an error if it targets
+        a missing or closed index.
+    :param master_timeout: Period to wait for a connection to the master node. If
+        no response is received before the timeout expires, the request fails and
+        returns an error.
+    :param meta: A mapping type can have custom meta data associated with it. These
+        are not used at all by Elasticsearch, but can be used to store application-specific
+        metadata.
+    :param numeric_detection: Automatically map strings into numeric data types for
+        all fields.
+    :param properties: Mapping for a field. For new fields, this mapping can include:
+        - Field name - Field data type - Mapping parameters
+    :param routing: Enable making a routing value required on indexed documents.
+    :param runtime: Mapping of runtime fields for the index.
+    :param source: Control whether the _source field is enabled on the index.
+    :param timeout: Period to wait for a response. If no response is received before
+        the timeout expires, the request fails and returns an error.
+    :param write_index_only: If `true`, the mappings are applied only to the current
+        write index for the target.
+    """
+    if index in SKIP_IN_PATH:
+        raise ValueError("Empty value passed for parameter 'index'")
+    __path = f"/{_quote(index)}/_mapping"
+    __query: t.Dict[str, t.Any] = {}
+    __body: t.Dict[str, t.Any] = body if body is not None else {}
+    if allow_no_indices is not None:
+        __query["allow_no_indices"] = allow_no_indices
+    if error_trace is not None:
+        __query["error_trace"] = error_trace
+    if expand_wildcards is not None:
+        __query["expand_wildcards"] = expand_wildcards
+    if filter_path is not None:
+        __query["filter_path"] = filter_path
+    if human is not None:
+        __query["human"] = human
+    if ignore_unavailable is not None:
+        __query["ignore_unavailable"] = ignore_unavailable
+    if master_timeout is not None:
+        __query["master_timeout"] = master_timeout
+    if pretty is not None:
+        __query["pretty"] = pretty
+    if timeout is not None:
+        __query["timeout"] = timeout
+    if write_index_only is not None:
+        __query["write_index_only"] = write_index_only
+    if not __body:
+        if date_detection is not None:
+            __body["date_detection"] = date_detection
+        if dynamic is not None:
+            __body["dynamic"] = dynamic
+        if dynamic_date_formats is not None:
+            __body["dynamic_date_formats"] = dynamic_date_formats
+        if dynamic_templates is not None:
+            __body["dynamic_templates"] = dynamic_templates
+        if field_names is not None:
+            __body["_field_names"] = field_names)
         :param master_timeout: Specify timeout for connection to master
         :param timeout: Explicit operation timeout
         """

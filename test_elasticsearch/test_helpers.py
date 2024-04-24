@@ -1,5 +1,49 @@
-# -*- coding: utf-8 -*-
-#  Licensed to Elasticsearch B.V. under one or more contributor
+##  Licensed to Elasticsearch B.V. under one or more contributor
+#  license agreements. See the NOTICE file distributed with
+#  this work for additional information regarding copyright
+#  ownership. Elasticsearch B.V. licenses this file to you under
+#  the Apache License, Version 2.0 (the "License"); you may
+#  not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+# 	http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing,
+#  software distributed under the License is distributed on an
+#  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+#  KIND, either express or implied.  See the License for the
+#  specific language governing permissions and limitations
+#  under the License.
+
+import threading
+import time
+from unittest import mock
+
+import pytest
+
+from elasticsearch import Elasticsearch, helpers
+from elasticsearch.serializer import JSONSerializer
+
+lock_side_effect = threading.Lock()
+
+def mock_process_bulk_chunk(*args, **kwargs):
+    """
+    Threadsafe way of mocking process bulk chunk:
+    https://stackoverflow.com/questions/39332139/thread-safe-version-of-mock-call-count
+    """
+
+    with lock_side_effect:
+        mock_process_bulk_chunk.call_count += 1
+    time.sleep(0.1)
+    return []
+
+mock_process_bulk_chunk.call_count = 0
+
+class TestParallelBulk:
+    @mock.patch(
+        "elasticsearch.helpers.actions._process_bulk_chunk",
+        side_effect=mock_process_bulk_chunk,
+    )ch B.V. under one or more contributor
 #  license agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under

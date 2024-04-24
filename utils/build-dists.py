@@ -1,6 +1,28 @@
 #  Licensed to Elasticsearch B.V. under one or more contributor
-#  license agreements. See the NOTICE file distributed with
-#  this work for additional information regarding copyright
+#  license agreements. See the NOTICE file distriimport os
+from subprocess import run
+
+# since 'aliased_types' tests both async and sync.
+if dist_name == "elasticsearch":
+    run(
+        venv_python,
+        "-m",
+        "mypy",
+        "--strict",
+        "--install-types",
+        "--non-interactive",
+        os.path.join(base_dir, "test_elasticsearch/test_types/async_types.py"),
+    )
+
+# Ensure that the namespaces are correct for the dist
+for suffix in ("", "1", "2", "5", "6", "7", "8", "9", "10"):
+    distx_name = f"elasticsearch{suffix}"
+    run(
+        venv_python,
+        "-c",
+        f"import {distx_name}",
+        expect_exit_code=256 if distx_name != dist_name else 0,
+    )rk for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under
 #  the Apache License, Version 2.0 (the "License"); you may
 #  not use this file except in compliance with the License.
