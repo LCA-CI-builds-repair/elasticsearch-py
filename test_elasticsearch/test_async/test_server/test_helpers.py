@@ -199,8 +199,8 @@ class TestStreamingBulk(object):
                 meta=ApiResponseMeta(
                     status=429, headers={}, http_version="1.1", duration=0, node=None
                 ),
-            ),
-        )
+import helpers
+
         docs = [
             {"_index": "i", "_id": 47, "f": "v"},
             {"_index": "i", "_id": 45, "f": "v"},
@@ -239,6 +239,9 @@ class TestStreamingBulk(object):
                 ),
             ),
         )
+
+        docs = [
+import helpers
 
         docs = [
             {"_index": "i", "_id": 47, "f": "v"},
@@ -353,12 +356,13 @@ class TestBulk(object):
         assert "i" == error["index"]["_index"]
         print(error["index"]["error"])
         assert error["index"]["error"]["type"] in [
-            "mapper_parsing_exception",
-            # Elasticsearch 8.8+: https://github.com/elastic/elasticsearch/pull/92646
-            "document_parsing_exception",
         ]
 
     async def test_error_is_raised(self, async_client):
+        await async_client.indices.create(
+            index="i",
+            mappings={"properties": {"a": {"type": "integer"}}},
+        )
         await async_client.indices.create(
             index="i",
             mappings={"properties": {"a": {"type": "integer"}}},
@@ -819,10 +823,6 @@ class TestScan(object):
                     assert data == [{"search_data": 1}]
 
                     # Assert that we see 'scroll_kwargs' options used instead of 'kwargs'
-                    assert options.call_args_list == [
-                        call(request_timeout=None, headers={"not scroll": "kwargs"}),
-                        call(headers={"scroll": "kwargs"}),
-                        call(ignore_status=404),
                     ]
                     assert async_client.search.call_args_list == [
                         call(sort="_doc", index="test_index", scroll="5m", size=1000)
@@ -835,6 +835,11 @@ class TestScan(object):
                     ]
 
 
+@pytest.mark.parametrize(
+    "scan_kwargs",
+    [
+        {"from": 1},
+    ]
 @pytest.mark.parametrize(
     "scan_kwargs",
     [
