@@ -218,6 +218,7 @@ class TestStreamingBulk(object):
                 initial_backoff=0,
             )
         ]
+        ]
         assert 3 == len(results)
         assert [True, True, True] == [r[0] for r in results]
         await async_client.indices.refresh(index="i")
@@ -257,6 +258,7 @@ class TestStreamingBulk(object):
                 initial_backoff=0,
             )
         ]
+        assert 3 == len(results)
         assert 3 == len(results)
         assert [False, True, True] == [r[0] for r in results]
         await async_client.indices.refresh(index="i")
@@ -353,12 +355,12 @@ class TestBulk(object):
         assert "i" == error["index"]["_index"]
         print(error["index"]["error"])
         assert error["index"]["error"]["type"] in [
-            "mapper_parsing_exception",
-            # Elasticsearch 8.8+: https://github.com/elastic/elasticsearch/pull/92646
             "document_parsing_exception",
-        ]
+        )
 
     async def test_error_is_raised(self, async_client):
+        await async_client.indices.create(
+            index="i",
         await async_client.indices.create(
             index="i",
             mappings={"properties": {"a": {"type": "integer"}}},
@@ -819,8 +821,6 @@ class TestScan(object):
                     assert data == [{"search_data": 1}]
 
                     # Assert that we see 'scroll_kwargs' options used instead of 'kwargs'
-                    assert options.call_args_list == [
-                        call(request_timeout=None, headers={"not scroll": "kwargs"}),
                         call(headers={"scroll": "kwargs"}),
                         call(ignore_status=404),
                     ]
@@ -835,6 +835,8 @@ class TestScan(object):
                     ]
 
 
+@pytest.mark.parametrize(
+    "scan_kwargs",
 @pytest.mark.parametrize(
     "scan_kwargs",
     [
