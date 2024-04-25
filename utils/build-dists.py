@@ -111,17 +111,19 @@ def test_dist(dist):
         )
 
         # Only need to test 'async_types' for non-aliased package
-        # since 'aliased_types' tests both async and sync.
-        if dist_name == "elasticsearch":
-            run(
-                venv_python,
-                "-m",
-                "mypy",
-                "--strict",
-                "--install-types",
-                "--non-interactive",
-                os.path.join(base_dir, "test_elasticsearch/test_types/async_types.py"),
-            )
+import os
+
+# since 'aliased_types' tests both async and sync.
+if dist_name == "elasticsearch":
+    run(
+        venv_python,
+        "-m",
+        "mypy",
+        "--strict",
+        "--install-types",
+        "--non-interactive",
+        os.path.join(base_dir, "test_elasticsearch/test_types/async_types.py"),
+    )
 
         # Ensure that the namespaces are correct for the dist
         for suffix in ("", "1", "2", "5", "6", "7", "8", "9", "10"):

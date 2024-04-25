@@ -64,14 +64,16 @@ def es_url() -> str:
             client.info()
 
             # After we get a connection let's wait for the cluster
-            # to be in 'yellow' state, otherwise we could start
-            # tests too early and get failures.
-            for _ in range(100):
-                try:
-                    client.cluster.health(wait_for_status="yellow")
-                    break
-                except ConnectionError:
-                    time.sleep(0.1)
+import time
+
+# to be in 'yellow' state, otherwise we could start
+# tests too early and get failures.
+for _ in range(100):
+    try:
+        client.cluster.health(wait_for_status="yellow")
+        break
+    except ConnectionError:
+        time.sleep(0.1)
 
         except ConnectionError as e:
             if error is None:
