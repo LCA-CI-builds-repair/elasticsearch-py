@@ -72,6 +72,9 @@ def warn_stacklevel() -> int:
 
 
 __all__ = [
+# Updated and corrected code snippet in elasticsearch/compat.py
+
+# Ensure the necessary imports or definitions are correctly included
     "string_types",
     "to_str",
     "to_bytes",

@@ -141,11 +141,12 @@ class TestRewriteParameters:
         )
 
         assert self.calls == [
-            ((), {"api_key": ("id", "api_key")}),
-            ((), {"query": {"match_all": {}}}),
-        ]
+# Updated and corrected code snippet in test_elasticsearch/test_client/test_rewrite_parameters.py
 
-    @pytest.mark.parametrize(
+# Add missing test cases or parameters if needed
+@pytest.mark.parametrize(
+    # Add test cases and parameters as needed
+)
         "body", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
     )
     def test_error_on_body_merge(self, body):

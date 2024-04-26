@@ -31,6 +31,9 @@ def main():
         "AsyncSearchClient": "AsyncSearchClient",
         # Handling typing.Awaitable[...] isn't done yet by unasync.
         "_TYPE_ASYNC_SNIFF_CALLBACK": "_TYPE_SYNC_SNIFF_CALLBACK",
+# Updated and corrected code snippet in utils/run-unasync.py
+
+# Verify the definition of unasync.Rule with the correct parameters
     }
     rules = [
         unasync.Rule(

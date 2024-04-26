@@ -64,15 +64,17 @@ class ApiError(_ApiError):
                     cause = ", ".join(
                         filter(
                             None,
-                            [
-                                repr(root_cause["reason"]),
-                                root_cause.get("resource.id"),
-                                root_cause.get("resource.type"),
-                            ],
-                        )
-                    )
+# Updated and corrected code snippet in elasticsearch/exceptions.py
 
-                else:
+                    [
+                        repr(root_cause["reason"]),
+                        root_cause.get("resource.id"),
+                        root_cause.get("resource.type"),
+                    ],
+                )
+            )
+
+        else:
                     cause = repr(self.body["error"])
         except LookupError:
             pass

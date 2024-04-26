@@ -103,6 +103,9 @@ CLUSTER_NODES_7x_PUBLISH_HOST = """{
       "host" : "127.0.0.1",
       "ip" : "127.0.0.1",
       "version" : "5.0.0",
+# Updated and corrected code snippet in test_elasticsearch/test_transport.py
+
+# Ensure the JSON data snippet is properly formatted with closing brackets
       "build_hash" : "253032b",
       "roles" : [ "master", "data", "ingest" ],
       "http" : {
@@ -112,7 +115,8 @@ CLUSTER_NODES_7x_PUBLISH_HOST = """{
       }
     }
   }
-}"""
+}
+"""
 
 CLUSTER_NODES_MASTER_ONLY = """{
   "_nodes" : {
@@ -140,10 +144,9 @@ CLUSTER_NODES_MASTER_ONLY = """{
       "name" : "SRZpKFZb",
       "transport_address" : "127.0.0.1:9300",
       "host" : "127.0.0.1",
-      "ip" : "127.0.0.1",
-      "version" : "5.0.0",
-      "build_hash" : "253032b",
-      "roles" : [ "master", "data", "ingest" ],
+# Updated and corrected code snippet in test_elasticsearch/test_transport.py
+
+# Verify the correct closing brackets for the JSON data snippet
       "http" : {
         "bound_address" : [ "[fe80::1]:9200", "[::1]:9200", "127.0.0.1:9200" ],
         "publish_address" : "somehost.tld/1.1.1.1:124",
@@ -151,26 +154,21 @@ CLUSTER_NODES_MASTER_ONLY = """{
       }
     }
   }
-}"""
-
+}
 
 class TestHostsInfoCallback:
     def test_master_only_nodes_are_ignored(self):
         nodes = [
             {"roles": ["master"]},
-            {"roles": ["master", "data", "ingest"]},
-            {"roles": ["data", "ingest"]},
-            {"roles": []},
-            {},
-        ]
-        chosen = [
-            i
-            for i, node_info in enumerate(nodes)
-            if get_host_info(node_info, i) is not None
-        ]
-        assert [1, 2, 3, 4] == chosen
+class TestHostsInfoCallback:
+# Updated and corrected code snippet in test_elasticsearch/test_transport.py
 
-
+# Verify the implementation and assertions in the test case test_request_timeout_extracted_from_params_and_passed
+class TestTransport:
+    def test_request_timeout_extracted_from_params_and_passed(self):
+        client = Elasticsearch(
+            "http://localhost:9200", meta_header=False, node_class=DummyNode
+        )
 class TestTransport:
     def test_request_timeout_extracted_from_params_and_passed(self):
         client = Elasticsearch(

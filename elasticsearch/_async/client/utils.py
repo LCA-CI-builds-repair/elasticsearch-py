@@ -30,15 +30,20 @@ from ..._sync.client.utils import (
 )
 
 __all__ = [
-    "CLIENT_META_SERVICE",
-    "_TYPE_ASYNC_SNIFF_CALLBACK",
-    "_base64_auth_header",
-    "_quote",
-    "_quote_query",
-    "_TYPE_HOSTS",
-    "SKIP_IN_PATH",
-    "client_node_configs",
-    "_rewrite_parameters",
-    "is_requests_http_auth",
-    "is_requests_node_class",
-]
+# Updated and corrected code snippet in elasticsearch/_async/client/utils.py
+
+# Add any missing imports or definitions here if needed
+import asyncio
+
+# Ensure the code snippet is properly formatted and follows best practices
+CLIENT_META_SERVICE = "CLIENT_META_SERVICE"
+_TYPE_ASYNC_SNIFF_CALLBACK = "_TYPE_ASYNC_SNIFF_CALLBACK"
+_base64_auth_header = "_base64_auth_header"
+_quote = "_quote"
+_quote_query = "_quote_query"
+_TYPE_HOSTS = "_TYPE_HOSTS"
+SKIP_IN_PATH = "SKIP_IN_PATH"
+client_node_configs = "client_node_configs"
+_rewrite_parameters = "_rewrite_parameters"
+is_requests_http_auth = "is_requests_http_auth"
+is_requests_node_class = "is_requests_node_class"

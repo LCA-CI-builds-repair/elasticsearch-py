@@ -112,6 +112,9 @@ CLUSTER_NODES_7x_PUBLISH_HOST = """{
       "host" : "127.0.0.1",
       "ip" : "127.0.0.1",
       "version" : "5.0.0",
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_transport.py
+
+# Ensure the JSON data snippet is properly formatted with closing brackets
       "build_hash" : "253032b",
       "roles" : [ "master", "data", "ingest" ],
       "http" : {
@@ -121,7 +124,8 @@ CLUSTER_NODES_7x_PUBLISH_HOST = """{
       }
     }
   }
-}"""
+}
+"""
 
 CLUSTER_NODES_MASTER_ONLY = """{
   "_nodes" : {
@@ -149,20 +153,14 @@ CLUSTER_NODES_MASTER_ONLY = """{
       "name" : "SRZpKFZb",
       "transport_address" : "127.0.0.1:9300",
       "host" : "127.0.0.1",
-      "ip" : "127.0.0.1",
-      "version" : "5.0.0",
-      "build_hash" : "253032b",
-      "roles" : [ "master", "data", "ingest" ],
-      "http" : {
-        "bound_address" : [ "[fe80::1]:9200", "[::1]:9200", "127.0.0.1:9200" ],
-        "publish_address" : "somehost.tld/1.1.1.1:124",
-        "max_content_length_in_bytes" : 104857600
-      }
-    }
-  }
-}"""
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_transport.py
 
-
+# Verify the implementation and assertions in the test case test_request_timeout_extracted_from_params_and_passed
+class TestTransport:
+    async def test_request_timeout_extracted_from_params_and_passed(self):
+        client = AsyncElasticsearch(
+            "http://localhost:9200", meta_header=False, node_class=DummyNode
+        )
 class TestTransport:
     async def test_request_timeout_extracted_from_params_and_passed(self):
         client = AsyncElasticsearch(

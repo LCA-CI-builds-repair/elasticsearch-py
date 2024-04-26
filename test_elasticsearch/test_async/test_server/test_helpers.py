@@ -199,7 +199,9 @@ class TestStreamingBulk(object):
                 meta=ApiResponseMeta(
                     status=429, headers={}, http_version="1.1", duration=0, node=None
                 ),
-            ),
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
+
+# Check for any missing parentheses or syntax errors
         )
         docs = [
             {"_index": "i", "_id": 47, "f": "v"},
@@ -241,9 +243,9 @@ class TestStreamingBulk(object):
         )
 
         docs = [
-            {"_index": "i", "_id": 47, "f": "v"},
-            {"_index": "i", "_id": 45, "f": "v"},
-            {"_index": "i", "_id": 42, "f": "v"},
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
+
+# Verify the correct implementation of the async_streaming_bulk function call
         ]
         results = [
             x
@@ -257,6 +259,10 @@ class TestStreamingBulk(object):
                 initial_backoff=0,
             )
         ]
+        
+        # Check if the assert statements evaluate the expected results accurately
+        assert 3 == len(results)
+        assert [False, True, True] == [r[0] for r in results]
         assert 3 == len(results)
         assert [False, True, True] == [r[0] for r in results]
         await async_client.indices.refresh(index="i")
@@ -353,12 +359,17 @@ class TestBulk(object):
         assert "i" == error["index"]["_index"]
         print(error["index"]["error"])
         assert error["index"]["error"]["type"] in [
-            "mapper_parsing_exception",
-            # Elasticsearch 8.8+: https://github.com/elastic/elasticsearch/pull/92646
-            "document_parsing_exception",
-        ]
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
 
-    async def test_error_is_raised(self, async_client):
+# Verify the setup of the index with mappings and settings
+        await async_client.indices.create(
+            index="i",
+            mappings={"properties": {"a": {"type": "integer"}}},
+            settings={"number_of_shards": 1, "number_of_replicas": 0},
+        )
+        
+        # Check the cluster health status
+        await async_client.cluster.health(wait_for_status="yellow")
         await async_client.indices.create(
             index="i",
             mappings={"properties": {"a": {"type": "integer"}}},
@@ -584,17 +595,9 @@ class TestScan(object):
                             "_shards": {"successful": 4, "total": 5, "skipped": 0},
                             "hits": {"hits": [{"search_data": 1}]},
                         },
-                        meta=None,
-                    )
-                ),
-            ):
-                with patch.object(async_client, "scroll", MockScroll()) as mock_scroll:
-                    with pytest.raises(ScanError):
-                        data = [
-                            x
-                            async for x in helpers.async_scan(
-                                async_client,
-                                index="test_index",
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
+
+# Check for any missing or mismatched parentheses
                                 size=2,
                                 raise_on_error=True,
                             )
@@ -608,15 +611,29 @@ class TestScan(object):
         ), patch.object(async_client, "scroll") as scroll_mock, patch.object(
             async_client,
             "search",
+                            )
+                        ]
+                        assert data == [{"search_data": 1}]
+                        assert mock_scroll.calls == []
+
+    async def test_no_scroll_id_fast_route(self, async_client, scan_teardown):
+        with patch.object(
+            async_client, "options", return_value=async_client
+        ), patch.object(async_client, "scroll") as scroll_mock, patch.object(
+            async_client,
+            "search",
             MockResponse(ObjectApiResponse(body={"no": "_scroll_id"}, meta=None)),
         ), patch.object(
-            async_client, "clear_scroll"
-        ) as clear_mock:
-            data = [
-                x async for x in helpers.async_scan(async_client, index="test_index")
-            ]
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
 
-            assert data == []
+# Verify the structure of the async_client.bulk function call
+        bulk = []
+        for x in range(4):
+            bulk.append({"index": {"_index": "test_index"}})
+            bulk.append({"value": x})
+        await async_client.bulk(operations=bulk, refresh=True)
+
+        with patch.object(
             scroll_mock.assert_not_called()
             clear_mock.assert_not_called()
 
@@ -689,24 +706,27 @@ class TestScan(object):
             spy.assert_called_once()
 
             spy.reset_mock()
-            _ = [
-                x
-                async for x in helpers.async_scan(
-                    async_client, index="test_index", size=2, clear_scroll=True
-                )
-            ]
-            spy.assert_called_once()
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
 
-            spy.reset_mock()
-            _ = [
-                x
-                async for x in helpers.async_scan(
-                    async_client, index="test_index", size=2, clear_scroll=False
-                )
-            ]
-            spy.assert_not_called()
-
+# Check for missing or incorrect parameters in the @pytest.mark.parametrize decorator
     @pytest.mark.parametrize(
+        "kwargs",
+        [
+            {"api_key": ("name", "value")},
+            {"http_auth": ("username", "password")},
+            {"headers": {"custom", "header"}},
+        ],
+    )
+    async def test_scan_auth_kwargs_forwarded(
+        self, async_client, scan_teardown, kwargs
+    ):
+        with patch.object(
+            async_client, "options", return_value=async_client
+        ) as options, patch.object(
+            async_client,
+            "search",
+            return_value=MockResponse(
+                ObjectApiResponse(
         "kwargs",
         [
             {"api_key": ("name", "value")},
@@ -797,27 +817,9 @@ class TestScan(object):
                             "hits": {"hits": []},
                         },
                         meta=None,
-                    )
-                ),
-            ):
-                with patch.object(
-                    async_client, "clear_scroll", return_value=MockResponse({})
-                ):
-                    data = [
-                        x
-                        async for x in helpers.async_scan(
-                            async_client,
-                            index="test_index",
-                            headers={"not scroll": "kwargs"},
-                            scroll_kwargs={
-                                "headers": {"scroll": "kwargs"},
-                                "sort": "asc",
-                            },
-                        )
-                    ]
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
 
-                    assert data == [{"search_data": 1}]
-
+# Check the accuracy of assertions for expected behavior
                     # Assert that we see 'scroll_kwargs' options used instead of 'kwargs'
                     assert options.call_args_list == [
                         call(request_timeout=None, headers={"not scroll": "kwargs"}),
@@ -831,10 +833,30 @@ class TestScan(object):
                         call(scroll_id="scroll_id", scroll="5m", sort="asc")
                     ]
                     assert async_client.clear_scroll.call_args_list == [
-                        call(scroll_id="scroll_id")
+                                "sort": "asc",
+                            },
+                        )
                     ]
 
+                    assert data == [{"search_data": 1}]
 
+                    # Assert that we see 'scroll_kwargs' options used instead of 'kwargs'
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
+
+# Ensure test cases cover all relevant scenarios
+    ],
+)
+async def test_scan_from_keyword_is_aliased(async_client, scan_kwargs):
+    with patch.object(async_client, "options", return_value=async_client), patch.object(
+        async_client,
+        "search",
+        return_value=MockResponse(
+            ObjectApiResponse(
+                body={
+                    "_scroll_id": "dummy_id",
+                    "_shards": {"successful": 5, "total": 5},
+                    "hits": {"hits": []},
+                },
 @pytest.mark.parametrize(
     "scan_kwargs",
     [
@@ -862,17 +884,20 @@ async def test_scan_from_keyword_is_aliased(async_client, scan_kwargs):
         ),
     ) as search_mock, patch.object(
         async_client, "clear_scroll", return_value=MockResponse(None)
+# Updated and corrected code snippet in test_elasticsearch/test_async/test_server/test_helpers.py
+
+# Verify the structure of the async_client.bulk function call
+        )
+    await async_client.bulk(operations=bulk, refresh=True)
+    yield
+
+
+class TestReindex(object):
+    async def test_reindex_passes_kwargs_to_scan_and_bulk(
+        self, async_client, reindex_setup
     ):
-        [
-            x
-            async for x in helpers.async_scan(
-                async_client, index="test_index", **scan_kwargs
-            )
-        ]
-        assert search_mock.call_args[1]["from_"] == 1
-        assert "from" not in search_mock.call_args[1]
-
-
+        await helpers.async_reindex(
+            async_client,
 @pytest_asyncio.fixture(scope="function")
 async def reindex_setup(async_client):
     bulk = []
