@@ -17,7 +17,7 @@
 
 from elastic_transport import ApiResponseMeta
 
-from elasticsearch.exceptions import ApiError
+from elasticsearch import ApiError
 
 error_meta = ApiResponseMeta(
     status=500, http_version="1.1", headers={}, duration=0.0, node=None

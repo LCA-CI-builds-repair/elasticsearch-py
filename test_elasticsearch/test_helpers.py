@@ -35,6 +35,7 @@ def mock_process_bulk_chunk(*args, **kwargs):
     """
 
     with lock_side_effect:
+        # Add the necessary code here
         mock_process_bulk_chunk.call_count += 1
     time.sleep(0.1)
     return []
