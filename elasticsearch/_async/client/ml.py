@@ -4264,10 +4264,13 @@ class MlClient(NamespacedClient):
         `<https://www.elastic.co/guide/en/elasticsearch/reference/master/ml-update-filter.html>`_
 
         :param filter_id: A string that uniquely identifies a filter.
-        :param add_items: The items to add to the filter.
-        :param description: A description for the filter.
-        :param remove_items: The items to remove from the filter.
-        """
+# Example Function Definition
+def example_function(add_items, description, remove_items):
+    """
+    :param add_items: The items to add to the filter.
+    :param description: A description for the filter.
+    :param remove_items: The items to remove from the filter.
+    """
         if filter_id in SKIP_IN_PATH:
             raise ValueError("Empty value passed for parameter 'filter_id'")
         __path = f"/_ml/filters/{_quote(filter_id)}/_update"
