@@ -64,6 +64,8 @@ def es_url() -> str:
             client.info()
 
             # After we get a connection let's wait for the cluster
+import time
+
             # to be in 'yellow' state, otherwise we could start
             # tests too early and get failures.
             for _ in range(100):
@@ -105,12 +107,13 @@ def parse_version(version: Optional[str]) -> Optional[Tuple[int, ...]]:
 
 
 def wipe_cluster(client):
-    """Wipes a cluster clean between test cases"""
-    close_after_wipe = False
     try:
         # If client is async we need to replace the client
         # with a synchronous one.
         from elasticsearch import AsyncElasticsearch
+        from elasticsearch import Elasticsearch
+
+        if isinstance(client, AsyncElasticsearch):
 
         if isinstance(client, AsyncElasticsearch):
             node_config = client.transport.node_pool.get().config

@@ -254,7 +254,7 @@ class YamlRunner:
                 # In this case the test isn't testing the client, it's testing Elasticsearch
                 # and its ability to reject multiple values so we either combine
                 # like values or skip the test entirely as unnecessary for the client.
-                duplicate_args = set(args["body"]).intersection(args)
+                duplicate_args = set(args["body"]).intersection(args.keys())
                 if duplicate_args:
                     for arg in list(duplicate_args):
                         if args["body"][arg] == args[arg]:

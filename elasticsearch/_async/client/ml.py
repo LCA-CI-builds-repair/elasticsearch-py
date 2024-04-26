@@ -3023,7 +3023,7 @@ class MlClient(NamespacedClient):
         if human is not None:
             __query["human"] = human
         if pretty is not None:
-            __query["pretty"] = pretty
+        __body = {}
         if not __body:
             if description is not None:
                 __body["description"] = description

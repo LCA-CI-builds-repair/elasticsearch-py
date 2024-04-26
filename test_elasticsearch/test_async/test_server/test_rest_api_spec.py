@@ -156,6 +156,8 @@ class AsyncYamlRunner(YamlRunner):
                         if args["body"][arg] == args[arg]:
                             args["body"].pop(arg)
                         else:
+                            # Handle the case where duplicate arguments have different values
+                            args["body"].pop(arg)
                             pytest.skip(
                                 "Contains a duplicate parameter with a different value"
                             )

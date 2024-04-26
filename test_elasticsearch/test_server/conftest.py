@@ -49,15 +49,11 @@ def sync_client_factory(elasticsearch_url):
         wipe_cluster(client)
 
         yield client
-    finally:
-        if client:
-            client.close()
-
-
 @pytest.fixture(scope="function")
 def sync_client(sync_client_factory):
     try:
         yield sync_client_factory
     finally:
-        # Wipe the cluster clean after every test execution.
-        wipe_cluster(sync_client_factory)
+        if sync_client_factory:
+            # Wipe the cluster clean after every test execution.
+            wipe_cluster(sync_client_factory)

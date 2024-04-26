@@ -16,6 +16,8 @@
 #  under the License.
 
 import pytest
+import pytest
+
 import pytest_asyncio
 
 from elasticsearch import AsyncElasticsearch, RequestError

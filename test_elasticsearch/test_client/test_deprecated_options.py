@@ -16,7 +16,6 @@
 #  under the License.
 
 import warnings
-
 import pytest
 
 from elasticsearch import Elasticsearch, JsonSerializer

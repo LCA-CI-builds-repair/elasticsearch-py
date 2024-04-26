@@ -34,15 +34,16 @@ async def async_client(elasticsearch_url):
         pytest.skip("test requires 'AsyncElasticsearch' and aiohttp to be installed")
 
     # Unfortunately the asyncio client needs to be rebuilt every
-    # test execution due to how pytest-asyncio manages
-    # event loops (one per test!)
-    client = None
-    try:
-        client = elasticsearch.AsyncElasticsearch(
-            elasticsearch_url, request_timeout=3, ca_certs=CA_CERTS
-        )
-        yield client
-    finally:
-        if client:
-            wipe_cluster(client)
-            await client.close()
+    async def elasticsearch_client_fixture(elasticsearch_url, CA_CERTS):
+        # test execution due to how pytest-asyncio manages
+        # event loops (one per test!)
+        client = None
+        try:
+            client = elasticsearch.AsyncElasticsearch(
+                elasticsearch_url, request_timeout=3, ca_certs=CA_CERTS
+            )
+            yield client
+        finally:
+            if client:
+                async with asyncio.create_task(wipe_cluster(client)):
+                    await client.close()

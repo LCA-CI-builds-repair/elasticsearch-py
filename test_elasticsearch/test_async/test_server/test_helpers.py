@@ -16,19 +16,19 @@
 #  under the License.
 
 import asyncio
-import logging
-from datetime import datetime, timedelta, timezone
-from unittest.mock import MagicMock, call, patch
+import logging  # Import the logging module for logging functionality.
+from datetime import datetime, timedelta, timezone  # Import datetime related modules for time calculations.
+from unittest.mock import MagicMock, call, patch  # Import mock related modules for testing purposes.
 
-import pytest
-import pytest_asyncio
-from elastic_transport import ApiResponseMeta, ObjectApiResponse
+import pytest  # Import pytest for test framework utilities.
+import pytest_asyncio  # Import pytest-asyncio for asyncio support in tests.
+from elastic_transport import ApiResponseMeta, ObjectApiResponse  # Import classes for handling API responses.
 
-from elasticsearch import helpers
-from elasticsearch.exceptions import ApiError
-from elasticsearch.helpers import ScanError
+from elasticsearch import helpers  # Import helpers module from elasticsearch package.
+from elasticsearch.exceptions import ApiError  # Import specific exception class for API errors.
+from elasticsearch.helpers import ScanError  # Import ScanError class for helper functions.
 
-pytestmark = [pytest.mark.asyncio]
+pytestmark = [pytest.mark.asyncio]  # Mark the module as an asyncio test module.
 
 
 class AsyncMock(MagicMock):

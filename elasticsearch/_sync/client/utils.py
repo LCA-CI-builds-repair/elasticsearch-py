@@ -102,9 +102,8 @@ def client_node_configs(
             raise ValueError(
                 "The 'cloud_id' and 'hosts' parameters are mutually exclusive"
             )
-        node_configs = cloud_id_to_node_configs(cloud_id)
-    else:
-        assert hosts is not None
+        if hosts is None:
+            raise ValueError("Hosts cannot be None when Cloud ID is not provided")
         node_configs = hosts_to_node_configs(hosts)
 
     # Remove all values which are 'DEFAULT' to avoid overwriting actual defaults.
@@ -116,15 +115,13 @@ def client_node_configs(
     node_options["headers"] = headers
 
     # If a custom Requests AuthBase is passed we set that via '_extras'.
+    # If a custom Requests AuthBase is passed we set that via '_extras'.
     if requests_session_auth is not None:
-        node_options.setdefault("_extras", {})[
-            "requests.session.auth"
-        ] = requests_session_auth
+        node_options.setdefault("_extras", {})["requests.session.auth"] = requests_session_auth
 
     def apply_node_options(node_config: NodeConfig) -> NodeConfig:
         """Needs special handling of headers since .replace() wipes out existing headers"""
         nonlocal node_options
-        headers = node_config.headers.copy()  # type: ignore[attr-defined]
 
         headers_to_add = node_options.pop("headers", ())
         if headers_to_add:

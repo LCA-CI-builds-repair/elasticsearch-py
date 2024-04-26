@@ -1899,7 +1899,7 @@ class IndicesClient(NamespacedClient):
             raise ValueError("Empty value passed for parameter 'fields'")
         if index not in SKIP_IN_PATH and fields not in SKIP_IN_PATH:
             __path = f"/{_quote(index)}/_mapping/field/{_quote(fields)}"
-        elif fields not in SKIP_IN_PATH:
+        if fields not in SKIP_IN_PATH:
             __path = f"/_mapping/field/{_quote(fields)}"
         else:
             raise ValueError("Couldn't find a path for the given parameters")
@@ -1953,13 +1953,6 @@ class IndicesClient(NamespacedClient):
         :param flat_settings: If true, returns settings in flat format.
         :param include_defaults: If true, returns all relevant default configurations
             for the index template.
-        :param local: If true, the request retrieves information from the local node
-            only. Defaults to false, which means information is retrieved from the master
-            node.
-        :param master_timeout: Period to wait for a connection to the master node. If
-            no response is received before the timeout expires, the request fails and
-            returns an error.
-        """
         if name not in SKIP_IN_PATH:
             __path = f"/_index_template/{_quote(name)}"
         else:

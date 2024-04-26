@@ -103,6 +103,7 @@ class Elasticsearch(BaseClient):
     namespaces such as ``async_search``, ``indices``, ``security``, and more:
 
     .. code-block:: python
+        from elasticsearch import Elasticsearch
 
         client = Elasticsearch("http://localhost:9200")
 
@@ -4690,11 +4691,11 @@ class Elasticsearch(BaseClient):
         :param stats: Specific `tag` of the request for logging and statistical purposes.
         :param terminate_after: Maximum number of documents to collect for each shard.
             If a query reaches this limit, Elasticsearch terminates the query early.
-            Elasticsearch collects documents before sorting. Use with caution. Elasticsearch
             applies this parameter to each shard handling the request. When possible,
             let Elasticsearch perform early termination automatically. Avoid specifying
             this parameter for requests that target data streams with backing indices
             across multiple data tiers.
+        :param timeout: Period each update request waits for the following operations:
         :param timeout: Period each update request waits for the following operations:
             dynamic mapping updates, waiting for active shards.
         :param version: If `true`, returns the document version as part of a hit.

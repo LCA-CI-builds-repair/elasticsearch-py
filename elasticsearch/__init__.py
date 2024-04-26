@@ -33,7 +33,6 @@ if _version_groups < (8, 0, 0) or _version_groups > (9, 0, 0):
         "An incompatible version of elastic-transport is installed. Must be between "
         "v8.0.0 and v9.0.0. Install the correct version with the following command: "
         "$ python -m pip install 'elastic-transport>=8, <9'"
-    )
 
 _version_groups = re.search(r"^(\d+)\.(\d+)\.(\d+)", __versionstr__).groups()  # type: ignore
 _major, _minor, _patch = (int(x) for x in _version_groups)
