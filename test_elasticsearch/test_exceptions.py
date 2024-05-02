@@ -3,6 +3,8 @@
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under
 #  the Apache License, Version 2.0 (the "License"); you may
+
+# Add the continuation of the code here
 #  not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #

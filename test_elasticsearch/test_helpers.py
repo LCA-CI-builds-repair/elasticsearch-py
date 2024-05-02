@@ -26,7 +26,7 @@ from elasticsearch import Elasticsearch, helpers
 from elasticsearch.serializer import JSONSerializer
 
 lock_side_effect = threading.Lock()
-
+import threading
 
 def mock_process_bulk_chunk(*args, **kwargs):
     """
