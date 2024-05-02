@@ -140,6 +140,7 @@ class TestChunkActions:
     def test__source_metadata_or_source(self):
         assert helpers.expand_action({"_source": {"key": "val"}}) == (
             {"index": {}},
+        )
             {"key": "val"},
         )
 

@@ -27,7 +27,6 @@ from elastic_transport import ApiResponseMeta, ObjectApiResponse
 from elasticsearch import helpers
 from elasticsearch.exceptions import ApiError
 from elasticsearch.helpers import ScanError
-
 pytestmark = [pytest.mark.asyncio]
 
 

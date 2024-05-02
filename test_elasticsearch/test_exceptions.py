@@ -35,7 +35,6 @@ class TestTransformError:
         )
 
         assert str(e) == "ApiError(500, 'InternalServerError', 'error reason')"
-
     def test_transform_error_parse_with_error_string(self):
         e = ApiError(
             message="InternalServerError",

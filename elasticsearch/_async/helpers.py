@@ -47,7 +47,6 @@ from ..helpers.actions import (
 from ..helpers.errors import ScanError
 from ..serializer import Serializer
 from .client import AsyncElasticsearch  # noqa
-
 logger = logging.getLogger("elasticsearch.helpers")
 
 T = TypeVar("T")
