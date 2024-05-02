@@ -253,16 +253,15 @@ class TestStreamingBulk(object):
                 raise_on_exception=False,
                 raise_on_error=False,
                 chunk_size=1,
-                max_retries=1,
-                initial_backoff=0,
-            )
-        ]
-        assert 3 == len(results)
-        assert [False, True, True] == [r[0] for r in results]
-        await async_client.indices.refresh(index="i")
-        res = await async_client.search(index="i")
-        assert {"value": 2, "relation": "eq"} == res["hits"]["total"]
-        assert 4 == failing_client._called
+        max_retries=1,
+        initial_backoff=0,
+    )
+    assert 3 == len(results)
+    assert [False, True, True] == [r[0] for r in results]
+    await async_client.indices.refresh(index="i")
+    res = await async_client.search(index="i")
+    assert {"value": 2, "relation": "eq"} == res["hits"]["total"]
+    assert 4 == failing_client._called
 
     async def test_transport_error_is_raised_with_max_retries(self, async_client):
         failing_client = FailingBulkClient(
