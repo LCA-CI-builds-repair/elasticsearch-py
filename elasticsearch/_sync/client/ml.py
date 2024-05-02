@@ -3047,8 +3047,8 @@ class MlClient(NamespacedClient):
             "description",
             "groups",
             "model_plot_config",
+        )
             "model_snapshot_retention_days",
-            "renormalization_window_days",
             "results_index_name",
             "results_retention_days",
         ),
@@ -3065,6 +3065,8 @@ class MlClient(NamespacedClient):
             t.Union["t.Literal[-1]", "t.Literal[0]", str]
         ] = None,
         custom_settings: t.Optional[t.Any] = None,
+    ):
+        custom_settings: t.Optional[t.Any] = None,
         daily_model_snapshot_retention_after_days: t.Optional[int] = None,
         datafeed_config: t.Optional[t.Mapping[str, t.Any]] = None,
         description: t.Optional[str] = None,
@@ -3078,14 +3080,14 @@ class MlClient(NamespacedClient):
         renormalization_window_days: t.Optional[int] = None,
         results_index_name: t.Optional[str] = None,
         results_retention_days: t.Optional[int] = None,
-        body: t.Optional[t.Dict[str, t.Any]] = None,
-    ) -> ObjectApiResponse[t.Any]:
         """
         Instantiates an anomaly detection job.
 
         `<https://www.elastic.co/guide/en/elasticsearch/reference/master/ml-put-job.html>`_
 
         :param job_id: The identifier for the anomaly detection job. This identifier
+            can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and
+            underscores. It must start and end with alphanumeric characters.
             can contain lowercase alphanumeric characters (a-z and 0-9), hyphens, and
             underscores. It must start and end with alphanumeric characters.
         :param analysis_config: Specifies how to analyze the data. After you create a
@@ -3208,8 +3210,6 @@ class MlClient(NamespacedClient):
                 __body["results_index_name"] = results_index_name
             if results_retention_days is not None:
                 __body["results_retention_days"] = results_retention_days
-        __headers = {"accept": "application/json", "content-type": "application/json"}
-        return self.perform_request(  # type: ignore[return-value]
             "PUT", __path, params=__query, headers=__headers, body=__body
         )
 
@@ -3217,6 +3217,9 @@ class MlClient(NamespacedClient):
         body_fields=(
             "compressed_definition",
             "definition",
+            "description",
+            "inference_config",
+        )
             "description",
             "inference_config",
             "input",
