@@ -817,7 +817,6 @@ class TestScan(object):
                     ]
 
                     assert data == [{"search_data": 1}]
-
                     # Assert that we see 'scroll_kwargs' options used instead of 'kwargs'
                     assert options.call_args_list == [
                         call(request_timeout=None, headers={"not scroll": "kwargs"}),
