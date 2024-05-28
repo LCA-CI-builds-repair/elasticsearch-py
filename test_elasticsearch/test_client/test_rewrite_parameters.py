@@ -142,7 +142,7 @@ class TestRewriteParameters:
 
         assert self.calls == [
             ((), {"api_key": ("id", "api_key")}),
-            ((), {"query": {"match_all": {}}}),
+            ((), {"body": {"query": {"match_all": {}}}}),
         ]
 
     @pytest.mark.parametrize(
