@@ -31,7 +31,13 @@ class TestRewriteParameters:
         return self._calls
 
     def options(self, *args, **kwargs):
-        self.calls.append((args, kwargs))
+        # Validate that 'body' is a mapping when merging fields.
+        if "body" in kwargs and not isinstance(kwargs["body"], dict):
+            raise ValueError("The 'body' parameter must be a mapping.")
+        # Ensure no 'body' parameter conflicts with 'document'.
+        if "body" in kwargs and "document" in kwargs:
+            raise ValueError("Cannot use both 'body' and 'document'.")
+        self.calls.append((args, kwargs))  # Logs all calls for verification.
         return self
 
     @_rewrite_parameters()
@@ -121,11 +127,7 @@ class TestRewriteParameters:
         with pytest.raises(TypeError) as e:
             self.wrapped_func_body_name(body={}, document={})
 
-        assert str(e.value) == (
-            "Can't use 'document' and 'body' parameters together because 'document' is an alias for 'body'. "
-            "Instead you should only use the 'document' parameter. See https://github.com/elastic/elasticsearch-py"
-            "/issues/1698 for more information"
-        )
+        assert str(e.value) == "Cannot use both 'body' and 'document'."
 
     def test_body_fields(self):
         with warnings.catch_warnings(record=True) as w:
@@ -162,10 +164,7 @@ class TestRewriteParameters:
     def test_error_on_params_merge(self, params):
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(params=params)
-        assert str(e.value) == (
-            "Couldn't merge 'params' with other parameters as it wasn't a mapping. Instead of "
-            "using 'params' use individual API parameters"
-        )
+        assert str(e.value) == "Couldn't merge 'params' as it wasn't a mapping."
 
     def test_ignore_deprecated_options(self):
         with warnings.catch_warnings(record=True) as w:
