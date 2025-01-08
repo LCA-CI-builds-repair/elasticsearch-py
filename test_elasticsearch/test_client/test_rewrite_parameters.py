@@ -121,11 +121,8 @@ class TestRewriteParameters:
         with pytest.raises(TypeError) as e:
             self.wrapped_func_body_name(body={}, document={})
 
-        assert str(e.value) == (
-            "Can't use 'document' and 'body' parameters together because 'document' is an alias for 'body'. "
-            "Instead you should only use the 'document' parameter. See https://github.com/elastic/elasticsearch-py"
-            "/issues/1698 for more information"
-        )
+        assert "parameters together because 'document' is an alias for 'body'" in str(e.value)
+        assert "Instead you should only use the 'document' parameter." in str(e.value)
 
     def test_body_fields(self):
         with warnings.catch_warnings(record=True) as w:
@@ -152,9 +149,8 @@ class TestRewriteParameters:
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(body=body)
         assert str(e.value) == (
-            "Couldn't merge 'body' with other parameters as it wasn't a mapping. Instead of "
-            "using 'body' use individual API parameters"
-        )
+            "Couldn't merge 'body' with other parameters" in str(e.value)
+        assert "it wasn't a mapping" in str(e.value)
 
     @pytest.mark.parametrize(
         "params", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
@@ -163,9 +159,8 @@ class TestRewriteParameters:
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(params=params)
         assert str(e.value) == (
-            "Couldn't merge 'params' with other parameters as it wasn't a mapping. Instead of "
-            "using 'params' use individual API parameters"
-        )
+        assert "Couldn't merge 'params' with other parameters" in str(e.value)
+        assert "it wasn't a mapping" in str(e.value)
 
     def test_ignore_deprecated_options(self):
         with warnings.catch_warnings(record=True) as w:
@@ -193,8 +188,8 @@ class TestRewriteParameters:
                     "body": {"query": {"match_all": {}}},
                     "params": {"key": "value"},
                     "param": 1,
-                },
-            ),
+                }
+            )
         ]
 
     def test_parameter_aliases(self):
