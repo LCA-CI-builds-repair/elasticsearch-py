@@ -32,7 +32,29 @@ class TestRewriteParameters:
 
     def options(self, *args, **kwargs):
         self.calls.append((args, kwargs))
-        return self
+
+    def test_retry_limit(self):
+        client = Elasticsearch("https://localhost:9200")
+        retry_count = 0
+
+        def request_callback(method, url, params=None, body=None, headers=None, timeout=None, ignore=()):
+            nonlocal retry_count
+            retry_count += 1
+            if retry_count < 3:
+                raise ValueError("Oops, an error occurred")
+            return {"status_code": 200, "data": {"hits": {"total": {"value": 1}}}}
+
+        with warnings.catch_warnings(record=True):
+            client.transport.perform_request = request_callback
+            response = client.search(index="test", body={"query": {"match_all": {}}})
+
+        assert retry_count == 3
+        assert response["hits"]["total"]["value"] == 1
+
+    def test_input_validation(self):
+        with pytest.raises(ValueError) as e:
+            self.wrapped_func_body_fields(body="not a dict")
+        assert "Couldn't merge 'body' with other parameters as it wasn't a mapping" in str(e.value)        return self
 
     @_rewrite_parameters()
     def wrapped_func_default(self, *args, **kwargs):
