@@ -57,40 +57,41 @@ class TestRewriteParameters:
         self.calls.append((args, kwargs))
 
     def test_default(self):
-        with warnings.catch_warnings(record=True) as w:
-            self.wrapped_func_default(
+        with pytest.warns(DeprecationWarning) as warning_info:
+            result = self.wrapped_func_default(
                 api_key=("id", "api_key"),
                 query={"match_all": {}},
                 params={"key": "value", "ignore": 404},
             )
 
-        assert len(w) == 2
-        assert w[0].category == DeprecationWarning
+        # Verify we got exactly 2 deprecation warnings
+        assert len(warning_info) == 2
+        
+        # Verify warning messages
         assert (
-            str(w[0].message)
+            str(warning_info[0].message)
             == "The 'params' parameter is deprecated and will be removed in a future version. Instead use individual parameters."
         )
-        assert w[1].category == DeprecationWarning
         assert (
-            str(w[1].message)
+            str(warning_info[1].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
 
+        # Verify the calls are made correctly
         assert self.calls == [
             ((), {"api_key": ("id", "api_key"), "ignore_status": 404}),
             ((), {"query": {"match_all": {}}, "key": "value"}),
         ]
 
     def test_body_name_using_body(self):
-        with warnings.catch_warnings(record=True) as w:
+        with pytest.warns(DeprecationWarning) as warning_info:
             self.wrapped_func_body_name(
                 api_key=("id", "api_key"), body={"query": {"match_all": {}}}
             )
 
-        assert len(w) == 1
-        assert w[0].category == DeprecationWarning
+        assert len(warning_info) == 1
         assert (
-            str(w[0].message)
+            str(warning_info[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
 
@@ -100,15 +101,14 @@ class TestRewriteParameters:
         ]
 
     def test_body_name(self):
-        with warnings.catch_warnings(record=True) as w:
+        with pytest.warns(DeprecationWarning) as warning_info:
             self.wrapped_func_body_name(
                 api_key=("id", "api_key"), document={"query": {"match_all": {}}}
             )
 
-        assert len(w) == 1
-        assert w[0].category == DeprecationWarning
+        assert len(warning_info) == 1
         assert (
-            str(w[0].message)
+            str(warning_info[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
 
@@ -128,15 +128,14 @@ class TestRewriteParameters:
         )
 
     def test_body_fields(self):
-        with warnings.catch_warnings(record=True) as w:
+        with pytest.warns(DeprecationWarning) as warning_info:
             self.wrapped_func_body_fields(
                 api_key=("id", "api_key"), body={"query": {"match_all": {}}}
             )
 
-        assert len(w) == 1
-        assert w[0].category == DeprecationWarning
+        assert len(warning_info) == 1
         assert (
-            str(w[0].message)
+            str(warning_info[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
 
