@@ -209,14 +209,20 @@ class TestRewriteParameters:
         client = client_cls("https://localhost:9200")
 
         with pytest.raises(TypeError) as e:
-            client.search("index")
+            try:
+                client.search("index")
+            except TypeError as ex:
+                raise ex
         assert str(e.value) == (
             "Positional arguments can't be used with Elasticsearch API methods. "
             "Instead only use keyword arguments."
         )
 
         with pytest.raises(TypeError) as e:
-            client.indices.exists("index")
+            try:
+                client.indices.exists("index")
+            except TypeError as ex:
+                raise ex
         assert str(e.value) == (
             "Positional arguments can't be used with Elasticsearch API methods. "
             "Instead only use keyword arguments."
