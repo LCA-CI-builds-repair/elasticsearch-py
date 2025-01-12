@@ -71,7 +71,7 @@ class TestRewriteParameters:
             == "The 'params' parameter is deprecated and will be removed in a future version. Instead use individual parameters."
         )
         assert w[1].category == DeprecationWarning
-        assert (
+        assert str(w[1].message) in (
             str(w[1].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
@@ -89,7 +89,7 @@ class TestRewriteParameters:
 
         assert len(w) == 1
         assert w[0].category == DeprecationWarning
-        assert (
+        assert str(w[0].message) in (
             str(w[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
@@ -107,7 +107,7 @@ class TestRewriteParameters:
 
         assert len(w) == 1
         assert w[0].category == DeprecationWarning
-        assert (
+        assert str(w[0].message) in (
             str(w[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
@@ -135,7 +135,7 @@ class TestRewriteParameters:
 
         assert len(w) == 1
         assert w[0].category == DeprecationWarning
-        assert (
+        assert str(w[0].message) in (
             str(w[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
@@ -179,7 +179,7 @@ class TestRewriteParameters:
 
         assert len(w) == 1
         assert w[0].category == DeprecationWarning
-        assert (
+        assert str(w[0].message) in (
             str(w[0].message)
             == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
         )
