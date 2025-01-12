@@ -35,11 +35,11 @@ class TestRewriteParameters:
         return self
 
     @_rewrite_parameters()
-    def wrapped_func_default(self, *args, **kwargs):
+    def wrapped_func_default(self, **kwargs):
         self.calls.append((args, kwargs))
 
     @_rewrite_parameters(body_name="document")
-    def wrapped_func_body_name(self, *args, **kwargs):
+    def wrapped_func_body_name(self, **kwargs):
         self.calls.append((args, kwargs))
 
     @_rewrite_parameters(body_fields=True)
@@ -49,11 +49,11 @@ class TestRewriteParameters:
     @_rewrite_parameters(
         body_fields=True, ignore_deprecated_options={"api_key", "body", "params"}
     )
-    def wrapped_func_ignore(self, *args, **kwargs):
+    def wrapped_func_ignore(self, **kwargs):
         self.calls.append((args, kwargs))
 
     @_rewrite_parameters(body_fields=True, parameter_aliases={"_source": "source"})
-    def wrapped_func_aliases(self, *args, **kwargs):
+    def wrapped_func_aliases(self, **kwargs):
         self.calls.append((args, kwargs))
 
     def test_default(self):
