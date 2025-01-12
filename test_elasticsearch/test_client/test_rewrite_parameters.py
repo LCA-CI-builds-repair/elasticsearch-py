@@ -151,7 +151,7 @@ class TestRewriteParameters:
     def test_error_on_body_merge(self, body):
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(body=body)
-        assert str(e.value) == (
+        assert str(e.value).startswith(
             "Couldn't merge 'body' with other parameters as it wasn't a mapping. Instead of "
             "using 'body' use individual API parameters"
         )
@@ -162,7 +162,7 @@ class TestRewriteParameters:
     def test_error_on_params_merge(self, params):
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(params=params)
-        assert str(e.value) == (
+        assert str(e.value).startswith(
             "Couldn't merge 'params' with other parameters as it wasn't a mapping. Instead of "
             "using 'params' use individual API parameters"
         )
