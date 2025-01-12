@@ -95,7 +95,7 @@ class TestRewriteParameters:
         )
 
         assert self.calls == [
-            ((), {"api_key": ("id", "api_key")}),
+            ((), {"api_key": ("id", "api_key"), "transport_options": {}}),
             ((), {"document": {"query": {"match_all": {}}}}),
         ]
 
@@ -113,7 +113,7 @@ class TestRewriteParameters:
         )
 
         assert self.calls == [
-            ((), {"api_key": ("id", "api_key")}),
+            ((), {"api_key": ("id", "api_key"), "transport_options": {}}),
             ((), {"document": {"query": {"match_all": {}}}}),
         ]
 
@@ -141,7 +141,7 @@ class TestRewriteParameters:
         )
 
         assert self.calls == [
-            ((), {"api_key": ("id", "api_key")}),
+            ((), {"api_key": ("id", "api_key"), "transport_options": {}}),
             ((), {"query": {"match_all": {}}}),
         ]
 
@@ -185,7 +185,7 @@ class TestRewriteParameters:
         )
 
         assert self.calls == [
-            ((), {"http_auth": ("key", "value")}),
+            ((), {"http_auth": ("key", "value"), "transport_options": {}}),
             (
                 (),
                 {
