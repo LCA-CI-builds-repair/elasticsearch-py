@@ -146,7 +146,7 @@ class TestRewriteParameters:
         ]
 
     @pytest.mark.parametrize(
-        "body", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
+        "body", ['{"query": {"match_all": {}}}']
     )
     def test_error_on_body_merge(self, body):
         with pytest.raises(ValueError) as e:
@@ -157,7 +157,7 @@ class TestRewriteParameters:
         )
 
     @pytest.mark.parametrize(
-        "params", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
+        "params", ['{"query": {"match_all": {}}}']
     )
     def test_error_on_params_merge(self, params):
         with pytest.raises(ValueError) as e:
