@@ -188,12 +188,11 @@ class TestRewriteParameters:
             ((), {"http_auth": ("key", "value")}),
             (
                 (),
-                {
+                {"param": 1, **{
                     "api_key": ("id", "api_key"),
                     "body": {"query": {"match_all": {}}},
                     "params": {"key": "value"},
-                    "param": 1,
-                },
+                }},
             ),
         ]
 
@@ -203,6 +202,8 @@ class TestRewriteParameters:
 
         self.wrapped_func_aliases(source=["key3"])
         assert self.calls[-1] == ((), {"source": ["key3"]})
+
+        self.calls.clear()  # Reset calls between tests
 
     @pytest.mark.parametrize("client_cls", [Elasticsearch, AsyncElasticsearch])
     def test_positional_argument_error(self, client_cls):
