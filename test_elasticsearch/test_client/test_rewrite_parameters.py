@@ -205,19 +205,26 @@ class TestRewriteParameters:
         assert self.calls[-1] == ((), {"source": ["key3"]})
 
     @pytest.mark.parametrize("client_cls", [Elasticsearch, AsyncElasticsearch])
-    def test_positional_argument_error(self, client_cls):
+    def test_positional_argument_allowed(self, client_cls):
         client = client_cls("https://localhost:9200")
 
-        with pytest.raises(TypeError) as e:
-            client.search("index")
-        assert str(e.value) == (
-            "Positional arguments can't be used with Elasticsearch API methods. "
-            "Instead only use keyword arguments."
-        )
+        # This should not raise an error anymore
+        client.search("index") 
 
-        with pytest.raises(TypeError) as e:
-            client.indices.exists("index")
-        assert str(e.value) == (
-            "Positional arguments can't be used with Elasticsearch API methods. "
-            "Instead only use keyword arguments."
-        )
+        # This should not raise an error anymore
+        client.indices.exists("index")
+
+    def test_positional_arguments_take_precedence(self):
+        client = Elasticsearch("https://localhost:9200")
+
+        client.search("index1", index="index2")
+        
+        assert self.calls == [
+            (("index1",), {"index": "index2"})  
+        ]
+
+        client.indices.exists("index1", index="index2")
+
+        assert self.calls[-1] == [
+            (("index1",), {"index": "index2"})
+        ]
