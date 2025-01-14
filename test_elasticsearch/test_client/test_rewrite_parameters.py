@@ -171,8 +171,7 @@ class TestRewriteParameters:
         with warnings.catch_warnings(record=True) as w:
             self.wrapped_func_ignore(
                 api_key=("id", "api_key"),
-                body={"query": {"match_all": {}}},
-                params={"key": "value"},
+                document={"query": {"match_all": {}}},
                 param=1,
                 http_auth=("key", "value"),
             )
@@ -187,13 +186,7 @@ class TestRewriteParameters:
         assert self.calls == [
             ((), {"http_auth": ("key", "value")}),
             (
-                (),
-                {
-                    "api_key": ("id", "api_key"),
-                    "body": {"query": {"match_all": {}}},
-                    "params": {"key": "value"},
-                    "param": 1,
-                },
+                (), {"api_key": ("id", "api_key"), "document": {"query": {"match_all": {}}}, "param": 1}
             ),
         ]
 
