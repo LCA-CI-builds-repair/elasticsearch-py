@@ -42,7 +42,7 @@ class TestRewriteParameters:
     def wrapped_func_body_name(self, *args, **kwargs):
         self.calls.append((args, kwargs))
 
-    @_rewrite_parameters(body_fields=True)
+    @_rewrite_parameters(body_fields=True, ignore_deprecated_options={"api_key", "params"})
     def wrapped_func_body_fields(self, *args, **kwargs):
         self.calls.append((args, kwargs))
 
