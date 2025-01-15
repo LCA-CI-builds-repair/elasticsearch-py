@@ -204,6 +204,15 @@ class TestRewriteParameters:
         self.wrapped_func_aliases(source=["key3"])
         assert self.calls[-1] == ((), {"source": ["key3"]})
 
+    def test_parameter_aliases_duplicate(self):
+        with pytest.raises(TypeError) as e:
+            self.wrapped_func_aliases(_source=["key1"], source=["key2"])
+        assert str(e.value) == (
+            "Can't use '_source' and 'source' parameters together because '_source' is an alias for 'source'. "
+            "Instead you should only use the 'source' parameter. See https://github.com/elastic/elasticsearch-py"
+            "/issues/1698 for more information"
+        )
+
     @pytest.mark.parametrize("client_cls", [Elasticsearch, AsyncElasticsearch])
     def test_positional_argument_error(self, client_cls):
         client = client_cls("https://localhost:9200")
