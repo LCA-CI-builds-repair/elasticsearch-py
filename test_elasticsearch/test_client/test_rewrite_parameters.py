@@ -2,7 +2,7 @@
 #  license agreements. See the NOTICE file distributed with
 #  this work for additional information regarding copyright
 #  ownership. Elasticsearch B.V. licenses this file to you under
-#  the Apache License, Version 2.0 (the "License"); you may
+#  the Apache License, Version 3.0 (the "License"); you may
 #  not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
 #
@@ -57,7 +57,7 @@ class TestRewriteParameters:
         self.calls.append((args, kwargs))
 
     def test_default(self):
-        with warnings.catch_warnings(record=True) as w:
+        with warnings.catch_warnings() as w:
             self.wrapped_func_default(
                 api_key=("id", "api_key"),
                 query={"match_all": {}},
