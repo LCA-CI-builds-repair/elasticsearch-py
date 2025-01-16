@@ -170,7 +170,7 @@ class TestRewriteParameters:
     def test_ignore_deprecated_options(self):
         with warnings.catch_warnings(record=True) as w:
             self.wrapped_func_ignore(
-                api_key=("id", "api_key"),
+                api_key=("id", "api_key"), 
                 body={"query": {"match_all": {}}},
                 params={"key": "value"},
                 param=1,
@@ -189,12 +189,13 @@ class TestRewriteParameters:
             (
                 (),
                 {
-                    "api_key": ("id", "api_key"),
-                    "body": {"query": {"match_all": {}}},
-                    "params": {"key": "value"},
+                    "query": {"match_all": {}},
+                    "key": "value",
                     "param": 1,
                 },
             ),
+            # Remove api_key, body, and params from final kwargs since they're in ignored options
+            # and body_fields=True means body contents should be unpacked
         ]
 
     def test_parameter_aliases(self):
@@ -203,6 +204,13 @@ class TestRewriteParameters:
 
         self.wrapped_func_aliases(source=["key3"])
         assert self.calls[-1] == ((), {"source": ["key3"]})
+
+        # Test duplicate parameter error
+        with pytest.raises(TypeError) as e:
+            self.wrapped_func_aliases(_source=["key1"], source=["key2"])
+        assert str(e.value) == (
+            "Can't use '_source' and 'source' parameters together because '_source' is an alias for 'source'."
+        )
 
     @pytest.mark.parametrize("client_cls", [Elasticsearch, AsyncElasticsearch])
     def test_positional_argument_error(self, client_cls):
