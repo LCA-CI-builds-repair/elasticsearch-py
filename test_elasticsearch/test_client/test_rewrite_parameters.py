@@ -215,6 +215,37 @@ class TestRewriteParameters:
             "Instead only use keyword arguments."
         )
 
+    def test_none_body_fields(self):
+        """Tests that None values in body fields are handled properly"""
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.wrapped_func_body_fields(query=None, timeout=30)
+            assert self.calls[-1] == ((), {"timeout": 30})
+
+    def test_empty_body_fields(self):
+        """Tests that empty values in body fields are handled properly"""
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore") 
+            self.wrapped_func_body_fields(body={})
+            assert self.calls[-1] == ((), {})
+
+    def test_alias_precedence(self):
+        """Tests that parameter aliases are handled with correct precedence"""
+        with pytest.raises(ValueError) as e:
+            self.wrapped_func_aliases(_source=["field1"], source=["field2"])
+        assert "Can't use both '_source' and 'source' parameters" in str(e.value)
+
+    @pytest.mark.parametrize("invalid_value", [
+        {},  # Empty dict
+        None,  # None value
+        [],   # Empty list
+        "",   # Empty string
+    ])
+    def test_invalid_required_param(self, invalid_value):
+        """Tests validation of required parameters"""
+        with pytest.raises(ValueError):
+            self.wrapped_func_body_name(document=invalid_value)
+
         with pytest.raises(TypeError) as e:
             client.indices.exists("index")
         assert str(e.value) == (
