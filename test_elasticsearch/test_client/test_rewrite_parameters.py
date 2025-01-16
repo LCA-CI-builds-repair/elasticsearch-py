@@ -41,6 +41,9 @@ class TestRewriteParameters:
     @_rewrite_parameters(body_name="document")
     def wrapped_func_body_name(self, *args, **kwargs):
         self.calls.append((args, kwargs))
+        return self
+        # Add return to support method chaining
+        # This prevents errors when options() is called after wrapped_func_body_name
 
     @_rewrite_parameters(body_fields=True)
     def wrapped_func_body_fields(self, *args, **kwargs):
@@ -50,10 +53,12 @@ class TestRewriteParameters:
         body_fields=True, ignore_deprecated_options={"api_key", "body", "params"}
     )
     def wrapped_func_ignore(self, *args, **kwargs):
+        return self
         self.calls.append((args, kwargs))
 
     @_rewrite_parameters(body_fields=True, parameter_aliases={"_source": "source"})
     def wrapped_func_aliases(self, *args, **kwargs):
+        return self
         self.calls.append((args, kwargs))
 
     def test_default(self):
@@ -207,7 +212,7 @@ class TestRewriteParameters:
     @pytest.mark.parametrize("client_cls", [Elasticsearch, AsyncElasticsearch])
     def test_positional_argument_error(self, client_cls):
         client = client_cls("https://localhost:9200")
-
+        warnings.filterwarnings("ignore", category=DeprecationWarning)  # Suppress deprecation warnings for this test
         with pytest.raises(TypeError) as e:
             client.search("index")
         assert str(e.value) == (
