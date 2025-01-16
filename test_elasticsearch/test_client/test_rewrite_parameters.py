@@ -64,7 +64,7 @@ class TestRewriteParameters:
                 params={"key": "value", "ignore": 404},
             )
 
-        assert len(w) == 2
+        assert len(w) == 1
         assert w[0].category == DeprecationWarning
         assert (
             str(w[0].message)
