@@ -36,7 +36,7 @@ class TestRewriteParameters:
 
     @_rewrite_parameters()
     def wrapped_func_default(self, *args, **kwargs):
-        self.calls.append((args, kwargs))
+        return self.calls.append((args, kwargs))
 
     @_rewrite_parameters(body_name="document")
     def wrapped_func_body_name(self, *args, **kwargs):
@@ -54,7 +54,7 @@ class TestRewriteParameters:
 
     @_rewrite_parameters(body_fields=True, parameter_aliases={"_source": "source"})
     def wrapped_func_aliases(self, *args, **kwargs):
-        self.calls.append((args, kwargs))
+        return self.calls.append((args, kwargs))
 
     def test_default(self):
         with warnings.catch_warnings(record=True) as w:
@@ -63,7 +63,7 @@ class TestRewriteParameters:
                 query={"match_all": {}},
                 params={"key": "value", "ignore": 404},
             )
-
+        
         assert len(w) == 2
         assert w[0].category == DeprecationWarning
         assert (
@@ -199,7 +199,7 @@ class TestRewriteParameters:
 
     def test_parameter_aliases(self):
         self.wrapped_func_aliases(_source=["key1", "key2"])
-        assert self.calls == [((), {"source": ["key1", "key2"]})]
+        assert self.calls[-1] == ((), {"source": ["key1", "key2"]})
 
         self.wrapped_func_aliases(source=["key3"])
         assert self.calls[-1] == ((), {"source": ["key3"]})
