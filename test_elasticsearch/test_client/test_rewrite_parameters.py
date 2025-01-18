@@ -56,6 +56,10 @@ class TestRewriteParameters:
     def wrapped_func_aliases(self, *args, **kwargs):
         self.calls.append((args, kwargs))
 
+    @_rewrite_parameters(body_fields=True)
+    def wrapped_func_positional(self, index, *args, **kwargs):
+        self.calls.append((args, kwargs))
+
     def test_default(self):
         with warnings.catch_warnings(record=True) as w:
             self.wrapped_func_default(
@@ -68,13 +72,13 @@ class TestRewriteParameters:
         assert w[0].category == DeprecationWarning
         assert (
             str(w[0].message)
-            == "The 'params' parameter is deprecated and will be removed in a future version. Instead use individual parameters."
+            == "The 'params' parameter is deprecated. Use individual parameters instead."
         )
         assert w[1].category == DeprecationWarning
         assert (
             str(w[1].message)
-            == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
-        )
+            == "Transport options should be passed through 'Elasticsearch.options()'"
+        ) 
 
         assert self.calls == [
             ((), {"api_key": ("id", "api_key"), "ignore_status": 404}),
@@ -153,8 +157,8 @@ class TestRewriteParameters:
             self.wrapped_func_body_fields(body=body)
         assert str(e.value) == (
             "Couldn't merge 'body' with other parameters as it wasn't a mapping. Instead of "
-            "using 'body' use individual API parameters"
-        )
+            "using 'body' use individual API parameters."
+        ) 
 
     @pytest.mark.parametrize(
         "params", ['{"query": {"match_all": {}}}', b'{"query": {"match_all": {}}}']
@@ -163,8 +167,8 @@ class TestRewriteParameters:
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(params=params)
         assert str(e.value) == (
-            "Couldn't merge 'params' with other parameters as it wasn't a mapping. Instead of "
-            "using 'params' use individual API parameters"
+            "Invalid 'params' value - must be a mapping (dict). Use individual parameters "
+            "instead of 'params'."
         )
 
     def test_ignore_deprecated_options(self):
@@ -181,8 +185,8 @@ class TestRewriteParameters:
         assert w[0].category == DeprecationWarning
         assert (
             str(w[0].message)
-            == "Passing transport options in the API method is deprecated. Use 'Elasticsearch.options()' instead."
-        )
+            == "Transport options should be passed through 'Elasticsearch.options()'"
+        ) 
 
         assert self.calls == [
             ((), {"http_auth": ("key", "value")}),
@@ -211,13 +215,17 @@ class TestRewriteParameters:
         with pytest.raises(TypeError) as e:
             client.search("index")
         assert str(e.value) == (
-            "Positional arguments can't be used with Elasticsearch API methods. "
-            "Instead only use keyword arguments."
+            "Elasticsearch API methods require keyword arguments. Positional arguments are not "
+            "supported."
         )
 
         with pytest.raises(TypeError) as e:
             client.indices.exists("index")
         assert str(e.value) == (
-            "Positional arguments can't be used with Elasticsearch API methods. "
-            "Instead only use keyword arguments."
+            "Elasticsearch API methods require keyword arguments. Positional arguments are not "
+            "supported." 
         )
+
+    def test_positional_allowed(self):
+        self.wrapped_func_positional("test-index", query={"match_all": {}})
+        assert self.calls == [((), {"index": "test-index", "query": {"match_all": {}}})]
