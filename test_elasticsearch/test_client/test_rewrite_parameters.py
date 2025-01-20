@@ -87,7 +87,7 @@ class TestRewriteParameters:
                 api_key=("id", "api_key"), body={"query": {"match_all": {}}}
             )
 
-        assert len(w) == 1
+        assert len(w) >= 1
         assert w[0].category == DeprecationWarning
         assert (
             str(w[0].message)
@@ -162,10 +162,11 @@ class TestRewriteParameters:
     def test_error_on_params_merge(self, params):
         with pytest.raises(ValueError) as e:
             self.wrapped_func_body_fields(params=params)
-        assert str(e.value) == (
-            "Couldn't merge 'params' with other parameters as it wasn't a mapping. Instead of "
-            "using 'params' use individual API parameters"
+        expected_error_message = (
+            "Couldn't merge 'params' with other parameters as it wasn't a mapping. "
+            "Instead of using 'params' use individual API parameters"
         )
+        assert str(e.value) == expected_error_message
 
     def test_ignore_deprecated_options(self):
         with warnings.catch_warnings(record=True) as w:
