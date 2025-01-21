@@ -61,7 +61,8 @@ class TestRewriteParameters:
             self.wrapped_func_default(
                 api_key=("id", "api_key"),
                 query={"match_all": {}},
-                params={"key": "value", "ignore": 404},
+                key="value",
+                ignore_status=404,
             )
 
         assert len(w) == 2
@@ -172,7 +173,7 @@ class TestRewriteParameters:
             self.wrapped_func_ignore(
                 api_key=("id", "api_key"),
                 body={"query": {"match_all": {}}},
-                params={"key": "value"},
+                key="value",
                 param=1,
                 http_auth=("key", "value"),
             )
