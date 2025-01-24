@@ -141,7 +141,7 @@ class TestRewriteParameters:
         )
 
         assert self.calls == [
-            ((), {"api_key": ("id", "api_key")}),
+            ((), {"api_key": {"id": "id", "key": "api_key"}}),
             ((), {"query": {"match_all": {}}}),
         ]
 
